@@ -1,0 +1,90 @@
+/* NAVBAR */
+nav {
+  padding: 10px !important;
+}
+
+.bi-house-heart::before {
+  font-size: 2rem;
+}
+
+.bi-record-fill::before {
+  font-size: 15px;
+  padding-right: 10px;
+}
+
+#notif-general {
+  color: skyblue;
+}
+
+#notif-cancel {
+  color: red;
+}
+
+#notif-approve {
+  color:lightgreen;
+}
+
+.notif-text {
+  display: block;
+}
+
+.badge {
+  color: grey !important;
+  padding-bottom: 2px;
+  padding-left: 0px;
+}
+
+/* INDEX.HTML */
+
+.input-group {
+  width: 75vw;
+  margin: auto;
+  padding: 50px;
+}
+
+input[type=date] {
+  border: 1px solid #dee2e6;
+  padding: 5px;
+}
+
+.modal-title {
+  margin: auto;
+}
+
+input[type=range] {
+  width: 90%;
+  margin: auto;
+  display: block;
+  accent-color: grey;
+}
+
+.filter-button {
+  margin: auto;
+  display: block;
+  width: 40vw;
+}
+
+.modal-category {
+  margin: auto;
+  display: block;
+  padding-bottom: 25px;
+  text-align: center;
+}
+
+.price-input {
+  padding-top: 10px;
+}
+
+.form-group {
+  padding-bottom: 20px;
+}
+
+.form-group-button {
+  padding: 0px 10px;
+}
+
+.amenities-title {
+  padding-bottom: 20px;
+  padding-top: 30px;
+}
+
