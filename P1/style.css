@@ -88,3 +88,20 @@ input[type=range] {
   padding-top: 30px;
 }
 
+/* search_results.html */
+
+.results-card {
+  padding: 10px;
+}
+
+.results-row {
+  padding: 20px 20px 0px 20px;
+}
+
+.price-left-align {
+  text-align: left;
+}
+
+.price-right-align {
+  float: right
+}
