@@ -1,3 +1,53 @@
 .back {
     background-color:#BBBBBB;
  }
+
+
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+
+}
+
+.price_box{
+    background-color: white;
+
+
+    height: 45vh;
+
+    margin-top: 30px;
+    text-align: center;
+
+}
+
+
+
+.price_collection{
+    background-color: #DCFFFF;
+
+    height: 28vh;
+    margin:auto;
+
+    margin-top: 5px;
+    text-align: center;
+}
+
+
+.round_button {
+  display:block;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  border: 1px;}
+
+article {
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.thumbnail {
+  height: 100px;
+  margin: 10px;
+}
+
