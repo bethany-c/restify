@@ -34,6 +34,7 @@ nav {
   padding-left: 0px;
 }
 
+
 /* INDEX.HTML */
 
 .input-group {
@@ -90,6 +91,10 @@ input[type=range] {
 
 /* search_results.html */
 
+.property-info-container {
+  padding: 20px 30px;
+}
+
 .results-card {
   padding: 10px;
 }
@@ -98,10 +103,63 @@ input[type=range] {
   padding: 20px 20px 0px 20px;
 }
 
-.price-left-align {
+.line-left-align {
   text-align: left;
 }
 
-.price-right-align {
+.line-right-align {
   float: right
+}
+
+.card-center {
+  width: 100%;
+  margin: auto;
+}
+
+/* property_info.html */
+
+.property-carousel-images {
+  width: 50vw;
+  margin: auto;
+  display: block;
+  padding: 10px;
+}
+
+.rowliner {
+  border: 1px solid blue;
+}
+
+.guest-container {
+  width: 100%;
+}
+
+.end-input {
+  float: end;
+}
+
+.submit-form-btn {
+  padding-top: 10px;
+}
+
+.card-left-align {
+  text-align: left;
+}
+
+.card-right-align {
+  float: right;
+}
+
+.property-card-title {
+  padding-bottom: 10px;
+}
+
+@media only screen and (max-width: 992px) {
+  .card-right-align {
+    float: initial;
+    display: block;
+  }
+}
+
+.reply-btn {
+  padding-left: 0px;
 }

@@ -76,8 +76,13 @@
                       <div class="notif-text">
                         <i class="bi bi-record-fill" id="notif-general"></i><span>Reminder: Upcoming reservation</span>
                       </div>
+                      <div class="notif-text">
+                        <i class="bi bi-record-fill" id="notif-general"></i><span>{ user } replied to your comment <a href="property_info.html">here</a></span>
+                      </div>
+                      
                     </div>
                     <div class="modal-footer">
+                      <a class="me-auto btn btn-link" href="#" type="btn">View all notifications</a>
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                   </div>
@@ -121,7 +126,7 @@
         <input type="text" label="Location" class="form-control" placeholder="Location" required>
         <input type="date" id="start" name="start" required>
         <input type="date" id="end" name="end" required>
-        <input type="number" aria-label="# of guests" class="form-control" placeholder="# of Guests" required>
+        <input type="number" min="0" class="form-control" placeholder="# of Guests" required>
         <button class="btn btn-outline-secondary" type="button">Search</button>
       </div>
 
