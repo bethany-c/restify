@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Collapsible sidebar using Bootstrap 4</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="HostListings.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3> <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Landingpage.html">Restify</a></h3>
+            </div>
+            <br>
+            <ul class="list-unstyled components">
+                <h4 class="smallheader">Your Dashboard</h4>
+                <li>
+                    <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Profile_pageBoth/ProfilePageDashboard.html">Profile</a>
+                </li>
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Your Orders</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_OrdersUser/UserApproved.html">Approved</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_OrdersUser/UserRequested.html">Requested</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_OrdersUser/UserCancellations.html">Cancellations</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_OrdersUser/UserCompleted.html">Completed</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_OrdersUser/UserTerminated.html">Terminated</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/NotificationsBoth/notifications.html">Notifications</a>
+                </li>
+                <br>
+                <br>
+                <h4 class="smallheader">Host Dashboard</h4>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Your Listings</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li class="active">
+                            <a href="#">Requests</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_ListingsHost/HostApproved.html">Approved</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_ListingsHost/HostCancellations.html">Cancellations</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_ListingsHost/HostCompleted.html">Completed</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_ListingsHost/HostTerminated.html">Terminated</a>
+                        </li>
+                        <li>
+                            <a href="/Users/mustafa/Desktop/CSC309/group_0319/P1/Your_ListingsHost/AllListings.html">All Listings</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <!-- <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+            </nav>
+
+            
+            <!-- Where the Listing cards go  -->
+            <div class="card listingCard" style="width: 18rem;">
+                <img src="/Users/mustafa/Desktop/CSC309/group_0319/P1/Building.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Toronto, Canada</h5>
+                  <p class="card-text">Near the Golden Gate Bridge</p>
+                  <p class="card-text">Feb26, 2023 - March5, 2024</p>
+                  <!-- <a href="#" class="btn btn-primary btnFormatting" data-html="true" title="<h5>Ratings & Comments</h5>" data-toggle="popover" data-content='ratings and comments' data-placement="bottom">History</a>                   -->
+                  <!-- '<html><head><style>.ratings i,.small-ratings i{color:#cecece}body{background-color:#eef3f4}.height-100{height:100vh}.card{width:380px;border:none;height:280px}.ratings{margin-right:10px}.ratings i{font-size:32px}.rating-color{color:#fbc634!important}.review-count{font-weight:400;margin-bottom:2px;font-size:24px!important}.review-stat{font-weight:300;font-size:18px;margin-bottom:2px}</style></head><div class="mt-5 d-flex justify-content-between align-items-center"><div class="small-ratings"><i class="fa fa-star rating-color"></i><i class="fa fa-star rating-color"></i><i class="fa fa-star rating-color"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div></div><br><div class="comments"><p> This is not right. This person ruined my property and told me that a rat did it. What? Dont let this person inside your house</p></div></html>'                  -->
+
+                  <button type="button" class="btn btn-primary btnFormatting" data-toggle="modal" data-target="#exampleModalCenter3">
+                    History
+                  </button>
+                  <br>
+                  <br>
+                  <button type="button" class="btn btn-success btnFormatting">Approve</button>
+                  <button type="button" class="btn btn-danger btnFormatting">Deny</button>
+
+                  <!-- Pop Up Modal Code  -->
+                  <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Reason for Cancelling?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <!-- <textarea name="cancellationReason" cols="55" rows="10" placeholder="Please write reason here"></textarea> -->
+                          <h6>This person has 4 stars</h6>
+                          <p>This person is not right in the head. They destroyed all of the furniture in the apartment</p>
+
+                          <br>
+                          <br>
+
+                          <h6>This person has 4 stars</h6>
+                          <p>This person is not right in the head. They destroyed all of the furniture in the apartment</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary btnFormatting" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary btnFormatting">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                
+                
+              </div>
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+    <script type="text/javascript"> $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
+        
+    </script>
+
+</body>
+
+</html>
