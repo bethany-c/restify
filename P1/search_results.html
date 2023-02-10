@@ -11,8 +11,8 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <header class="sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-background navbar-dark">
 
         <a class="navbar-brand" href="index.html">
           <i class="bi bi-house-heart" id="nav-house-icon"></i>
@@ -28,81 +28,24 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#">My Listings</a>
-            </li> -->
             <li class="nav-item">
-              <a class="nav-link" href="#">My Reservations</a>
+              <a class="nav-link navbar-background" href="#">My Reservations</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modal-notif">
-                <i class="bi bi-bell"></i>
-                <span class="badge-notification badge" id="badge-notification">9</span>
+              <a class="nav-link navbar-background" href="#">Become a Host!</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link navbar-background" data-bs-toggle="modal" data-bs-target="#modal-notif">
+                <i class="bi bi-bell navbar-background"></i>
+                <span class="badge-notification badge navbar-background" id="badge-notification">9</span>
               </a>
-
-              <!-- <div class="modal fade" id="modal-notif" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Notifications</h5>
-                    </div>
-                    <div class="modal-body">
-                      <div class="notif-text">
-                        <i class="bi bi-record-fill" id="notif-general"></i><span>New comment posted for { property }</span>
-                      </div>
-                      <div class="notif-text">
-                        <i class="bi bi-record-fill" id="notif-general"></i><span>New rating posted for { property }</span>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-              <div class="modal fade" id="modal-notif" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Notifications</h5>
-                    </div>
-                    <div class="modal-body">
-                      <div class="notif-text">
-                        <i class="bi bi-record-fill" id="notif-approve"></i><span>Reservation { id } approved</span>
-                      </div>
-                      <div class="notif-text">
-                        <i class="bi bi-record-fill" id="notif-cancel"></i><span>Reservation { id } cancelled</span>
-                      </div>
-                      <div class="notif-text">
-                        <i class="bi bi-record-fill" id="notif-general"></i><span>Reminder: Upcoming reservation</span>
-                      </div>
-                      <div class="notif-text">
-                        <i class="bi bi-record-fill" id="notif-general"></i><span>{ user } replied to your comment <a href="property_info.html">here</a></span>
-                      </div>
-                      
-                    </div>
-                    <div class="modal-footer">
-                      <a class="me-auto btn btn-link" href="#" type="btn">View all notifications</a>
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </li>
 
             <li class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a href="#" class="nav-link dropdown-toggle navbar-background" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 { username }
               </a>
-              <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">View Profile</a>
-                <a class="dropdown-item" href="#">Edit Profile</a>
-                <a class="dropdown-item" href="#">Create Listing</a>
-                <a class="dropdown-item" href="#">View Listings</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Help</a>
-                <a class="dropdown-item" href="#">Log Out</a>
-              </div> -->
 
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="#">View Profile</a>
@@ -124,242 +67,379 @@
 
       <div class="results-row row">
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
-          <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
-            <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
+          <div class="col">
+            <div class="card">
+              <img src="./images/image1.jpeg" class="card-img-top" alt="Listing Picture">
+              <div class="card-body">
+              <h5 class="card-title">Cottage in Wasaga Beach</h5>
+              <p class="card-text">5 min walk from the lake</p>
+              <p class="card-left-align card-text">
+                $850/night
+                <span class="card-right-align total-price">
+                  $4250 total
+                </span>
               </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+              <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+              <div class="card-rating">
+                <i class="bi bi-star-fill"></i> 4.5 stars
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 results-card">
+          <div class="col">
+            <div class="card">
+              <img src="./images/image2.jpeg" class="card-img-top" alt="Listing Picture">
+              <div class="card-body">
+              <h5 class="card-title">Cabin in Invermere</h5>
+              <p class="card-text">Small cabin for the family</p>
+              <p class="card-left-align card-text">
+                $250/night
+                <span class="card-right-align total-price">
+                  $1250 total
+                </span>
+              </p>
+              <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+              <div class="card-rating">
+                <i class="bi bi-star-fill"></i> 4.8 stars
+              </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image3.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Bungalow in Newfoundland</h5>
+            <p class="card-text">A small vacation getaway</p>
+            <p class="card-left-align card-text">
+              $500/night
+              <span class="card-right-align total-price">
+                $2500 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image4.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Villa in Bora Bora</h5>
+            <p class="card-text">The ocean at your front door</p>
+            <p class="card-left-align card-text">
+              $1000/night
+              <span class="card-right-align total-price">
+                $5000 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image5.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Hut in Costa Rica</h5>
+            <p class="card-text">The ocean is your backyard</p>
+            <p class="card-left-align card-text">
+              $1200/night
+              <span class="card-right-align total-price">
+                $6000 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image6.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Beachfront in Hawaii</h5>
+            <p class="card-text">Palm trees in your backyard</p>
+            <p class="card-left-align card-text">
+              $925/night
+              <span class="card-right-align total-price">
+                $4625 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image7.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Hotel in Maui</h5>
+            <p class="card-text">A tropical getaway</p>
+            <p class="card-left-align card-text">
+              $400/night
+              <span class="card-right-align total-price">
+                $2000 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image8.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Suburban House in Dallas</h5>
+            <p class="card-text">No place like home</p>
+            <p class="card-left-align card-text">
+              $340/night
+              <span class="card-right-align total-price">
+                $1700 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image9.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Cottage in Crystal Beach</h5>
+            <p class="card-text">A sunset view by the lake</p>
+            <p class="card-left-align card-text">
+              $300/night
+              <span class="card-right-align total-price">
+                $1500 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image10.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Tiny Home in Saskatchewan</h5>
+            <p class="card-text">A cute tiny home</p>
+            <p class="card-left-align card-text">
+              $210/night
+              <span class="card-right-align total-price">
+                $1050 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image11.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Condo in North Carolina</h5>
+            <p class="card-text">At the city centre</p>
+            <p class="card-left-align card-text">
+              $125/night
+              <span class="card-right-align total-price">
+                $625 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image12.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Mansion in Miami</h5>
+            <p class="card-text">A place to host parties</p>
+            <p class="card-left-align card-text">
+              $975/night
+              <span class="card-right-align total-price">
+                $4875 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image13.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Mansion in Boca Raton</h5>
+            <p class="card-text">A house made to entertain</p>
+            <p class="card-left-align card-text">
+              $1050/night
+              <span class="card-right-align total-price">
+                $5250 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image14.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Farm House in Red Deer</h5>
+            <p class="card-text">A tiny secluded house on the farm</p>
+            <p class="card-left-align card-text">
+              $210/night
+              <span class="card-right-align total-price">
+                $1050 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image15.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">House in Calgary</h5>
+            <p class="card-text">A small family house</p>
+            <p class="card-left-align card-text">
+              $175/night
+              <span class="card-right-align total-price">
+                $875 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 results-card">
           <div class="card">
-            <img class="card-img-top" src="..." alt="Listing Picture">
+            <img src="./images/image16.jpeg" class="card-img-top" alt="Listing Picture">
             <div class="card-body">
-              <h5 class="card-title">{ HomeType } in { Location }</h5>
-              <p class="card-text">{ description of home }</p>
-              <p class="price-left-align">
-                ${ price per night }
-                <strong class="price-right-align">
-                  ${ total price}
-                </strong>
-              </p>
-              <a href="property_info.html" class="btn btn-outline-primary">View Listing</a>
+            <h5 class="card-title">Cottage in Wasaga Beach</h5>
+            <p class="card-text">5 min walk from the lake</p>
+            <p class="card-left-align card-text">
+              $850/night
+              <span class="card-right-align total-price">
+                $4250 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 results-card">
+          <div class="card">
+            <img src="./images/image17.jpeg" class="card-img-top" alt="Listing Picture">
+            <div class="card-body">
+            <h5 class="card-title">Cottage in Wasaga Beach</h5>
+            <p class="card-text">5 min walk from the lake</p>
+            <p class="card-left-align card-text">
+              $850/night
+              <span class="card-right-align total-price">
+                $4250 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 results-card">
+          <div class="card">
+            <img src="./images/image18.jpeg" class="card-img-top" alt="Listing Picture">
+            <div class="card-body">
+            <h5 class="card-title">Cottage in Wasaga Beach</h5>
+            <p class="card-text">5 min walk from the lake</p>
+            <p class="card-left-align card-text">
+              $850/night
+              <span class="card-right-align total-price">
+                $4250 total
+              </span>
+            </p>
+            <a href="property_info.html" class="btn btn-primary btnFormatting">View Listing</a>
+            <div class="card-rating">
+              <i class="bi bi-star-fill"></i> 4.5 stars
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal fade" id="modal-notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">User Notifications</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-approve"></i><span>Reservation <a href="#">{ id }</a> approved</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-cancel"></i><span>Reservation <a href="#">{ id }</a> cancelled</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>Reminder: Upcoming reservation</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>{ user } replied to your comment <a href="property_info.html">here</a></span>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <a class="me-auto btn btn-link" href="#" type="btn">View all notifications</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
