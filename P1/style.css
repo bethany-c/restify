@@ -6,6 +6,7 @@ nav {
 
 .bi-house-heart::before {
   font-size: 2rem;
+  padding-right: 5px;
 }
 
 .bi-record-fill::before {
@@ -36,9 +37,21 @@ nav {
 }
 
 .navbar-background {
-  background-color: #7386D5;
+  background-color: #007bff;
   color: white;
 }
+
+.notif-link {
+  cursor: pointer;
+}
+
+.bi-bell:hover, #badge-notification:hover, .bi-house-heart:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* .right-nav {
+  padding-right: 50px
+} */
 
 * {
   font-family: 'Poppins', sans-serif;
@@ -143,7 +156,10 @@ input[type=range] {
   font-weight: 100 !important;
   font-size: small !important;
   height: 5%;
-  color: blue;
+  color: #007bff;
+  background-color: white;
+  padding: 2px;
+  border-radius: 4px;
 }
 
 .total-price {
@@ -312,4 +328,8 @@ input[type=range] {
 
 .comment-reply {
   padding-top: 25px;
+}
+
+.purple-color {
+  color: #007bff;
 }
