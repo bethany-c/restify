@@ -49,10 +49,6 @@ nav {
   color: rgba(255, 255, 255, 0.75);
 }
 
-/* .right-nav {
-  padding-right: 50px
-} */
-
 * {
   font-family: 'Poppins', sans-serif;
 }
@@ -108,6 +104,16 @@ input[type=range] {
 .amenities-title {
   padding-bottom: 20px;
   padding-top: 30px;
+}
+
+.bi-star:hover {
+  color: rgb(164, 144, 26);
+  cursor: pointer;
+}
+
+.bi-star::before {
+  font-size: 1.5rem;
+  padding: 5px;
 }
 
 /* search_results.html */

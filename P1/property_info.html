@@ -16,6 +16,56 @@
         $('#request-btn').attr('disabled', 'disabled');
       }
     </script>
+    <script>
+      function getToday() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        }
+        return yyyy+'-'+mm+'-'+dd;
+      }
+
+      function makeDay(day) {
+        var today = new Date(day);
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        }
+        return yyyy+'-'+mm+'-'+dd;
+      }
+      function checkDate() {
+        today = getToday();
+        document.getElementById("input-start").setAttribute("min", today);
+        var start = document.getElementById('input-start');
+        var end = document.getElementById('input-end');
+        
+        if(start.value) {
+          var minDate = new Date(start.value);
+          minDate.setDate(minDate.getDate() + 2);
+          let strMinDate = new Date(minDate).toISOString().slice(0, 10);
+          var mini = makeDay(strMinDate);
+          document.getElementById('input-end').setAttribute('min', mini);
+        }
+        if(end.value) {
+          var maxDate = new Date(end.value);
+          maxDate.setDate(maxDate.getDate());
+          let strMaxDate = new Date(maxDate).toISOString().slice(0, 10);
+          var maxi = makeDay(strMaxDate)
+          document.getElementById('input-start').setAttribute('max', maxi)
+        }
+      };
+    </script>
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
@@ -169,11 +219,11 @@
                     <a class="mb-2 line-right-align purple-color" href="#rating-link"><i class="bi bi-star-fill"></i>4.6</a>
                     <div class="form-group col-lg-6 col-md-12">
                       <label for="input-start">Start</label>
-                      <input type="date" class="form-control" id="input-start" required>
+                      <input type="date" class="form-control" name='input-start' id="input-start" onchange="checkDate()" onclick="checkDate()" required>
                     </div>
                     <div class="form-group col-lg-6 col-md-12">
                       <label for="input-end">End</label>
-                      <input type="date" class="form-control" id="input-end" required>
+                      <input type="date" class="form-control" name="input-end" id="input-end" onchange="checkDate()" onclick="checkDate()" required>
                     </div>
                     
                     <div class="form-group col-12">
