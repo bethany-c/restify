@@ -47,8 +47,21 @@ article {
   margin-top: 10px;
 }
 
-.thumbnail {
-  height: 100px;
-  margin: 10px;
+.button_trans{
+  position: absolute;
+  top: 22%;
+  left: 88%;
+ 
+  background-color: #555;
+  color: white;
+  
+  border-radius: 5px;
 }
 
+.price_info{
+   background-color: burlywood;
+   width: 30vh;
+    height: 14vh;
+    
+   
+}
