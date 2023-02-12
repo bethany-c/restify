@@ -358,7 +358,7 @@ input::-webkit-inner-spin-button {
     background-color: white;
 
 
-    height: 45vh;
+    height: 68vh;
 
     margin-top: 30px;
     text-align: center;
@@ -370,7 +370,7 @@ input::-webkit-inner-spin-button {
 .price_collection{
     background-color: #DCFFFF;
 
-    height: 28vh;
+    height: 48vh;
     margin:auto;
 
     margin-top: 5px;
@@ -405,7 +405,7 @@ article {
 .price_info{
    background-color: burlywood;
    width: 30vh;
-    height: 14vh;
+    height: 22vh;
     
    
 }
