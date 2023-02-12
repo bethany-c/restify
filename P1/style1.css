@@ -343,7 +343,7 @@ input[type=range] {
 
 
 .back {
-    background-color:#BBBBBB;
+    /* background-color:#BBBBBB; */
     font-family: 'Poppins', sans-serif;
  }
 
@@ -352,6 +352,10 @@ input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
 
+}
+
+b{
+  color: #007bff !important;
 }
 
 .price_box{
