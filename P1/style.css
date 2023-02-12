@@ -120,6 +120,26 @@ input[type=range] {
 
 /* search_results.html */
 
+.sort-by-btn {
+  padding-right: 30px;
+}
+
+@media only screen and (max-width: 768px) {
+  .sort-by-btn {
+    padding-right: initial;
+    
+  }
+  .sort-btn-container {
+    padding-top: 10px;
+  }
+}
+
+
+.bi-filter::before, .bi-arrow-down-up::before, .bi-currency-dollar::before {
+  padding-right: 5px;
+}
+
+
 .property-details {
   padding-top: 20px;
 }

@@ -59,49 +59,18 @@
     </script>
     <script>
       function getStar(clicked) {
-        switch(clicked) {
-          case 1:
-            document.getElementById('star1').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star2').setAttribute('style', 'color: black;');
-            document.getElementById('star3').setAttribute('style', 'color: black;');
-            document.getElementById('star4').setAttribute('style', 'color: black;');
-            document.getElementById('star5').setAttribute('style', 'color: black;');
-            break;
-          case 2:
-            document.getElementById('star1').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star2').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star3').setAttribute('style', 'color: black;');
-            document.getElementById('star4').setAttribute('style', 'color: black;');
-            document.getElementById('star5').setAttribute('style', 'color: black;');
-            break;
-          case 3:
-            document.getElementById('star1').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star2').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star3').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star4').setAttribute('style', 'color: black;');
-            document.getElementById('star5').setAttribute('style', 'color: black;');
-            break;
-          case 4:
-            document.getElementById('star1').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star2').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star3').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star4').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star5').setAttribute('style', 'color: black;');
-            break;
-          case 5:
-            document.getElementById('star1').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star2').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star3').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star4').setAttribute('style', 'color: rgb(164, 144, 26);');
-            document.getElementById('star5').setAttribute('style', 'color: rgb(164, 144, 26);');
-            break;
-          default: 
-            document.getElementById('star1').setAttribute('style', 'color: black;');
-            document.getElementById('star2').setAttribute('style', 'color: black;');
-            document.getElementById('star3').setAttribute('style', 'color: black;');
-            document.getElementById('star4').setAttribute('style', 'color: black;');
-            document.getElementById('star5').setAttribute('style', 'color: black;');
-            break;
+        var elem = 'star';
+        var elemArr = [];
+        for(let i = 0; i <= 6; i++) {
+          elemArr.push(elem.concat(i));
+        }
+
+        for(let i = 1; i <= elemArr.length; i++) {
+          if(i <= clicked) {
+            document.getElementById(elemArr[i]).setAttribute('style', 'color: rgb(164, 144, 26);');
+            continue;
+          }
+          document.getElementById(elemArr[i]).setAttribute('style', 'color: black;');
         }
       }
     </script>
@@ -121,7 +90,6 @@
         }
       }
     </script>
-
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
@@ -268,6 +236,7 @@
                 </form>
               </div>
               <hr>
+              
 
               <h6 class="modal-category">Ratings</h6>
               <div class="modal-category">
