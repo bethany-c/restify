@@ -99,6 +99,7 @@ input[type=range] {
 
 .form-group-button {
   padding: 0px 10px;
+  padding-left: 20px;
 }
 
 .amenities-title {
@@ -115,6 +116,7 @@ input[type=range] {
   font-size: 1.5rem;
   padding: 5px;
 }
+
 
 /* search_results.html */
 
