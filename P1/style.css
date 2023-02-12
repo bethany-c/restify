@@ -341,3 +341,7 @@ input[type=range] {
 .purple-color {
   color: #007bff;
 }
+
+.amenity-icon {
+  padding-right: 10px;
+}
