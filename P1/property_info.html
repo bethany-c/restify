@@ -88,34 +88,45 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
+              <a class="nav-link navbar-background" href="#">My Listings</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link navbar-background" href="#">My Reservations</a>
             </li>
             <li class="nav-item">
               <a class="nav-link navbar-background" href="#">Become a Host!</a>
             </li>
+          </ul>
+          <ul class="navbar-nav ms-auto right-nav">
             <li class="nav-item">
-              <a class="nav-link navbar-background" data-bs-toggle="modal" data-bs-target="#modal-notif">
+              <a class="nav-link navbar-background notif-link" data-bs-toggle="modal" data-bs-target="#modal-notif">
                 <i class="bi bi-bell navbar-background"></i>
-                <span class="badge-notification badge navbar-background" id="badge-notification">9</span>
+                <span class="badge-notification badge navbar-background" id="badge-notification">4</span>
               </a>
               
             </li>
-
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle navbar-background" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 { username }
               </a>
-
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="#">View Profile</a>
                 <a class="dropdown-item" href="#">Edit Profile</a>
                 <a class="dropdown-item" href="#">Create Listing</a>
+                <a class="dropdown-item" href="#">View Listings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Help</a>
+                <a class="dropdown-item" href="#">Log Out</a>
+              </div> -->
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">View Profile</a>
+                <a class="dropdown-item" href="#">Edit Profile</a>
+                <a class="dropdown-item" href="listing.html">Create Listing</a>
                 <a class="dropdown-item" href="#">View Reservations</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Help</a>
                 <a class="dropdown-item" href="#">Log Out</a>
               </div>
-
             </li>
           </ul>
         </div>
@@ -204,7 +215,7 @@
             <p>Hi! My name is Lisa and I have this beautiful cottage by Wasaga Beach available. I will be available any time of the day. Feel free to contact me if you have any questions!</p>
             <h6 id="rating-link">Questions?</h6>
             <p>Contact Lisa by
-              <a href="mailto:hostemail@email.com" target="_blank">Email</a>
+              <a href="mailto:hostemail@email.com" target="_blank">email</a>
               <span> or </span>
               <a href="tel:123-456-7890" target="_blank">phone</a>
             </p>
@@ -219,7 +230,7 @@
                     <a class="mb-2 line-right-align purple-color" href="#rating-link"><i class="bi bi-star-fill"></i>4.6</a>
                     <div class="form-group col-lg-6 col-md-12">
                       <label for="input-start">Start</label>
-                      <input type="date" class="form-control" name='input-start' id="input-start" onchange="checkDate()" onclick="checkDate()" required>
+                      <input type="date" class="form-control" name='input-start' id="input-start" onchange="checkDate()" onclick="checkDate()" step="2" required>
                     </div>
                     <div class="form-group col-lg-6 col-md-12">
                       <label for="input-end">End</label>
@@ -268,114 +279,200 @@
         </h4>
 
         <div class="comment-container row">
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>Kelly</h6>
+              <h5><i class="bi bi-file-person-fill"></i>Kelly</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
             </p>
             <p>Stayed here in September 2018</p>
             <span>Had a wonderful stay here. Lisa was quite helpful with check in and using the canoe. Cottage was clean and property was beautiful. Would highly recommend</span>
-            <div>
-              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
-                Reply
-              </button>
-            </div>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>John</h6>
+              <h5><i class="bi bi-file-person-fill"></i>John</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
             </p>
             <p>Stayed here in August 2017</p>
             <span>Great private and quiet get away! Very nice owners</span>
-            <div>
-              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
-                Reply
-              </button>
-            </div>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>Lily</h6>
+              <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
             </p>
             <p>Stayed here in October 2020</p>
-            <span>Beautiful 2 bedroom 2 bathroom cottage! The sunroom even had a foosball table but it isn't heated so it's a bit chilly to stay in there in the winter. Definitely a great place to be in the summer since there is a dock across the street. The property was spotless and very nicely decorated. There is a bit of a steep ramp up to the door but there were rubber grips on the ramp in case of icy situations.
-              There aren't really any large chain grocery stores nearby. There are small convenience stores that sell a limited selection of groceries though.
-              Overall, I had a wonderful stay.</span>
+            <span>Beautiful 2 bedroom 2 bathroom cottage! The sunroom even had a foosball table but it isn't heated so it's a bit chilly to stay in there in the winter. Definitely a great place to be in the summer since there is a dock across the street ... </span>
             <div>
-              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
-                Reply
-              </button>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
             </div>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>Lily</h6>
+              <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>1.0</p>
             </p>
             <p>Stayed here in June 2019</p>
-            <span>DO NOT STAY HERE! Service was horrible, there were bugs all over the kitchen, the owner was unresponsive. Everything was very dirty and overall a horrible experience.</span>
-            <h6 class="comment-reply"><i class="bi bi-file-person-fill"></i>Reply from Lisa</h6>
-            <p>June 2019</p>
-            <span>Hi Lily, sorry to hear this. I did call a terminator after your experience and have solved that problem. I would love it if you gave my place another chance! Contact me if you're interested.</span>
+            <span>DO NOT STAY HERE! Service was horrible, there were bugs all over the kitchen, the owner was unresponsive. Everything was very dirty and overall a horrible experience...</span>
             <div>
-              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
-                Reply
-              </button>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
             </div>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>Shirley</h6>
+              <h5><i class="bi bi-file-person-fill"></i>Shirley</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>3.5</p>
             </p>
             <p>Stayed here in November 2018</p>
-            <span>We had a great stay at this property, despite experiencing a power outage (no fault to host, caused by severe weather) and lack of amenities (ie. indoor fireplace) during our visit. The property was clean and well-maintained, and the location was fantastic. The host was responsive and provided updates on the power restoration, and they were able to resolve the issue to our satisfaction by providing a partial refund for the inconvenience we experienced. We appreciate their efforts to make things right and their professionalism throughout the process. Overall, while the power outage was a challenge, the host's efforts to resolve the issue and the positive aspects of the property made for a positive stay overall. We would recommend this property to others.</span>
-            <h6 class="comment-reply"><i class="bi bi-file-person-fill"></i>Reply from Lisa</h6>
-            <p>June 2019</p>
-            <span>Hi Shirley, sorry about the power outage. We were delighted you were able to give our property another chance and we would love to have you back here!</span>
-            <h6 class="comment-reply"><i class="bi bi-file-person-fill"></i>Reply from Shirley</h6>
-            <p>June 2019</p>
-            <span>Thank you! We will definitely be back!</span>
+            <span>We had a great stay at this property, despite experiencing a power outage (no fault to host, caused by severe weather) and lack of amenities (ie. indoor fireplace) during our visit...</span>
+            <div>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
+            </div>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>Roy</h6>
+              <h5><i class="bi bi-file-person-fill"></i>Roy</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
             </p>
             <p>Stayed here in May 2022</p>
-            <span>It was very nice and clean. Nice owners too</span>
+            <span>It was very nice and clean. Nice owners too...</span>
             <div>
-              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
-                Reply
-              </button>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
             </div>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>Jim</h6>
+              <h5><i class="bi bi-file-person-fill"></i>Jim</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.7</p>
             </p>
             <p>Stayed here in May 2021</p>
             <span>Amazing area and views</span>
-            <div>
-              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
-                Reply
-              </button>
-            </div>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6 comment-card">
             <p class="line-left-align">
-              <h6><i class="bi bi-file-person-fill"></i>Teddy</h6>
+              <h5><i class="bi bi-file-person-fill"></i>Teddy</h5>
               <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.9</p>
             </p>
             <p>Stayed here in June 2021</p>
             <span>Clean place</span>
-            <div>
-              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
-                Reply
-              </button>
+          </div>
+        </div>
+
+        <div class="view-amenities-btn">
+          <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#reviews-modal">View all reviews</button>
+        </div>
+
+        <div class="modal fade" id="reviews-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content all-reviews">
+              <div class="modal-header">
+                <h5 class="modal-title">All Reviews</h5>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Kelly</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
+                  </p>
+                  <p>Stayed here in September 2018</p>
+                  <span>Had a wonderful stay here. Lisa was quite helpful with check in and using the canoe. Cottage was clean and property was beautiful. Would highly recommend</span>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>John</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
+                  </p>
+                  <p>Stayed here in August 2017</p>
+                  <span>Great private and quiet get away! Very nice owners</span>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
+                  </p>
+                  <p>Stayed here in October 2020</p>
+                  <span>Beautiful 2 bedroom 2 bathroom cottage! The sunroom even had a foosball table but it isn't heated so it's a bit chilly to stay in there in the winter. Definitely a great place to be in the summer since there is a dock across the street. The property was spotless and very nicely decorated. There is a bit of a steep ramp up to the door but there were rubber grips on the ramp in case of icy situations.
+                    There aren't really any large chain grocery stores nearby. There are small convenience stores that sell a limited selection of groceries though.
+                    Overall, I had a wonderful stay.</span>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>1.0</p>
+                  </p>
+                  <p>Stayed here in June 2019</p>
+                  <span>DO NOT STAY HERE! Service was horrible, there were bugs all over the kitchen, the owner was unresponsive. Everything was very dirty and overall a horrible experience.</span>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>Reply from Lisa</h6>
+                      <p>June 2019</p>
+                      <span>Hi Lily, sorry to hear this. I did call a terminator after your experience and have solved that problem. I would love it if you gave my place another chance! Contact me if you're interested.</span>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-link reply-reply" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                      Reply
+                    </button>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Shirley</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>3.5</p>
+                  </p>
+                  <p>Stayed here in November 2018</p>
+                  <span>We had a great stay at this property, despite experiencing a power outage (no fault to host, caused by severe weather) and lack of amenities (ie. indoor fireplace) during our visit. The property was clean and well-maintained, and the location was fantastic. The host was responsive and provided updates on the power restoration, and they were able to resolve the issue to our satisfaction by providing a partial refund for the inconvenience we experienced. We appreciate their efforts to make things right and their professionalism throughout the process. Overall, while the power outage was a challenge, the host's efforts to resolve the issue and the positive aspects of the property made for a positive stay overall. We would recommend this property to others.</span>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>Reply from Lisa</h5>
+                    <p>June 2019</p>
+                    <span>Hi Shirley, sorry about the power outage. We were delighted you were able to give our property another chance and we would love to have you back here!</span>
+                  </div>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>Reply from Shirley</h5>
+                    <p>June 2019</p>
+                    <span>Thank you! We will definitely be back!</span>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Roy</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
+                  </p>
+                  <p>Stayed here in May 2022</p>
+                  <span>It was very nice and clean. Nice owners too</span>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>Reply from Lisa</h6>
+                      <p>May 2022</p>
+                      <span>Thank you for the nice comments Roy :)</span>
+                  </div>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>Reply from Roy</h6>
+                      <p>June 2022</p>
+                      <span>No problem. Looking forward to our next stay with you!</span>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Jim</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.7</p>
+                  </p>
+                  <p>Stayed here in May 2021</p>
+                  <span>Amazing area and views</span>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Teddy</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.9</p>
+                  </p>
+                  <p>Stayed here in June 2021</p>
+                  <span>Clean place</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

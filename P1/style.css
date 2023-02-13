@@ -346,7 +346,7 @@ input[type=range] {
   font-size: small;
 }
 
-.bi-star-fill::before {
+.bi-star-fill::before, .bi-chevron-right::before {
   padding-right: 5px;
 }
 
@@ -356,6 +356,7 @@ input[type=range] {
 
 .comment-reply {
   padding-top: 25px;
+  padding-left: 20px;
 }
 
 .purple-color {
@@ -364,4 +365,18 @@ input[type=range] {
 
 .amenity-icon {
   padding-right: 10px;
+}
+
+.comment-card {
+  border: 1px solid #dee2e6;
+  padding-bottom: 20px;
+}
+
+.reply-reply {
+  padding-left: 20px;
+}
+
+.see-more-reviews {
+  padding-left: 0px;
+  
 }
