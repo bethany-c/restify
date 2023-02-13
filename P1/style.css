@@ -124,13 +124,16 @@ input[type=range] {
   padding-right: 30px;
 }
 
+.edit-btn-container {
+  padding-bottom: 10px;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
 @media only screen and (max-width: 768px) {
-  .sort-by-btn {
+  .edit-btn-container {
     padding-right: initial;
-    
-  }
-  .sort-btn-container {
-    padding-top: 10px;
+    padding-left: initial;
   }
 }
 
@@ -346,7 +349,7 @@ input[type=range] {
   font-size: small;
 }
 
-.bi-star-fill::before, .bi-chevron-right::before {
+.bi-star-fill::before, .bi-chevron-right::before, .bi-pencil::before {
   padding-right: 5px;
 }
 
@@ -378,5 +381,14 @@ input[type=range] {
 
 .see-more-reviews {
   padding-left: 0px;
-  
+}
+
+.edit-listing-btn {
+  padding-left: 12px;
+}
+
+@media only screen and (max-width: 768px) {
+  .sort-by-btn {
+    padding-left: initial;
+  }
 }
