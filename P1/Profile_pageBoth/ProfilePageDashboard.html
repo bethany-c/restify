@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Collapsible sidebar using Bootstrap 4</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="styleprofile.css">
+    
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-background navbar-dark navCustom">
+  
+          <a class="navbar-brand" href="../index.html">
+            <i class="bi bi-house-heart" id="nav-house-icon"></i>
+          </a>
+  
+          <button 
+            class="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarNavDropdown"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link navbar-background" href="../Your_ListingsHost/AllListings.html">My Listings</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-background" href="../Your_OrdersUser/UserApproved.html">My Reservations</a>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link navbar-background" href="#">Become a Host!</a>
+              </li> -->
+            </ul>
+            <ul class="navbar-nav ms-auto right-nav">
+              <li class="nav-item">
+                <a class="nav-link navbar-background notif-link" data-bs-toggle="modal" data-bs-target="#modal-notif">
+                  <i class="bi bi-bell navbar-background"></i>
+                  <span class="badge-notification badge navbar-background" id="badge-notification">4</span>
+                </a>
+
+                
+              </li>
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle navbar-background" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  { username }
+                </a>
+                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">View Profile</a>
+                  <a class="dropdown-item" href="#">Edit Profile</a>
+                  <a class="dropdown-item" href="#">Create Listing</a>
+                  <a class="dropdown-item" href="#">View Listings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Help</a>
+                  <a class="dropdown-item" href="#">Log Out</a>
+                </div> -->
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="../Profile_pageBoth/ProfilePageDashboard.html">View Profile</a>
+                  <a class="dropdown-item" href="../Profile_pageBoth/EditProfilePageDashboard.html">Edit Profile</a>
+                  <a class="dropdown-item" href="../forms-Leo/listing.html">Create Listing</a>
+                  <a class="dropdown-item" href="../Your_OrdersUser/UserApproved.html">View Reservations</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="../Profile_pageBoth/ProfilePageDashboard.html">Help</a>
+                  <a class="dropdown-item" href="../indexwithLogInButton.html">Log Out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3> <a href="../index.html">Restify</a></h3>
+            </div>
+            <br>
+            <ul class="list-unstyled components">
+                <h4 class="smallheader">Your Dashboard</h4>
+                <li class="active">
+                    <a href="#">Profile</a>
+                </li>
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Your Orders</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="../Your_OrdersUser/UserApproved.html">Approved</a>
+                        </li>
+                        <li>
+                            <a href="../Your_OrdersUser/UserRequested.html">Requested</a>
+                        </li>
+                        <li>
+                            <a href="../Your_OrdersUser/UserCancellations.html">Cancellations</a>
+                        </li>
+                        <li>
+                            <a href="../Your_OrdersUser/UserCompleted.html">Completed</a>
+                        </li>
+                        <li>
+                            <a href="../Your_OrdersUser/UserTerminated.html">Terminated</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../NotificationsBoth/notifications.html">Notifications</a>
+                </li>
+                <br>
+                <br>
+                <h4 class="smallheader">Host Dashboard</h4>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Your Listings</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="../Your_ListingsHost/HostRequests.html">Requests</a>
+                        </li>
+                        <li>
+                            <a href="../Your_ListingsHost/HostCancellations.html">Approved</a>
+                        </li>
+                        <li>
+                            <a href="../Your_ListingsHost/HostCancellations.html">Cancellations</a>
+                        </li>
+                        <li>
+                            <a href="../Your_ListingsHost/HostCompleted.html">Completed</a>
+                        </li>
+                        <li>
+                            <a href="../Your_ListingsHost/HostTerminated.html">Terminated</a>
+                        </li>
+                        <li>
+                            <a href="../Your_ListingsHost/AllListings.html">All Listings</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <!-- <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+            </nav>
+            
+            <!-- Where the Listing cards go  -->
+
+            <form>
+
+                <!-- source: https://www.codeply.com/go/cdvAd8Eahp/bootstrap-show-upload-image-before-click-on-submit-button -->
+                <div class="container">
+                    <div class="picture-container">
+                        <div class="picture">
+                            <img src="https://lh3.googleusercontent.com/LfmMVU71g-HKXTCP_QWlDOemmWg4Dn1rJjxeEsZKMNaQprgunDTtEuzmcwUBgupKQVTuP0vczT9bH32ywaF7h68mF-osUSBAeM6MxyhvJhG6HKZMTYjgEv3WkWCfLB7czfODidNQPdja99HMb4qhCY1uFS8X0OQOVGeuhdHy8ln7eyr-6MnkCcy64wl6S_S6ep9j7aJIIopZ9wxk7Iqm-gFjmBtg6KJVkBD0IA6BnS-XlIVpbqL5LYi62elCrbDgiaD6Oe8uluucbYeL1i9kgr4c1b_NBSNe6zFwj7vrju4Zdbax-GPHmiuirf2h86eKdRl7A5h8PXGrCDNIYMID-J7_KuHKqaM-I7W5yI00QDpG9x5q5xOQMgCy1bbu3St1paqt9KHrvNS_SCx-QJgBTOIWW6T0DHVlvV_9YF5UZpN7aV5a79xvN1Gdrc7spvSs82v6gta8AJHCgzNSWQw5QUR8EN_-cTPF6S-vifLa2KtRdRAV7q-CQvhMrbBCaEYY73bQcPZFd9XE7HIbHXwXYA=s200-no" class="picture-src" id="wizardPicturePreview" title="">
+                            <input type="file" id="wizard-picture" class="">
+                        </div>
+                         <h6 class="">Choose Picture</h6>
+                
+                    </div>
+                </div>
+                <br>
+                <br>
+                <!-- First name Last name  -->
+                <div class="row">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="First name" readonly value="Mustafa">
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Last name" readonly value="Imam">
+                  </div>
+                </div>
+
+                <br>
+                <br>
+
+                <!-- Email  -->
+                <div class="row">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Email" readonly value="maimam98@hotmail.com">
+                  </div>
+                </div>
+
+                <br>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Phone Number" readonly value="647">
+                    </div>
+                  </div>
+                
+                <br>
+                <br>
+
+                <div class="row">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Password" value="*******" readonly value="*******">
+                  </div>
+                </div>
+                <br>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <a href="EditProfilePageDashboard.html" class="form-control saveChangesButton">Edit</a>
+                      <!-- <input type="submit" class="form-control saveChangesButton" value="Edit"> -->
+                    </div>
+                  </div>
+
+              </form>
+
+              <div class="modal fade" id="modal-notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Host Notifications</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="notif-text">
+                        <i class="bi bi-record-fill" id="notif-general"></i><span>New comment posted for { property }</span>
+                      </div>
+                      <div class="notif-text">
+                        <i class="bi bi-record-fill" id="notif-general"></i><span>New rating posted for { property }</span>
+                      </div>
+                      <div class="notif-text">
+                        <i class="bi bi-record-fill" id="notif-approve"></i><span>Request for approval a reservation on property <a href="../Your_ListingsHost/HostRequests.html">{ id }</a></span>
+                      </div>
+                      <div class="notif-text">
+                        <i class="bi bi-record-fill" id="notif-cancel"></i><span>Request for approval a cancellation on property <a href="../Your_ListingsHost/HostCancellations.html">{ id }</a></span>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a class="me-auto btn btn-link" href="../NotificationsBoth/notifications.html" type="btn">View all notifications</a>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+    <!-- source: https://www.codeply.com/go/cdvAd8Eahp/bootstrap-show-upload-image-before-click-on-submit-button -->
+    <script>$(document).ready(function(){
+        // Prepare the preview for profile picture
+            $("#wizard-picture").change(function(){
+                readURL(this);
+            });
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+        
+                reader.onload = function (e) {
+                    $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }</script>
+</body>
+
+</html>

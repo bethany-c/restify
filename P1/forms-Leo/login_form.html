@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style1.css">
+
+
+</head>
+
+
+<body class="back">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-background navbar-dark">
+
+      <a class="navbar-brand" href="../index.html">
+        <i class="bi bi-house-heart" id="nav-house-icon"></i>
+      </a>
+
+      <button 
+        class="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarNavDropdown"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <!-- <li class="nav-item">
+            <a class="nav-link navbar-background" href="../Your_OrdersUser/UserApproved.html">My Reservations</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link navbar-background" href="../forms-Leo/listing.html">Become a Host!</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link navbar-background" data-bs-toggle="modal" data-bs-target="#modal-notif">
+              <i class="bi bi-bell navbar-background"></i>
+              <span class="badge-notification badge navbar-background" id="badge-notification">4</span>
+            </a>
+            
+          </li> -->
+
+          <!-- <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle navbar-background" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              { username }
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="#">View Profile</a>
+              <a class="dropdown-item" href="#">Edit Profile</a>
+              <a class="dropdown-item" href="#">Create Listing</a>
+              <a class="dropdown-item" href="#">View Reservations</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Help</a>
+              <a class="dropdown-item" href="#">Log Out</a>
+            </div>
+
+          </li> -->
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+
+
+<div class="container mt-5">
+
+<div class="  min-vw-80" style="border-radius: 1rem;max-width:500px; margin: auto">
+  <div class="container p-5">
+    <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+    <hr class="divider">  
+<form>
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control border-secondary" >
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" class="form-control border-secondary" >
+  </div>
+
+  <!-- <button type="submit" class="btn btn-outline-secondary " id="request-btn">Log In</button> -->
+  <a class="btn btn-outline-secondary" href="../index.html">Log In</a>
+</form>
+<br>
+    <div>
+      <p class="mb-0">Don't have an account? <a href="#!" data-bs-toggle="modal" data-bs-target="#signup_form" class="text-secondary-50 fw-bold">Sign Up</a>
+      </p>
+
+    </div>
+</div>
+
+</div>
+</div>
+
+</body>
+
+<div class="modal fade" id="signup_form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <h5 class="modal-title fw-bold mb-2  text-uppercase">Sign up</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control border-secondary">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control border-secondary" >
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control border-secondary" >
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="text" class="form-control border-secondary" >
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control border-secondary" >
+          </div>
+          <div class="mb-3">
+            <label class="form-label">ReType Password</label>
+            <input type="text" class="form-control border-secondary" >
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+
+        <!-- <button type="button" data-bs-dismiss="modal" class="btn btn-primary" onclick="location.href='../index.html'">Register</button> -->
+        <a class="btn btn-primary" data-bs-dismiss="modal" href="../index.html">Register</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">User Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="notif-text">
+          <i class="bi bi-record-fill" id="notif-approve"></i><span>Reservation <a href="#">{ id }</a> approved</span>
+        </div>
+        <div class="notif-text">
+          <i class="bi bi-record-fill" id="notif-cancel"></i><span>Reservation <a href="#">{ id }</a> cancelled</span>
+        </div>
+        <div class="notif-text">
+          <i class="bi bi-record-fill" id="notif-general"></i><span>Reminder: Upcoming reservation</span>
+        </div>
+        <div class="notif-text">
+          <i class="bi bi-record-fill" id="notif-general"></i><span>{ user } replied to your comment <a href="property_info.html">here</a></span>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <a class="me-auto btn btn-link" href="#" type="btn">View all notifications</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal data-bs-target="#amenity-modal"">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</html>

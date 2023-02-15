@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>P1 Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+      function change() {
+        var elem = document.getElementById("request-btn");
+        elem.innerHTML = 'Reserve Requested!';
+        $('#request-btn').attr('disabled', 'disabled');
+      }
+    </script>
+    <script>
+      function getToday() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        }
+        return yyyy+'-'+mm+'-'+dd;
+      }
+
+      function makeDay(day) {
+        var today = new Date(day);
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        }
+        return yyyy+'-'+mm+'-'+dd;
+      }
+      function checkDate() {
+        today = getToday();
+        document.getElementById("input-start").setAttribute("min", today);
+        var start = document.getElementById('input-start');
+        var end = document.getElementById('input-end');
+        
+        if(start.value) {
+          var minDate = new Date(start.value);
+          minDate.setDate(minDate.getDate() + 2);
+          let strMinDate = new Date(minDate).toISOString().slice(0, 10);
+          var mini = makeDay(strMinDate);
+          document.getElementById('input-end').setAttribute('min', mini);
+        }
+        if(end.value) {
+          var maxDate = new Date(end.value);
+          maxDate.setDate(maxDate.getDate());
+          let strMaxDate = new Date(maxDate).toISOString().slice(0, 10);
+          var maxi = makeDay(strMaxDate)
+          document.getElementById('input-start').setAttribute('max', maxi)
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <header class="sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-background navbar-dark">
+
+        <a class="navbar-brand" href="../index.html">
+          <i class="bi bi-house-heart" id="nav-house-icon"></i>
+        </a>
+
+        <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNavDropdown"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link navbar-background" href="../Your_ListingsHost/AllListings.html">My Listings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link navbar-background" href="../Your_OrdersUser/UserApproved.html">My Reservations</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto right-nav">
+            <li class="nav-item">
+              <a class="nav-link navbar-background notif-link" data-bs-toggle="modal" data-bs-target="#modal-notif">
+                <i class="bi bi-bell navbar-background"></i>
+                <span class="badge-notification badge navbar-background" id="badge-notification">4</span>
+              </a>
+              
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle navbar-background" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                { username }
+              </a>
+              <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">View Profile</a>
+                <a class="dropdown-item" href="#">Edit Profile</a>
+                <a class="dropdown-item" href="#">Create Listing</a>
+                <a class="dropdown-item" href="#">View Listings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Help</a>
+                <a class="dropdown-item" href="#">Log Out</a>
+              </div> -->
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="../Profile_pageBoth/ProfilePageDashboard.html">View Profile</a>
+                <a class="dropdown-item" href="../Profile_pageBoth/EditProfilePageDashboard.html">Edit Profile</a>
+                <a class="dropdown-item" href="../forms-Leo/listing.html">Create Listing</a>
+                <a class="dropdown-item" href="../Your_ListingsHost/AllListings.html">My Listings</a>
+                <a class="dropdown-item" href="../Your_OrdersUser/UserApproved.html">View Reservations</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Help</a>
+                <a class="dropdown-item" href="../indexwithLogInButton.html">Log Out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    
+    <main>
+      <div class="property-info-container">
+        
+        <div class="row edit-btn-container">
+          <!-- <button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil"></i>Edit Listing</button> -->
+          <a class="btn btn-outline-primary btn-sm" href="../forms-Leo/updatelisting.html"><i class="bi bi-pencil"></i>Edit Listing</a>
+        </div>
+
+        <div class='row property-imgs'>
+          <div class="col-sm-12 col-md-6 left-img">
+            <div class="img-container">
+              <img class="img-fluid w-100 center-img" src="./images/image1.jpeg" alt="image1">
+            </div>
+            
+          </div>
+          <div class="col-sm-12 col-md-6 right-img">
+            <div class="relative-position">
+              <img src="./images/image3.jpeg" class="img-fluid w-100 center-img">
+              <div class="overlay-btn">
+                <button class="btn btn-secondary view-all-photos-btn" data-bs-toggle="modal" data-bs-target="#picture-gallery-modal"><i class="bi bi-grid-3x3-gap-fill"></i> All</button>
+              </div>
+          </div>
+        </div>
+
+        <div class="property-details">
+          <h3>Cabin in Wasaga Beach</h3>
+          <p>5 bedrooms
+            <span> &#8226; </span>
+            7 beds
+            <span> &#8226; </span>
+            6 bathrooms</p>
+          <p>Accomodates up to 14 guests</p>
+          <p>Private: Yes</p>
+        </div>
+        <hr>
+
+        <div class="row">
+          <div class="col-md-7 col-sm-12">
+            <h5>Amentities</h5>
+            <div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>Wifi
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>TV
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>Kitchen
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>Workspace
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>Air Conditioning
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>Heating
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>Washer
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <span>&#8226; </span>Dryer
+                </div>
+              </div>
+              <div class="view-amenities-btn">
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#amenity-modal">View all 19 amenities</button>
+              </div>
+              
+            </div>
+            <h5>About the place:</h5>
+            <p>This beautiful luxury cottage will just wow you from the moment you enter. Clean shallow shoreline great for swimming. Has all amenities you will need and is about 10 minutes south of Haliburton. Cottage has Washer/Dryer, Wi-Fi, Lots of Parking, Large Fire Pit, Kayaks, Canoes, Sleds (winter),Pedal Boat, Life Jackets, Coffee Machine (with coffee), Tea Kettle, Hot Tub, Sauna, BBQ and TV. Lake is great for fishing, beautiful trails for trekking. Full linens and towels included.</p>
+            <h5>Location Details</h5>
+            <div class="guest-container">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d91045.63091113858!2d-80.05401959999999!3d44.511548999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882a80578282bf25%3A0x56e3cb1910ac4639!2sWasaga%20Beach%2C%20ON!5e0!3m2!1sen!2sca!4v1675980945708!5m2!1sen!2sca" class="guest-container" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <h5>Hosted by Lisa</h5>
+            <p>Hi! My name is Lisa and I have this beautiful cottage by Wasaga Beach available. I will be available any time of the day. Feel free to contact me if you have any questions!</p>
+            <h6 id="rating-link">Questions?</h6>
+            <p>Contact Lisa by
+              <a href="mailto:hostemail@email.com" target="_blank">email</a>
+              <span> or </span>
+              <a href="tel:123-456-7890" target="_blank">phone</a>
+            </p>
+          </div>
+          
+          <div class="col-md-5 col-sm-12">
+            <div class="card sticky-top sticky-offset">
+              <div class="card-body">
+                <form>
+                  <div class="row card-center">
+                    <h4>$850 per night</h4>
+                    <a class="mb-2 line-right-align purple-color" href="#rating-link"><i class="bi bi-star-fill"></i>4.6</a>
+                    <div class="form-group col-lg-6 col-md-12">
+                      <label for="input-start">Start</label>
+                      <input type="date" class="form-control" name='input-start' id="input-start" onchange="checkDate()" onclick="checkDate()" step="2" required>
+                    </div>
+                    <div class="form-group col-lg-6 col-md-12">
+                      <label for="input-end">End</label>
+                      <input type="date" class="form-control" name="input-end" id="input-end" onchange="checkDate()" onclick="checkDate()" required>
+                    </div>
+                    
+                    <div class="form-group col-12">
+                      <input type="number" min="0" class="form-control" id="input-guests" placeholder="# of Guests" required>
+                    </div>
+
+                    <p class="card-left-align">
+                      $ 850 x 5 nights:
+                      <span class="card-right-align">
+                        $4250
+                      </span>
+                    </p>
+                    <p class="card-left-align">
+                      Service fees:
+                      <span class="card-right-align">
+                        $150
+                      </span>
+                    </p>
+                    <hr>
+                    <strong class="card-left-align">
+                      Total Price
+                      <span class="card-right-align">
+                        $4400
+                      </span>
+                    </strong>
+
+                    <div class="submit-form-btn">
+                      <button type="submit" class="btn btn-outline-primary full-width" id="request-btn" onclick="change();">Request to Reserve</button>
+                    </div>
+                  
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sticky-line">
+        <h4 class="line-left-align" id="all-property-reviews">
+          Reviews
+          <p class="mb-2 rating-right-align purple-color"><i class="bi bi-star-fill"></i>4.8</p>
+        </h4>
+
+        <div class="comment-container row">
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>Kelly</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
+            </p>
+            <p>Stayed here in September 2018</p>
+            <span>Had a wonderful stay here. Lisa was quite helpful with check in and using the canoe. Cottage was clean and property was beautiful. Would highly recommend</span>
+            <div>
+              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                Reply
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>John</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
+            </p>
+            <p>Stayed here in August 2017</p>
+            <span>Great private and quiet get away! Very nice owners</span>
+            <div>
+              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                Reply
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
+            </p>
+            <p>Stayed here in October 2020</p>
+            <span>Beautiful 2 bedroom 2 bathroom cottage! The sunroom even had a foosball table but it isn't heated so it's a bit chilly to stay in there in the winter. Definitely a great place to be in the summer since there is a dock across the street ... </span>
+            <div>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>1.0</p>
+            </p>
+            <p>Stayed here in June 2019</p>
+            <span>DO NOT STAY HERE! Service was horrible, there were bugs all over the kitchen, the owner was unresponsive. Everything was very dirty and overall a horrible experience...</span>
+            <div>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>Shirley</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>3.5</p>
+            </p>
+            <p>Stayed here in November 2018</p>
+            <span>We had a great stay at this property, despite experiencing a power outage (no fault to host, caused by severe weather) and lack of amenities (ie. indoor fireplace) during our visit...</span>
+            <div>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>Roy</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
+            </p>
+            <p>Stayed here in May 2022</p>
+            <span>It was very nice and clean. Nice owners too...</span>
+            <div>
+              <a class="btn btn-link see-more-reviews" href="#" type="btn" data-bs-toggle="modal" data-bs-target="#reviews-modal">See More <i class="bi bi-chevron-right"></i></a>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>Jim</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.7</p>
+            </p>
+            <p>Stayed here in May 2021</p>
+            <span>Amazing area and views</span>
+            <div>
+              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                Reply
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 comment-card">
+            <p class="line-left-align">
+              <h5><i class="bi bi-file-person-fill"></i>Teddy</h5>
+              <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.9</p>
+            </p>
+            <p>Stayed here in June 2021</p>
+            <span>Clean place</span>
+            <div>
+              <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                Reply
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="view-amenities-btn">
+          <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#reviews-modal">View all reviews</button>
+        </div>
+
+        <div class="modal fade" id="reviews-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content all-reviews">
+              <div class="modal-header">
+                <h5 class="modal-title">All Reviews</h5>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Kelly</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
+                  </p>
+                  <p>Stayed here in September 2018</p>
+                  <span>Had a wonderful stay here. Lisa was quite helpful with check in and using the canoe. Cottage was clean and property was beautiful. Would highly recommend</span>
+                  <div>
+                    <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                      Reply
+                    </button>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>John</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
+                  </p>
+                  <p>Stayed here in August 2017</p>
+                  <span>Great private and quiet get away! Very nice owners</span>
+                  <div>
+                    <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                      Reply
+                    </button>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.5</p>
+                  </p>
+                  <p>Stayed here in October 2020</p>
+                  <span>Beautiful 2 bedroom 2 bathroom cottage! The sunroom even had a foosball table but it isn't heated so it's a bit chilly to stay in there in the winter. Definitely a great place to be in the summer since there is a dock across the street. The property was spotless and very nicely decorated. There is a bit of a steep ramp up to the door but there were rubber grips on the ramp in case of icy situations.
+                    There aren't really any large chain grocery stores nearby. There are small convenience stores that sell a limited selection of groceries though.
+                    Overall, I had a wonderful stay.</span>
+                    <div>
+                      <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                        Reply
+                      </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Lily</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>1.0</p>
+                  </p>
+                  <p>Stayed here in June 2019</p>
+                  <span>DO NOT STAY HERE! Service was horrible, there were bugs all over the kitchen, the owner was unresponsive. Everything was very dirty and overall a horrible experience.</span>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>My Reply</h6>
+                      <p>June 2019</p>
+                      <span>Hi Lily, sorry to hear this. I did call a terminator after your experience and have solved that problem. I would love it if you gave my place another chance! Contact me if you're interested.</span>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Shirley</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>3.5</p>
+                  </p>
+                  <p>Stayed here in November 2018</p>
+                  <span>We had a great stay at this property, despite experiencing a power outage (no fault to host, caused by severe weather) and lack of amenities (ie. indoor fireplace) during our visit. The property was clean and well-maintained, and the location was fantastic. The host was responsive and provided updates on the power restoration, and they were able to resolve the issue to our satisfaction by providing a partial refund for the inconvenience we experienced. We appreciate their efforts to make things right and their professionalism throughout the process. Overall, while the power outage was a challenge, the host's efforts to resolve the issue and the positive aspects of the property made for a positive stay overall. We would recommend this property to others.</span>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>My Reply</h5>
+                    <p>June 2019</p>
+                    <span>Hi Shirley, sorry about the power outage. We were delighted you were able to give our property another chance and we would love to have you back here!</span>
+                  </div>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>Reply from Shirley</h5>
+                    <p>June 2019</p>
+                    <span>Thank you! We will definitely be back!</span>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Roy</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>5.0</p>
+                  </p>
+                  <p>Stayed here in May 2022</p>
+                  <span>It was very nice and clean. Nice owners too</span>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>My Reply</h6>
+                      <p>May 2022</p>
+                      <span>Thank you for the nice comments Roy :)</span>
+                  </div>
+                  <div class="comment-reply">
+                    <h5><i class="bi bi-file-person-fill"></i>Reply from Roy</h6>
+                      <p>June 2022</p>
+                      <span>No problem. Looking forward to our next stay with you!</span>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Jim</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.7</p>
+                  </p>
+                  <p>Stayed here in May 2021</p>
+                  <span>Amazing area and views</span>
+                  <div>
+                    <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                      Reply
+                    </button>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                  <p class="line-left-align">
+                    <h5><i class="bi bi-file-person-fill"></i>Teddy</h5>
+                    <p class="mb-2 line-right-align purple-color"><i class="bi bi-star-fill"></i>4.9</p>
+                  </p>
+                  <p>Stayed here in June 2021</p>
+                  <span>Clean place</span>
+                  <div>
+                    <button type="button" class="btn btn-link reply-btn" data-bs-toggle="modal" data-bs-target="#reply-comment">
+                      Reply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="reply-comment" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Reply to { user }'s comments</h5>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="reply-text-area">Enter comments here</label>
+                    <textarea class="form-control" id="reply-text-area" rows="3" required></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button submit"class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="amenity-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Amenities at Lisa's Cabin</h5>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="amenities-title">
+                  <strong>Essentials</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-wifi amenity-icon"></i>Wifi</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-tv amenity-icon"></i>TV</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-cup-hot amenity-icon"></i>Kitchen</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-laptop amenity-icon"></i>Workspace</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-thermometer-snow amenity-icon"></i>Air Conditioning</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-thermometer-sun amenity-icon"></i>Heating</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-box2 amenity-icon"></i>Washer</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-box2 amenity-icon"></i>Dryer</span>
+                  </div>
+                </div>
+
+                <div class="amenities-title">
+                  <strong>Features</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-water amenity-icon"></i>Pool</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-water amenity-icon"></i>Hot Tub</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-basket amenity-icon"></i>Patio</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-cup-straw amenity-icon"></i>Grill</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-fire amenity-icon"></i>Fire Pit</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-cloud-rain amenity-icon"></i>Shower</span>
+                  </div>
+                </div>
+
+                <div class="amenities-title">
+                  <strong>Location</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-water amenity-icon"></i>Lake Access</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-tsunami amenity-icon"></i>Beach Access</span>
+                  </div>
+                </div>
+
+                <div class="amenities-title">
+                  <strong>Safety Features</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-broadcast amenity-icon"></i>CO2 Detector</span>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <span><i class="bi bi-bandaid amenity-icon"></i>First Aid Kit</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <span><i class="bi bi-fire amenity-icon"></i>Extinguisher</span>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="picture-gallery-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="photo-carousel" class="carousel slide carousel-fade photo-gallery" data-bs-ride="carousel">
+                  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#photo-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#photo-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#photo-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#photo-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#photo-carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                    <button type="button" data-bs-target="#photo-carousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                  </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="./images/image4.jpeg" class="d-block w-100" alt="Pic">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="./images/image5.jpeg" class="d-block w-100" alt="Pic">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="./images/image6.jpeg" class="d-block w-100" alt="Pic">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="./images/image7.jpeg" class="d-block w-100" alt="Pic">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="./images/image9.jpeg" class="d-block w-100" alt="Pic">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="./images/image13.jpeg" class="d-block w-100" alt="Pic">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#photo-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#photo-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modal-notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">User Notifications</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-approve"></i><span>Reservation <a href="../Your_OrdersUser/UserApproved.html">{ id }</a> approved</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-cancel"></i><span>Reservation <a href="../Your_OrdersUser/UserCancellations.html">{ id }</a> cancelled</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>Reminder: Upcoming reservation</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>{ user } replied to your comment <a href="../Properties-Beth/property_info.html">here</a></span>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <a class="me-auto btn btn-link" href="../NotificationsBoth/notifications.html" type="btn">View all notifications</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

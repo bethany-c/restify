@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>P1 Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="./Properties-Beth/style.css">
+    <script>
+      function getToday() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        }
+        return yyyy+'-'+mm+'-'+dd;
+      }
+
+      function makeDay(day) {
+        var today = new Date(day);
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if(dd<10){
+          dd='0'+dd
+        } 
+        if(mm<10){
+          mm='0'+mm
+        }
+        return yyyy+'-'+mm+'-'+dd;
+      }
+      function checkDate() {
+        today = getToday();
+        document.getElementById("start").setAttribute("min", today);
+        var start = document.getElementById('start');
+        var end = document.getElementById('end');
+        
+        if(start.value) {
+          var minDate = new Date(start.value);
+          minDate.setDate(minDate.getDate() + 2);
+          let strMinDate = new Date(minDate).toISOString().slice(0, 10);
+          var mini = makeDay(strMinDate);
+          document.getElementById('end').setAttribute('min', mini);
+        }
+        if(end.value) {
+          var maxDate = new Date(end.value);
+          maxDate.setDate(maxDate.getDate());
+          let strMaxDate = new Date(maxDate).toISOString().slice(0, 10);
+          var maxi = makeDay(strMaxDate)
+          document.getElementById('start').setAttribute('max', maxi)
+        }
+      };
+    </script>
+    <script>
+      function getStar(clicked) {
+        var elem = 'star';
+        var elemArr = [];
+        for(let i = 0; i <= 6; i++) {
+          elemArr.push(elem.concat(i));
+        }
+
+        for(let i = 1; i <= elemArr.length; i++) {
+          if(i <= clicked) {
+            document.getElementById(elemArr[i]).setAttribute('style', 'color: rgb(164, 144, 26);');
+            continue;
+          }
+          document.getElementById(elemArr[i]).setAttribute('style', 'color: black;');
+        }
+      }
+    </script>
+
+    <script>
+      function getInputBtn(clicked, elem) {
+        var elemArr = [];
+        for(let i = 0; i <= 6; i++) {
+          elemArr.push(elem.concat(i));
+        }
+        for(let i = 0; i < elemArr.length; i++) {
+          if(i == clicked) {
+            document.getElementById(elemArr[clicked]).setAttribute('style', 'background-color: #6c757d; color: white;');
+            continue;
+          }
+          document.getElementById(elemArr[i]).setAttribute('style', 'background-color: white; color: #6c757d; ');
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <header class="sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-background navbar-dark">
+
+        <a class="navbar-brand" href="index.html">
+          <i class="bi bi-house-heart" id="nav-house-icon"></i>
+        </a>
+
+        <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNavDropdown"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link navbar-background" href="../P1/Your_ListingsHost/AllListings.html">My Listings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link navbar-background" href="./Your_OrdersUser/UserApproved.html">My Reservations</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto right-nav">
+            <li class="nav-item">
+              <a class="nav-link navbar-background notif-link" data-bs-toggle="modal" data-bs-target="#modal-notif">
+                <i class="bi bi-bell navbar-background"></i>
+                <span class="badge-notification badge navbar-background" id="badge-notification">1</span>
+              </a>
+              
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle navbar-background" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                { username }
+              </a>
+              <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">View Profile</a>
+                <a class="dropdown-item" href="#">Edit Profile</a>
+                <a class="dropdown-item" href="#">Create Listing</a>
+                <a class="dropdown-item" href="#">View Listings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Help</a>
+                <a class="dropdown-item" href="#">Log Out</a>
+              </div> -->
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="./Profile_pageBoth/ProfilePageDashboard.html">View Profile</a>
+                <a class="dropdown-item" href="./Profile_pageBoth/EditProfilePageDashboard.html">Edit Profile</a>
+                <a class="dropdown-item" href="./forms-Leo/listing.html">Create Listing</a>
+                <a class="dropdown-item" href="./Your_ListingsHost/AllListings.html">My Listings</a>
+                <a class="dropdown-item" href="./Your_OrdersUser/UserApproved.html">View Reservations</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Help</a>
+                <a class="dropdown-item" href="./indexwithLogInButton.html">Log Out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    
+    <main>
+
+      <div class="input-group">
+        <input type="text" label="Location" class="form-control" placeholder="Location" required>
+        <input type="date" id="start" name="start" required onchange="checkDate()" onclick="checkDate()">
+        <input type="date" id="end" name="end" required onchange="checkDate()" onclick="checkDate()">
+        <input type="number" min="0" class="form-control" placeholder="# of Guests" required>
+        <a href="./Properties-Beth/search_results.html" class="btn btn-outline-secondary" role="button">Search</a>
+      </div>
+
+      <button type="button" class="btn btn-outline-secondary filter-button" data-bs-toggle="modal" data-bs-target="#filter-modal">
+        Filters
+      </button>
+
+      <div class="modal fade" id="filter-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Filters</h5>
+            </div>
+
+            <div class="modal-body">
+              
+              <h6 class="modal-category">Price Range</h6>
+              <input type="range" min="0" max="1000">
+              <form>
+                <div class="row justify-content-around">
+                  <div class="col-sm-4 price-input">
+                    <input type="text" class="form-control" placeholder="Min $$$ ">
+                  </div> 
+                  <div class="col-sm-4 price-input">
+                    <input type="text" class="form-control" placeholder="Max $$$">
+                  </div>
+                </div>
+              </form>
+              <hr>
+
+              <h6 class="modal-category">Rooms</h6>
+              <div class="rooms-sub">
+                <form>
+                  <div class="form-group row">
+                    <label for="numBedrooms" class="col-sm-2 col-form-label">Bedrooms</label>
+                    <div class="col-sm-10 form-group-button d-flex justify-content-end">
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-bedrooms-0" onclick="getInputBtn(0, 'input-bedrooms-');">Any</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-bedrooms-1" onclick="getInputBtn(1, 'input-bedrooms-');">1</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-bedrooms-2" onclick="getInputBtn(2, 'input-bedrooms-');">2</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-bedrooms-3" onclick="getInputBtn(3, 'input-bedrooms-');">3</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-bedrooms-4" onclick="getInputBtn(4, 'input-bedrooms-');">4</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-bedrooms-5" onclick="getInputBtn(5, 'input-bedrooms-');">5</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-bedrooms-6" onclick="getInputBtn(6, 'input-bedrooms-');">6+</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="numBeds" class="col-sm-2 col-form-label">Beds</label>
+                    <div class="col-sm-10 form-group-button d-flex justify-content-end">
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-beds-0" onclick="getInputBtn(0, 'input-beds-');">Any</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-beds-1" onclick="getInputBtn(1, 'input-beds-');">1</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-beds-2" onclick="getInputBtn(2, 'input-beds-');">2</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-beds-3" onclick="getInputBtn(3, 'input-beds-');">3</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-beds-4" onclick="getInputBtn(4, 'input-beds-');">4</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-beds-5" onclick="getInputBtn(5, 'input-beds-');">5</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-beds-6" onclick="getInputBtn(6, 'input-beds-');">6+</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="numBaths" class="col-sm-2 col-form-label">Baths</label>
+                    <div class="col-sm-10 form-group-button d-flex justify-content-end">
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-baths-0" onclick="getInputBtn(0, 'input-baths-');">Any</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-baths-1" onclick="getInputBtn(1, 'input-baths-');">1</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-baths-2" onclick="getInputBtn(2, 'input-baths-');">2</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-baths-3" onclick="getInputBtn(3, 'input-baths-');">3</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-baths-4" onclick="getInputBtn(4, 'input-baths-');">4</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-baths-5" onclick="getInputBtn(5, 'input-baths-');">5</button>
+                      <button type="button" class="btn btn-outline-secondary rounded-pill mx-1" id="input-baths-6" onclick="getInputBtn(6, 'input-baths-');">6+</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <hr>
+              
+
+              <h6 class="modal-category">Ratings</h6>
+              <div class="modal-category">
+                <a>
+                  <i class="bi bi-star" onclick="getStar(1);" id="star1"></i>
+                </a>
+                <a>
+                  <i class="bi bi-star" onclick="getStar(2);" id="star2"></i>
+                </a>
+                <a>
+                  <i class="bi bi-star" onclick="getStar(3);" id="star3"></i>
+                </a>
+                <a>
+                  <i class="bi bi-star" onclick="getStar(4);" id="star4"></i>
+                </a>
+                <a>
+                  <i class="bi bi-star" onclick="getStar(5);" id="star5"></i>
+                </a>
+              </div>
+              
+              <hr>
+
+              <h6 class="modal-category">Amentities</h6>
+
+              <form>
+                <div class="amenities-title">
+                  <strong>Essentials</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="essential1">
+                    <label for="essential1">Wifi</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="essential2">
+                    <label for="essential2">TV</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="essential3">
+                    <label for="essential3">Kitchen</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="essential4">
+                    <label for="essential4">Workspace</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="essential5">
+                    <label for="essential5">Air Conditioning</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="essential6">
+                    <label for="essential6">Heating</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="essential6">
+                    <label for="essential6">Washer</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="essential7">
+                    <label for="essential7">Dryer</label>
+                  </div>
+                </div>
+
+                <div class="amenities-title">
+                  <strong>Features</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="feature1">
+                    <label for="feature1">Pool</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="feature2">
+                    <label for="feature2">Hot Tub</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="feature3">
+                    <label for="feature3">Patio</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="feature4">
+                    <label for="feature4">Grill</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="feature5">
+                    <label for="feature5">Gym</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="feature6">
+                    <label for="feature6">Piano</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="feature6">
+                    <label for="feature6">Fire Pit</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="feature7">
+                    <label for="feature7">Outdoor Shower</label>
+                  </div>
+                </div>
+
+                <div class="amenities-title">
+                  <strong>Location</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="location1">
+                    <label for="location1">Lake Access</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="location2">
+                    <label for="location2">Beach Access</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="location3">
+                    <label for="location3">Ski-in/Ski-out</label>
+                  </div>
+                </div>
+
+                <div class="amenities-title">
+                  <strong>Safety Features</strong>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="safety1">
+                    <label for="safety1">Smoke Detector</label>
+                  </div>
+                  <div class="col-md-4 offset-md-2">
+                    <input type="checkbox" id="safety2">
+                    <label for="safety2">First Aid Kit</label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <input type="checkbox" id="safety3">
+                    <label for="safety3">Fire Extinguisher</label>
+                  </div>
+                  
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="modal-notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Host Notifications</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>New comment posted for { property }</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>New rating posted for { property }</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-approve"></i><span>Request for approval a reservation on property <a href="./Your_ListingsHost/HostRequests.html">{ id }</a></span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-cancel"></i><span>Request for approval a cancellation on property <a href="./Your_ListingsHost/HostCancellations.html">{ id }</a></span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a class="me-auto btn btn-link" href="./NotificationsBoth/notifications.html" type="btn">View all notifications</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="modal fade" id="modal-notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">User Notifications</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-approve"></i><span>Reservation <a href="#">{ id }</a> approved</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-cancel"></i><span>Reservation <a href="#">{ id }</a> cancelled</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>Reminder: Upcoming reservation</span>
+              </div>
+              <div class="notif-text">
+                <i class="bi bi-record-fill" id="notif-general"></i><span>{ user } replied to your comment <a href="property_info.html">here</a></span>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <a class="me-auto btn btn-link" href="#" type="btn">View all notifications</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+
+
+    </main>
+  </body>
+</html>
