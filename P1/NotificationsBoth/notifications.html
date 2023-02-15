@@ -196,7 +196,8 @@
                                      <div class="tip-box-info">
                                          <!--<p><strong>Tip:</strong> If you want to enable the fading transition effect while closing the info boxes, apply the classes <code>.fade</code> and <code>.in</code> to them along with the contextual class.</p>-->
                                          <p>Your Host replied to your comment! (As a User)
-                                         <a class="btn btn-sm" href="../Properties-Beth/property_info.html">Reply</a></p>
+                                         <!-- <a class="btn btn-sm" href="../Properties-Beth/property_info.html">Reply</a> -->
+                                         <button class="btn btn-sm" data-toggle="modal" data-target="#exampleModalCenter2">Reply</button></p>
                                      </div>
                                  </div>
                              </div>
@@ -212,7 +213,7 @@
                                      <div class="tip-box-info">
                                          <!--<p><strong>Tip:</strong> If you want to enable the fading transition effect while closing the info boxes, apply the classes <code>.fade</code> and <code>.in</code> to them along with the contextual class.</p>-->
                                          <p>Your request was denied! (As a User)
-                                         <a class="btn btn-sm" href="../Your_OrdersUser/UserCancellations.html">Reply</a></p>
+                                         <a class="btn btn-sm" href="../Your_OrdersUser/UserCancellations.html">Check It Out</a></p>
                                      </div>
                                  </div>
                              </div>
@@ -228,7 +229,7 @@
                                      <div class="tip-box-info">
                                          <!--<p><strong>Tip:</strong> If you want to enable the fading transition effect while closing the info boxes, apply the classes <code>.fade</code> and <code>.in</code> to them along with the contextual class.</p>-->
                                          <p>Your reservation is coming up! (As a User)
-                                         <a class="btn btn-sm" href="../Properties-Beth/property_info.html">Reply</a></p>
+                                         <a class="btn btn-sm" href="../Properties-Beth/property_info.html">Check It Out</a></p>
                                      </div>
                                  </div>
                              </div>
@@ -244,7 +245,8 @@
                                      <div class="tip-box-info">
                                          <!--<p><strong>Tip:</strong> If you want to enable the fading transition effect while closing the info boxes, apply the classes <code>.fade</code> and <code>.in</code> to them along with the contextual class.</p>-->
                                          <p>Johny just reviewed your listing! (As a Host)
-                                         <a class="btn btn-sm" href="../Properties-Beth/property_info_host.html">Reply</a></p>
+                                         <a class="btn btn-sm" href="../Properties-Beth/property_info_host.html">Check It Out</a>
+                                         <button class="btn btn-sm" data-toggle="modal" data-target="#exampleModalCenter2">Reply</button></p>
                                      </div>
                                  </div>
                              </div>
@@ -259,8 +261,8 @@
                                      <div class="info-tab tip-icon-info" title="error"><i></i></div>
                                      <div class="tip-box-info">
                                          <!--<p><strong>Tip:</strong> If you want to enable the fading transition effect while closing the info boxes, apply the classes <code>.fade</code> and <code>.in</code> to them along with the contextual class.</p>-->
-                                         <p>Someone has rated your property! (As a Host)
-                                         <a class="btn btn-sm" href="../Properties-Beth/property_info_host.html">Reply</a></p>
+                                         <p>{ User } has rated your property! (As a Host)
+                                         <a class="btn btn-sm" href="../Properties-Beth/property_info_host.html">Check It Out</a></p>
                                      </div>
                                  </div>
                              </div>
@@ -275,8 +277,8 @@
                                      <div class="info-tab tip-icon-info" title="error"><i></i></div>
                                      <div class="tip-box-info">
                                          <!--<p><strong>Tip:</strong> If you want to enable the fading transition effect while closing the info boxes, apply the classes <code>.fade</code> and <code>.in</code> to them along with the contextual class.</p>-->
-                                         <p>Approve this pending Request! (As a Host)
-                                         <a class="btn btn-sm" href="../Your_ListingsHost/HostRequests.html">Reply</a></p>
+                                         <p>Approve/Deny this pending Request! (As a Host)
+                                         <a class="btn btn-sm" href="../Your_ListingsHost/HostRequests.html">Check It Out</a></p>
                                      </div>
                                  </div>
                              </div>
@@ -292,13 +294,41 @@
                                      <div class="tip-box-info">
                                          <!--<p><strong>Tip:</strong> If you want to enable the fading transition effect while closing the info boxes, apply the classes <code>.fade</code> and <code>.in</code> to them along with the contextual class.</p>-->
                                          <p>Check out this pending Request to cancel a Reservation! (As a Host)
-                                         <a class="btn btn-sm" href="../Your_ListingsHost/HostCancellations.html">Reply</a></p>
+                                         <a class="btn btn-sm" href="../Your_ListingsHost/HostCancellations.html">Check It Out</a></p>
                                      </div>
                                  </div>
                              </div>
                             </div>
                         </div>
              </div>
+
+             <!-- Modal Code for notifications reply  -->
+             <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+  
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">You may write your follow-up here!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+  
+                  <div class="modal-body">
+  
+                    <textarea name="" id="" cols="55" rows="10" placeholder="Please write your reply here"></textarea>
+                  </div>
+  
+  
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btnFormatting" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btnFormatting">Submit</button>
+                  </div>
+  
+  
+                </div>
+              </div>
+          </div>
              <div class="modal fade" id="modal-notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -327,6 +357,7 @@
                   </div>
                 </div>
               </div>
+              
 
 
              
