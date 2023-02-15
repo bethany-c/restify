@@ -6,7 +6,7 @@
     <title>P1 Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" type="text/css" href="./Properties/style.css">
+    <link rel="stylesheet" type="text/css" href="./Properties-Beth/style.css">
     <script>
       function getToday() {
         var today = new Date();
@@ -112,10 +112,10 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link navbar-background" href="#">My Listings</a>
+              <a class="nav-link navbar-background" href="../P1/Your_ListingsHost/AllListings.html">My Listings</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link navbar-background" href="#">My Reservations</a>
+              <a class="nav-link navbar-background" href="./Your_OrdersUser/UserApproved.html">My Reservations</a>
             </li>
           </ul>
           <ul class="navbar-nav ms-auto right-nav">
@@ -140,14 +140,14 @@
                 <a class="dropdown-item" href="#">Log Out</a>
               </div> -->
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">View Profile</a>
-                <a class="dropdown-item" href="#">Edit Profile</a>
-                <a class="dropdown-item" href="listing.html">Create Listing</a>
-                <a class="dropdown-item" href="#">My Listings</a>
-                <a class="dropdown-item" href="#">View Reservations</a>
+                <a class="dropdown-item" href="./Profile_pageBoth/ProfilePageDashboard.html">View Profile</a>
+                <a class="dropdown-item" href="./Profile_pageBoth/EditProfilePageDashboard.html">Edit Profile</a>
+                <a class="dropdown-item" href="./forms-Leo/listing.html">Create Listing</a>
+                <a class="dropdown-item" href="./Your_ListingsHost/AllListings.html">My Listings</a>
+                <a class="dropdown-item" href="./Your_OrdersUser/UserApproved.html">View Reservations</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Help</a>
-                <a class="dropdown-item" href="#">Log Out</a>
+                <a class="dropdown-item" href="./indexwithLogInButton.html">Log Out</a>
               </div>
             </li>
           </ul>
@@ -162,7 +162,7 @@
         <input type="date" id="start" name="start" required onchange="checkDate()" onclick="checkDate()">
         <input type="date" id="end" name="end" required onchange="checkDate()" onclick="checkDate()">
         <input type="number" min="0" class="form-control" placeholder="# of Guests" required>
-        <a href="./Properties/search_results.html" class="btn btn-outline-secondary" role="button">Search</a>
+        <a href="./Properties-Beth/search_results.html" class="btn btn-outline-secondary" role="button">Search</a>
       </div>
 
       <button type="button" class="btn btn-outline-secondary filter-button" data-bs-toggle="modal" data-bs-target="#filter-modal">
@@ -415,14 +415,14 @@
                 <i class="bi bi-record-fill" id="notif-general"></i><span>New rating posted for { property }</span>
               </div>
               <div class="notif-text">
-                <i class="bi bi-record-fill" id="notif-approve"></i><span>Request for approval a reservation on property <a href="#">{ id }</a></span>
+                <i class="bi bi-record-fill" id="notif-approve"></i><span>Request for approval a reservation on property <a href="./Your_ListingsHost/HostRequests.html">{ id }</a></span>
               </div>
               <div class="notif-text">
-                <i class="bi bi-record-fill" id="notif-cancel"></i><span>Request for approval a cancellation on property <a href="#">{ id }</a></span>
+                <i class="bi bi-record-fill" id="notif-cancel"></i><span>Request for approval a cancellation on property <a href="./Your_ListingsHost/HostCancellations.html">{ id }</a></span>
               </div>
             </div>
             <div class="modal-footer">
-              <a class="me-auto btn btn-link" href="#" type="btn">View all notifications</a>
+              <a class="me-auto btn btn-link" href="./NotificationsBoth/notifications.html" type="btn">View all notifications</a>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
