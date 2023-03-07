@@ -1,3 +1,3 @@
 from rest_framework.serializers import ModelSerializer, CharField
-from .models import RestifyUser
+from .models.user import RestifyUser
 
