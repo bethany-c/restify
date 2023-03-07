@@ -35,6 +35,7 @@ class Expired(models.Model):
 
 class Approved(models.Model):
     content = models.TextField(null=True, blank=True)
+    
 class Canceled(models.Model):
     content = models.TextField(null=True, blank=True)
 
