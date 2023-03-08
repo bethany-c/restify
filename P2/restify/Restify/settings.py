@@ -30,17 +30,24 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# since we have a new auth User that we are using in the webpages app or any other app,we have to define it before the 'django.contrib.auth' app 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'webpages',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webpages',
     'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'Restify.urls'
 
@@ -124,5 +132,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# this is to tell Django this is now the default User model that we want to use 
 AUTH_USER_MODEL = 'webpages.RestifyUser'
