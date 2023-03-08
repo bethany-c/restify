@@ -13,8 +13,8 @@ from .user import RestifyUser
 
 # For Property
 class Property(models.Model):
-    property_owner = models.ForeignKey(RestifyUser)
-    address = models.TextField()
+    property_owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
+    address = models.TextField() # just the city 
     number_of_guest = models.PositiveIntegerField()
     number_of_bed = models.PositiveIntegerField()
     number_of_rooms = models.PositiveIntegerField()
@@ -22,23 +22,41 @@ class Property(models.Model):
     description = models.TextField()
 
     CHOICES_ESSENTIALS = (
-        ()
+        ('wifi', 'Wifi'),
+        ('tv', 'TV'),
+        ('kitchen', 'Kitchen'),
+        ('workspace', 'Workspace'),
+        ('air_conditioning', 'Air Conditioning'),
+        ('heating', 'Heating'),
+        ('washer', 'Washer'),
+        ('dryer', 'Dryer'),
 
     )
     essentials = models.BooleanField(choices=CHOICES_ESSENTIALS, widget=models.CheckboxSelectMultiple())
     CHOICES_FEATURES = (
-        ()
+        ('pool', 'Pool'),
+        ('hot_tub', 'Hot Tub'),
+        ('patio', 'Patio'),
+        ('grill', 'Grill'),
+        ('gym', 'Gym'),
+        ('piano', 'Piano'),
+        ('fire_pit', 'Fire Pit'),
+        ('outdoor_shower', 'Outdoor Shower'),
+
 
     )
     features = models.BooleanField(choices=CHOICES_FEATURES, widget=models.CheckboxSelectMultiple())
-
     CHOICES_LOCATION = (
-        ()
+        ('lake_access','Lake Access'),
+        ('beach_access', 'Beach Access'),
+        ('skiin_skiout', 'Ski-in/Ski-out'),
 
     )
     location = models.BooleanField(choices=CHOICES_LOCATION, widget=models.CheckboxSelectMultiple())
     CHOICES_SAFETY = (
-        ()
+        ('smoke_detector', 'Smoke Detector'),
+        ('first_aid_kit', 'First Aid Kit'),
+        ('fire_extinguisher', 'Fire Extinguisher'),
 
     )
 

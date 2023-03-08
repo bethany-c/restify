@@ -11,3 +11,6 @@ class RestifyUser(AbstractUser):
     phone_number = models.CharField(max_length=20) # see how to take extensions into account 
     first_name = models.CharField()
     last_name = models.CharField()
+    email = models.EmailField()
+    username = None
+    # password fields already being inherited from AbstractUser

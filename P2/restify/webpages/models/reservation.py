@@ -15,6 +15,7 @@ from .comment import Comment
 # using content type also
 
 class Reservation(models.Model):
+    
     start_date = models.DateTimeField(auto_now=True)
     end_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
