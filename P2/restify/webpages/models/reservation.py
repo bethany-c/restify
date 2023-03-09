@@ -19,39 +19,43 @@ class Reservation(models.Model):
     
     start_date = models.DateTimeField(auto_now=True)
     end_date = models.DateTimeField(auto_now=True)
-    # user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_for_reservation')
+    user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_for_reservation') # user that booked this 
     # property_owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='property_owner_of_reservation')
     posted_on = models.DateTimeField(auto_now=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='reservation_content')
     object_id = models.PositiveIntegerField()  # need to set SingleComment id to this object_id
     content_object = ('content_type', 'object_id')
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reservation_property')
+    num_of_guests = models.PositiveBigIntegerField(default=1)
+    reason_for_cancelling = models.CharField(max_length=400)
 
 
-
-    PENDING = 'PE'
-    TERMINATED = 'TE'
-    APPROVED = 'AP'
-    DENIED = 'DE'
-    EXPIRED = 'EX'
-    CANCELLED = 'CA'
-    COMPLETED = 'CO'
+    APPROVED = 'AP' # after host approves, make this as status - host: approved, user: approved 
+    APPROVAL_REQUEST = 'AR' # for user - after user makes reservation request make this as status - host: request, user: requested 
+    TERMINATED = 'TE' # after host terminates, make this as status - host: terminated, user: terminated - when the host terminates a reservation 
+    DENIED = 'DE' # after host denies, make this as status - host: denied, user: denied - move from user: requests to nowhere, remove from host: requests
+    CANCELLED = 'CA' # after host approves cancellation, make this as status - host: cancelled, user: cancellations - move from host: approved to host: cancellations
+    # if the previous status was user: requests, make this status right away 
+    CANCELLATION_REQUEST = 'CR' # for host - after user makes a cancellation request, use this as status - host: cancellations, user: 
+    COMPLETED = 'CO' # after the time for the reservation expires, make this the status - when the view that changes the status here is triggered, also move the listing from approved to completed (should be in approved for both) host: completed, user: completed 
 
     STATUS_CHOICES = [
-        (PENDING, 'Pending'),
+        (APPROVAL_REQUEST, 'Approval Request'),
         (TERMINATED, 'Terminated'),
         (APPROVED, 'Approved'),
         (DENIED, 'Denied'),
-        (EXPIRED, 'Expired'),
         (CANCELLED, 'Cancelled'),
+        (CANCELLATION_REQUEST, 'Cancellation Request'),
         (COMPLETED, 'Completed'),
 
     ]
     status = models.CharField(
-        default=PENDING, 
+        default=APPROVAL_REQUEST, 
         choices=STATUS_CHOICES,
         max_length=2,
     )
+    def __str__(self) -> str:
+        return self.property.address + ' reservation ' + str(self.object_id)
     # comment = models.OneToOneField(Comment, on_delete=models.CASCADE)
 
 # class Pending(models.Model):

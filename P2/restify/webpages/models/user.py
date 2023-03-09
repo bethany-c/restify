@@ -14,3 +14,5 @@ class RestifyUser(AbstractUser):
     email = models.EmailField()
     # username = None
     # password fields already being inherited from AbstractUser
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)

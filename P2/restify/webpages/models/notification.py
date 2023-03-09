@@ -1,4 +1,5 @@
 from django.db import models
+from .user import RestifyUser
 
 # Create your models here.
 
@@ -13,8 +14,8 @@ from .comment import Comment
 # For notification
 
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_notification')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='user_content')
     object_id = models.PositiveIntegerField()  # need to set SingleComment id to this object_id
     content_object = ('content_type', 'object_id')
 
