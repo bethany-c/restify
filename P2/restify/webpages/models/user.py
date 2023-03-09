@@ -9,8 +9,8 @@ class RestifyUser(AbstractUser):
     host_or_not = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='images/', height_field=None, width_field=None, max_length=100, null=True, blank=True) # null=True means this attribute can be null in db # blank=True means it can be blank in the form
     phone_number = models.CharField(max_length=20) # see how to take extensions into account 
-    first_name = models.CharField()
-    last_name = models.CharField()
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
     email = models.EmailField()
-    username = None
+    # username = None
     # password fields already being inherited from AbstractUser
