@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
 from webpages.models.comment import Comment, PropertyComment
 from django.contrib.contenttypes.models import ContentType
+from rest_framework import status
 
 
     
@@ -23,14 +24,33 @@ from django.shortcuts import get_object_or_404
 
 
 from webpages.serializers.serializer_user import UserSerializer
-from webpages.serializers.serializers_reservation import ReservationSerializer
+from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
 from webpages.serializers.serializers_property import PropertySerializer
 
 # add a reservation - note: there has to be a property to tie it to 
 class CreateReservationAPIView(CreateAPIView):
     # takes only post request
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationSerializerAdd
     permission_classes = [IsAuthenticated]
+
+
+    def perform_create(self, serializer):
+        # get property_id from url
+        property_id = self.kwargs['property_id']
+        # get property instance with property_id
+        property = get_object_or_404(Property, id=property_id)
+        # set the property field of serializer to the retrieved property instance
+        serializer.validated_data['property'] = property
+
+        # set the user field of serializer to the current user
+        serializer.validated_data['user'] = self.request.user
+        # serializer.validated_data['object_id'] = serializer.validated_data['pk']
+
+        # call the super perform_create method to save the reservation instance
+        super().perform_create(serializer)
+
+    
+
 
 
 # list all of the current users existing approved reservations - approved tab done

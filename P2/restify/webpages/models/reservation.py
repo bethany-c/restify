@@ -17,14 +17,14 @@ from .property import Property
 
 class Reservation(models.Model):
     
-    start_date = models.DateTimeField(auto_now=True)
-    end_date = models.DateTimeField(auto_now=True)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_for_reservation') # user that booked this 
     # property_owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='property_owner_of_reservation')
     posted_on = models.DateTimeField(auto_now=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='reservation_content')
-    object_id = models.PositiveIntegerField()  # need to set SingleComment id to this object_id
-    content_object = ('content_type', 'object_id')
+    object_id = models.PositiveIntegerField(default=1)  # need to set SingleComment id to this object_id
+    # content_object = ('content_type', 'object_id')
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reservation_property')
     num_of_guests = models.PositiveBigIntegerField(default=1)
     reason_for_cancelling = models.CharField(max_length=400)

@@ -1,4 +1,5 @@
 from django.db import models
+from .user import RestifyUser
 
 # Create your models here.
 
@@ -20,26 +21,26 @@ from .property import Property
 class Comment(models.Model):
     
     posted_on = models.DateTimeField(auto_now=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='comment_content')
     object_id = models.PositiveIntegerField()  # need to set SingleComment id to this object_id
     content_object = ('content_type', 'object_id')
 
 
 class PropertyComment(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_propertycomment')
     content = models.TextField(null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     content = models.TextField(null=True, blank=True)
 
 
 class SingleComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_single_comment')
     content = models.TextField()
 
 
 class TargetComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    target_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_target_comment')
+    target_user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='target_user')
     content = models.TextField()
 
 

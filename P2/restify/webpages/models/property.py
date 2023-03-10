@@ -1,5 +1,7 @@
 from django.db import models
 from multiselectfield import MultiSelectField
+from multiselectfield.validators import MaxValueMultiFieldValidator
+
 
 # Create your models here.
 
@@ -13,6 +15,7 @@ from django.contrib.contenttypes.models import ContentType
 from .user import RestifyUser
 
 # For Property
+
 class Property(models.Model):
     property_owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='property_owner')
     address = models.TextField() # just the city 
@@ -25,46 +28,61 @@ class Property(models.Model):
     
     # AMENTIIES 
 
-    # CHOICES_ESSENTIALS = (
-    #     ('wifi', 'Wifi'),
-    #     ('tv', 'TV'),
-    #     ('kitchen', 'Kitchen'),
-    #     ('workspace', 'Workspace'),
-    #     ('air_conditioning', 'Air Conditioning'),
-    #     ('heating', 'Heating'),
-    #     ('washer', 'Washer'),
-    #     ('dryer', 'Dryer'),
+    # MaxValueMultiFieldValidator tells django how many choices there can be therefore checks till that number atleast - the number of choices is by default limited to 1
+    # How to know which ones have been selected? my_model_instance.essentials gives us 'wifi,tv,kitchen' if Wifi, TV, Kitchen are selected 
 
-    # )
-    # essentials = models.BooleanField(choices=CHOICES_ESSENTIALS, widget=models.CheckboxSelectMultiple())
-    # CHOICES_FEATURES = (
-    #     ('pool', 'Pool'),
-    #     ('hot_tub', 'Hot Tub'),
-    #     ('patio', 'Patio'),
-    #     ('grill', 'Grill'),
-    #     ('gym', 'Gym'),
-    #     ('piano', 'Piano'),
-    #     ('fire_pit', 'Fire Pit'),
-    #     ('outdoor_shower', 'Outdoor Shower'),
+    # # get the model 
+    # my_model_instance = MyModel.objects.get(pk=pk)
+
+    # # Split the comma-separated string into a list
+    # selected_options = my_model_instance.essentials.split(',')
+
+    # # Do something with the selected options list
+    # for option in selected_options:
+    CHOICES_ESSENTIALS = (
+        ('wifi', 'Wifi'),
+        ('tv', 'TV'),
+        ('kitchen', 'Kitchen'),
+        ('workspace', 'Workspace'),
+        ('air_conditioning', 'Air Conditioning'),
+        ('heating', 'Heating'),
+        ('washer', 'Washer'),
+        ('dryer', 'Dryer'),
+
+    )
+    essentials = MultiSelectField(choices=CHOICES_ESSENTIALS, validators=[MaxValueMultiFieldValidator(8)])
+    CHOICES_FEATURES = (
+        ('pool', 'Pool'),
+        ('hot_tub', 'Hot Tub'),
+        ('patio', 'Patio'),
+        ('grill', 'Grill'),
+        ('gym', 'Gym'),
+        ('piano', 'Piano'),
+        ('fire_pit', 'Fire Pit'),
+        ('outdoor_shower', 'Outdoor Shower'),
 
 
-    # )
-    # features = models.BooleanField(choices=CHOICES_FEATURES, widget=models.CheckboxSelectMultiple())
-    # CHOICES_LOCATION = (
-    #     ('lake_access','Lake Access'),
-    #     ('beach_access', 'Beach Access'),
-    #     ('skiin_skiout', 'Ski-in/Ski-out'),
+    )
+    features = MultiSelectField(choices=CHOICES_FEATURES, validators=[MaxValueMultiFieldValidator(8)])
+    CHOICES_LOCATION = (
+        ('lake_access','Lake Access'),
+        ('beach_access', 'Beach Access'),
+        ('skiin_skiout', 'Ski-in/Ski-out'),
 
-    # )
-    # location = models.BooleanField(choices=CHOICES_LOCATION, widget=models.CheckboxSelectMultiple())
-    # CHOICES_SAFETY = (
-    #     ('smoke_detector', 'Smoke Detector'),
-    #     ('first_aid_kit', 'First Aid Kit'),
-    #     ('fire_extinguisher', 'Fire Extinguisher'),
+    )
+    location = MultiSelectField(choices=CHOICES_LOCATION, validators=[MaxValueMultiFieldValidator(8)])
+    CHOICES_SAFETY = (
+        ('smoke_detector', 'Smoke Detector'),
+        ('first_aid_kit', 'First Aid Kit'),
+        ('fire_extinguisher', 'Fire Extinguisher'),
 
-    # )
+    )
 
-    # safety_features = models.BooleanField(choices=CHOICES_SAFETY, widget=models.CheckboxSelectMultiple())
+    safety_features = MultiSelectField(choices=CHOICES_SAFETY, validators=[MaxValueMultiFieldValidator(8)])
+    def __str__(self) -> str:
+        return self.address
+    class Meta:
+        verbose_name_plural = 'properties'
 
 
 

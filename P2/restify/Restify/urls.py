@@ -26,5 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('search/', include('webpages.urls', namespace='webpages')),
+    path('webpages/', include('webpages.urls', namespace='webpages')),
 ]

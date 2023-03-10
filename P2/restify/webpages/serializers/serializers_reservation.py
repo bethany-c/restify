@@ -1,14 +1,31 @@
-from rest_framework.serializers import ModelSerializer, CharField
+from rest_framework.serializers import ModelSerializer, CharField, PrimaryKeyRelatedField
 from ..models.user import RestifyUser
 from webpages.models.reservation import Reservation 
+from django.db import models
+from django.contrib.contenttypes.models import ContentType
 
 
-class ReservationSerializer(ModelSerializer):
-    
+
+
+class ReservationSerializerAdd(ModelSerializer):
+    content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
+
     class Meta:
         model = Reservation
         # datetime --> "date_joined": "2024-02-10T07:23:53.568Z"
-        fields = ['start_date', 'end_date', 'num_of_guests']
+        fields = ['start_date', 'end_date', 'num_of_guests', 'content_type']
+
+    def create(self, validated_data):
+        # print(self.context['request'].user)
+        return super().create(validated_data)
+    
+class ReservationSerializer(ModelSerializer):
+    content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
+
+    class Meta:
+        model = Reservation
+        # datetime --> "date_joined": "2024-02-10T07:23:53.568Z"
+        fields = ['content_type']
 
     def create(self, validated_data):
         # print(self.context['request'].user)

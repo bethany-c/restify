@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 
-from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView, CreateAPIView, DeleteAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView, CreateAPIView, DestroyAPIView
 # from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
@@ -52,14 +52,14 @@ class CreatePropertiesAPIView(CreateAPIView):
 # class PricePropertiesAPIView(CreateAPIView):
 #     serializer_class = PropertyAskingPriceSerializer
     
-class DeletePropertiesAPIView(DeleteAPIView):
+class DeletePropertiesAPIView(DestroyAPIView):
     serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
         return get_object_or_404(Property, id=self.kwargs['pk'])
 
     
-class EidtPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
+class EditPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
