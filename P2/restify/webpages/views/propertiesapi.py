@@ -43,6 +43,14 @@ class CreatePropertiesAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PropertySerializer
     
+    def perform_create(self, serializer):
+
+        # set the property_owner field of serializer to the current user
+        serializer.validated_data['property_owner'] = self.request.user
+
+        # call the super perform_create method to save the reservation instance
+        super().perform_create(serializer)
+    
 # class ImagePropertiesAPIView(CreateAPIView):
 #     serializer_class = PropertyImageSerializer
 

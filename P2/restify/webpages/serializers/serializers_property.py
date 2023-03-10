@@ -15,6 +15,8 @@ class PropertySerializer(ModelSerializer):
         # print(self.context['request'].user)
         return super().create(validated_data)
     
+
+    
 class PropertyImageSerializer(ModelSerializer):
     
     class Meta:

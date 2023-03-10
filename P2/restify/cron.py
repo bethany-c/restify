@@ -6,6 +6,9 @@ completed_reservations = Reservation.objects.filter(status='AP', end_time__lte=n
 
 for reservation in completed_reservations:
     reservation.status = 'CO'
+    
     reservation.save()
+
+
 
 

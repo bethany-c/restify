@@ -5,9 +5,12 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView
 # from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
-from webpages.models.comment import Comment, PropertyComment
+from webpages.models.comment import PropertyComment
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import status
+from django.db.models import Q
+from functools import reduce
+from django.db.models import Count
 
 
     
@@ -24,7 +27,7 @@ from django.shortcuts import get_object_or_404
 
 
 from webpages.serializers.serializer_user import UserSerializer
-from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
+from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd, ReservationSerializerNew
 from webpages.serializers.serializers_property import PropertySerializer
 
 # add a reservation - note: there has to be a property to tie it to 
@@ -46,6 +49,8 @@ class CreateReservationAPIView(CreateAPIView):
         serializer.validated_data['user'] = self.request.user
         # serializer.validated_data['object_id'] = serializer.validated_data['pk']
 
+        # serializer.validated_data['num_reservations'] += 1
+
         # call the super perform_create method to save the reservation instance
         super().perform_create(serializer)
 
@@ -58,24 +63,41 @@ class ListAllReservationsAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
     # we are returning a collection of Property objects therefore we need a property serializer
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializerNew
 
     def get_queryset(self):
 
         # takes out all the reservations that are approved 
         reservations = Reservation.objects.filter(user=self.request.user, status='AP')
-        prop_ids = []
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
+
+        return reservations
+
+        # prop_ids = []
+        # for reservation in reservations:
+        #     prop_ids.append(reservation.property.pk)
         
-        # returns all the properties that have an approved reservation on them 
-        return Property.objects.filter(id__in=prop_ids)
+        # print(prop_ids, 'these are all the PROPERTY ids bruh yo what ')
+
+        # # create a list of Q objects to filter the properties by their IDs
+        # # q_list = [Q(id=id) for id in prop_ids]
+        
+        # # use the reduce function to combine the Q objects with OR logic
+        # # q = reduce(lambda a, b: a | b, q_list)
+
+        # # print(Property.objects.filter(q), 'bro hold up ')
+
+        # # returns all the properties that have an approved reservation on them 
+        # return Property.objects.filter(id__in=prop_ids)
+        # # prop_hey = Property.objects.filter(id=1)
+        # # print(prop_hey.annotate(num_reservations=Count('reservation_property')), 'yo what')
+        # # print(properties.annotate(num_reservations=Count('reservation_property')), 'yo what')
+        # # return properties.annotate(num_reservations=Count('reservation_property'))
 
 
 # user: requested, host: cancellations 
 class RequestToTerminateReservationAPIView(UpdateAPIView): # user:request to cancel ~ host: terminate tab done 
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationSerializerAdd
     permission_classes = [IsAuthenticated]
 
     def get_object(self):

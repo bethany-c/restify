@@ -24,7 +24,8 @@ class Property(models.Model):
     number_of_rooms = models.PositiveIntegerField()
     baths = models.PositiveIntegerField()
     description = models.TextField()
-    amenities = models.CharField(max_length=500)
+    # amenities = models.CharField(max_length=500)
+    # num_reservations = models.PositiveIntegerField(default=0)
     
     # AMENTIIES 
 

@@ -1,23 +1,15 @@
 
 
-# app_name="restweb"
-# urlpatterns = [ 
-#     path('property/<int:pk>/detail/', views.DetailPropertiesAPIView.as_view(), name='property_detail'),
-#     path('properties/', views.ListAllPropertiesAPIView.as_view(), name='properties'),
-#     path('property/<int:pk>/edit/', views.EditPropertiesAPIView.as_view(), name='property_edit'),
-#     path('property/<int:pk>/delete/', views.DetletePropertiesAPIView.as_view(), name='property_delete'),
-    
-   
-# ]
 
 from django.contrib import admin
 from django.urls import path, include
 from .views import accountsapi
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .views.accountsapi import UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
+from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
 from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, ReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView
-from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, ListAllPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView
+from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView
+from .views.commentsapi import GetAllPropertyComments, CreatePropertyCommentAPIView
 
 # format of spacing 
 # getter
@@ -33,8 +25,9 @@ urlpatterns = [
     # MUSTAFAS CODE 
     path('admin/', admin.site.urls),
     path('properties/all/', ListAllPropertiesAPIView.as_view(), name='list_all_properties_host'), # works - for host 
+    path('property/add/', CreatePropertiesAPIView.as_view(), name="add_property"),
 
-    path('login/', TokenObtainPairView.as_view(), name='login'), # didnt test, do with prof
+    path('login/', LoginAPIView.as_view(), name='login'), # didnt test, do with prof
     path('signup/', SignupAPIView.as_view(), name='signup'), # didnt test, do with prof
     path('logout/', LogoutAPIView.as_view(), name='logout'), # didnt test, do with prof
     path('profile/view/', UserProfileAPIView.as_view(), name='view_profile'), # works 
@@ -80,5 +73,12 @@ urlpatterns = [
 
     path('listings/terminated/', HostListAllTerminatedReservationsAPIView.as_view(), name='all_listings_terminated_by_host'), # get all completed listings that this host owns 
     path('<int:reservation_id>/reason_for_terminating/', ReasonForTerminatingAPIView.as_view(), name='reason_for_cancelling'),
+
+
+
+    # BETHANY's PART
+    path('reservations/<int:reservation_id>/property-comments/', GetAllPropertyComments.as_view(), name='get_all_property_comments'),
+    path('reservations/<int:reservation_id>/property-comments/new/', CreatePropertyCommentAPIView.as_view(), name='create_property_comment'),
+
 
 ]

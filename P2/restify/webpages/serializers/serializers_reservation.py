@@ -30,6 +30,19 @@ class ReservationSerializer(ModelSerializer):
     def create(self, validated_data):
         # print(self.context['request'].user)
         return super().create(validated_data)
+
+
+from .serializers_property import PropertySerializer
+class ReservationSerializerNew(ModelSerializer): # onyl used for reading and not for any other reason
+    property = PropertySerializer(read_only=True) # cannot be changed 
+
+
+    class Meta:
+        model = Reservation
+        # exclude = ('user',)
+        fields = '__all__'
+
+
     
 
 

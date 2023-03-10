@@ -5,6 +5,9 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView
 # from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 
     
@@ -32,28 +35,24 @@ class SignupAPIView(CreateAPIView):
 from rest_framework.authtoken.models import Token
 
 # login 
-# class LoginAPIView(APIView):
-#     permission_classes = [AllowAny]
-#     # automatically takes care of checking for blacklisted tokens
-#     # authentication_classes = [JWTAuthentication]
+class LoginAPIView(APIView):
+    permission_classes = [AllowAny]
+    # automatically takes care of checking for blacklisted tokens
+    # authentication_classes = [JWTAuthentication]
 
-#     def post(self, request):
-#         username = request.data.get('username')
-#         password = request.data.get('password')
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-#         user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
 
-#         if user is not None:
-#             # Create JWT token
-#             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-#             jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
-#             payload = jwt_payload_handler(user)
-#             token = jwt_encode_handler(payload)
-
-#             return Response({'token': token})
-#         else:
-#             return Response({'error': 'Invalid credentials'})
+        if user is not None:
+            # Create JWT token
+            # token = TokenObtainPairSerializer().get_token(user)
+            token = RefreshToken.for_user(user)
+            return Response({"token": str(token.access_token)})
+        else:
+            return Response({'error': 'Invalid credentials'})
         
 # logout 
 class LogoutAPIView(APIView):

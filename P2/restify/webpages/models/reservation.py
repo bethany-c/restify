@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-from .comment import Comment 
+# from .comment import PropertyComment
 from .property import Property
 
 
@@ -55,7 +55,7 @@ class Reservation(models.Model):
         max_length=2,
     )
     def __str__(self) -> str:
-        return self.property.address + ' reservation ' + str(self.object_id)
+        return self.property.address + ' reservation ' + str(self.id)
     # comment = models.OneToOneField(Comment, on_delete=models.CASCADE)
 
 # class Pending(models.Model):
