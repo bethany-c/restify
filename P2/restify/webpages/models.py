@@ -10,6 +10,7 @@ from django.contrib.contenttypes.models import ContentType
 
 # if we split our app to many apps, remember update in setting.py
 class RestifyUser(AbstractUser):
+    # if user is owner
     owner_status = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='images', height_field=None, width_field=None, max_length=100)
     phone_number = models.CharField(max_length=20)

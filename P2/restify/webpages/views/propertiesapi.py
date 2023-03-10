@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 
-from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView, CreateAPIView, DeleteAPIView
 # from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
@@ -15,14 +15,14 @@ from rest_framework_simplejwt.views import Response
 from rest_framework_simplejwt.authentication import api_settings, JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from ..models.reservation import Reservation
-from ..models.property import Property
+from ..models.property import *
 from django.shortcuts import get_object_or_404
 
 
 
 from webpages.serializers.serializer_user import UserSerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer
-from webpages.serializers.serializers_property import PropertySerializer
+from webpages.serializers.serializers_property import PropertySerializer, PropertyAskingPriceSerializer, PropertyAvailableDateSerializer, PropertyImageSerializer
 
 #HOST VIEW
 
@@ -35,8 +35,41 @@ class ListAllPropertiesAPIView(ListAPIView):
     def get_queryset(self):
 
         properties = Property.objects.filter(property_owner=self.request.user)
-        return properties 
+
+        return properties
     
 
+class CreatePropertiesAPIView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PropertySerializer
+    
+# class ImagePropertiesAPIView(CreateAPIView):
+#     serializer_class = PropertyImageSerializer
 
+# class AvailableDatePropertiesAPIView(CreateAPIView):
+#     serializer_class = PropertyAvailableDateSerializer
 
+# class PricePropertiesAPIView(CreateAPIView):
+#     serializer_class = PropertyAskingPriceSerializer
+    
+class DeletePropertiesAPIView(DeleteAPIView):
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        return get_object_or_404(Property, id=self.kwargs['pk'])
+
+    
+class EidtPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        return get_object_or_404(Property, id=self.kwargs['pk'])
+    
+class DetailPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticated]
+    # image = get_object_or_404(Property, id=self.kwargs['pk']).PropertyImage_set.all()
+    # available = get_object_or_404(Property, id=self.kwargs['pk']).AvailableDate_set.all()
+    # price = get_object_or_404(Property, id=self.kwargs['pk']).AskingPrice_set.all()
+    def get_object(self):
+        return get_object_or_404(Property, id=self.kwargs['pk'])

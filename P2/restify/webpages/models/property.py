@@ -72,10 +72,10 @@ class Property(models.Model):
 
 class PropertyImage(models.Model):
     name = models.CharField(max_length=255)
-    product = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='product_attribute_for_propimage')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='product_attribute_for_propimage')
     image = models.ImageField(upload_to='images/')
 
-class Available_date(models.Model):
+class AvailableDate(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
     start_date = models.DateTimeField(auto_now=True)
     end_date = models.DateTimeField(auto_now=True)
