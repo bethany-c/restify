@@ -40,8 +40,9 @@ class ListAllPropertiesAPIView(ListAPIView):
     
 
 class CreatePropertiesAPIView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = PropertySerializer
+    permission_classes = [AllowAny]
     
     def perform_create(self, serializer):
 

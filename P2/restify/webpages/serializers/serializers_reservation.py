@@ -19,21 +19,21 @@ class ReservationSerializerAdd(ModelSerializer):
         # print(self.context['request'].user)
         return super().create(validated_data)
     
-class ReservationSerializer(ModelSerializer):
-    content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
+# class ReservationSerializer2(ModelSerializer):
+#     content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
 
-    class Meta:
-        model = Reservation
-        # datetime --> "date_joined": "2024-02-10T07:23:53.568Z"
-        fields = ['content_type']
+#     class Meta:
+#         model = Reservation
+#         # datetime --> "date_joined": "2024-02-10T07:23:53.568Z"
+#         fields = ['content_type']
 
-    def create(self, validated_data):
-        # print(self.context['request'].user)
-        return super().create(validated_data)
+#     def create(self, validated_data):
+#         # print(self.context['request'].user)
+#         return super().create(validated_data)
 
 
 from .serializers_property import PropertySerializer
-class ReservationSerializerNew(ModelSerializer): # onyl used for reading and not for any other reason
+class ReservationSerializer(ModelSerializer): # onyl used for reading and not for any other reason
     property = PropertySerializer(read_only=True) # cannot be changed 
 
 

@@ -52,7 +52,7 @@ urlpatterns = [
     #host - these are only available if there is a host dashboard on the front end 
     path('listings/all/', ListAllPropertiesAPIView.as_view(), name='all_listings'), # returns the current host's listings
 
-    path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), 
+    path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # not working 
     path('<int:reservation_id>/approve/', ApproveReservationAPIView.as_view(), name='host_approved'), # approve button host request page
     path('<int:reservation_id>/deny/', DenyReservationAPIView.as_view(), name='host_denied'), # deny button host request page
 

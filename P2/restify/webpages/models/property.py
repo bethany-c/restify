@@ -81,7 +81,7 @@ class Property(models.Model):
 
     safety_features = MultiSelectField(choices=CHOICES_SAFETY, validators=[MaxValueMultiFieldValidator(8)])
     def __str__(self) -> str:
-        return self.address
+        return self.address + " " + str(self.pk)
     class Meta:
         verbose_name_plural = 'properties'
 

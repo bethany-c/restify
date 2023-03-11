@@ -27,7 +27,7 @@ from django.shortcuts import get_object_or_404
 
 
 from webpages.serializers.serializer_user import UserSerializer
-from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd, ReservationSerializerNew
+from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
 from webpages.serializers.serializers_property import PropertySerializer
 
 # add a reservation - note: there has to be a property to tie it to 
@@ -63,7 +63,7 @@ class ListAllReservationsAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
     # we are returning a collection of Property objects therefore we need a property serializer
-    serializer_class = ReservationSerializerNew
+    serializer_class = ReservationSerializer
 
     def get_queryset(self):
 
