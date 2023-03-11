@@ -22,7 +22,7 @@ from django.shortcuts import get_object_or_404
 
 from webpages.serializers.serializer_user import UserSerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer
-from webpages.serializers.serializers_property import PropertySerializer, PropertyAskingPriceSerializer, PropertyAvailableDateSerializer, PropertyImageSerializer
+from webpages.serializers.serializers_property import PropertySerializer, PropertyImageSerializer
 
 #HOST VIEW
 
