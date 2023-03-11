@@ -6,6 +6,7 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView,
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
     
