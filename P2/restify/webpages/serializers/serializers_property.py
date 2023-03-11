@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, MultipleChoiceField
 from ..models.user import RestifyUser
-from webpages.models.property import Property, PropertyImage
+from webpages.models.property import Property, PropertyImage, RangePriceHostOffer
 # from .serializers_reservation import ReservationSerializer
 
 
@@ -31,6 +31,18 @@ class PropertyImageSerializer(ModelSerializer):
     def create(self, validated_data):
         # print(self.context['request'].user)
         return super().create(validated_data)
+    
+class PropertyTimeRangePriceHostOfferSerializer(ModelSerializer):
+    
+    class Meta:
+        model = RangePriceHostOffer
+        fields = '__all__'
+        # property_owner does not have to be sent 
+
+    def create(self, validated_data):
+        # print(self.context['request'].user)
+        return super().create(validated_data)
+    
     
 
 

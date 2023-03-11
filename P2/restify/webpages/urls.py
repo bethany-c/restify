@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
 from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, ReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView
-from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView
+from .views.propertiesapi import *
 from .views.commentsapi import GetAllPropertyComments, CreatePropertyCommentAPIView
 
 # format of spacing 
@@ -22,6 +22,12 @@ urlpatterns = [
     # path('properties/', ListAllPropertiesAPIView.as_view(), name='properties'),
     path('property/<int:pk>/edit/', EditPropertiesAPIView.as_view(), name='property_edit'), 
     path('property/<int:pk>/delete/', DeletePropertiesAPIView.as_view(), name='property_delete'),
+
+    path('property/<int:pk>/order/', OrderPropertyView.as_view(), name='property_order'),
+    path('property/search/', SearchPropertyView.as_view(), name='property_search'),
+    path('property/order/', OrderPropertyView.as_view(), name='property_order'),
+    path('<int:property_id>/create_timerange_price', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'),
+
     # MUSTAFAS CODE 
     path('admin/', admin.site.urls),
     path('properties/all/', ListAllPropertiesAPIView.as_view(), name='list_all_properties_host'), # works - for host 

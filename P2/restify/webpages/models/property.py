@@ -94,13 +94,24 @@ class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='product_attribute_for_propimage')
     image = models.ImageField(upload_to='images/')
 
-class AvailableDate(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
-    start_date = models.DateTimeField(auto_now=True)
-    end_date = models.DateTimeField(auto_now=True)
+# class AvailableDate(models.Model):
+#     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
+#     start_date = models.DateTimeField()
+#     end_date = models.DateTimeField()
 
-class AskingPrice(models.Model):
-    start_date = models.DateTimeField(auto_now=True)
-    end_date = models.DateTimeField(auto_now=True)
-    price = models.PositiveBigIntegerField()
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_asking_price')
+# class AskingPrice(models.Model):
+#     start_date = models.DateTimeField(auto_now=True)
+#     end_date = models.DateTimeField(auto_now=True)
+#     price = models.PositiveBigIntegerField()
+#     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_asking_price')
+
+class RangePriceHostOffer(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    price_per_night = models.PositiveBigIntegerField()
+
+    def __str__(self) -> str:
+        return "Price/night: $" + str(self.price_per_night) + " with Property ID: " + str(self.property.pk)
+    class Meta:
+        verbose_name_plural = 'Available Ranges + Prices'
