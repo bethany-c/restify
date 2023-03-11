@@ -117,6 +117,8 @@ class SearchPropertyView(ListAPIView):
     serializer_class = PropertySerializer
     # filter_backends = [SearchFilter]
     # search_fields = ['=address', "number_of_guest"]
+    pagination_class = PageNumberPagination
+    page_size = 10
 
     def get_queryset(self):
         # data = self.request.data
@@ -124,11 +126,31 @@ class SearchPropertyView(ListAPIView):
         end_date = self.request.query_params.get('end_date')
         location = self.request.query_params.get('location')
         number_of_guest = self.request.query_params.get('number_of_guest')
-        pagination_class = PageNumberPagination
-        page_size = 10
+
         # searching thru a foreignkey
         queryset = Property.objects.filter(property_for_available_date__start_date__gte=start_date,
                                            property_for_available_date__end_date__lte=end_date,
                                            address__icontains=location,
                                            number_of_guest__gte=number_of_guest)
         return queryset.distinct()
+
+# class FilterPropertyView(ListAPIView):
+#     queryset = Property.objects.all()
+#     serializer_class = PropertySerializer
+#     # filter_backends = [SearchFilter]
+#     # search_fields = ['=address', "number_of_guest"]
+
+#     def get_queryset(self):
+#         # data = self.request.data
+#         price_per_night = self.request.query_params.get('price_per_night')
+#         number_of_bed = self.request.query_params.get('end_date')
+#         location = self.request.query_params.get('location')
+#         number_of_guest = self.request.query_params.get('number_of_guest')
+#         pagination_class = PageNumberPagination
+#         page_size = 10
+#         # searching thru a foreignkey
+#         queryset = Property.objects.filter(property_for_available_date__start_date__gte=start_date,
+#                                            property_for_available_date__end_date__lte=end_date,
+#                                            address__icontains=location,
+#                                            number_of_guest__gte=number_of_guest)
+#         return queryset.distinct()
