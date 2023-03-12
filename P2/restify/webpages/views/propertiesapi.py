@@ -142,10 +142,11 @@ class SearchPropertyView(ListAPIView):
         end_date = self.request.query_params.get('end_date')
         location = self.request.query_params.get('location')
         number_of_guest = self.request.query_params.get('number_of_guest')
+        print(start_date)
 
         # searching thru a foreignkey
-        queryset = Property.objects.filter(property_for_available_date__start_date__gte=start_date,
-                                           property_for_available_date__end_date__lte=end_date,
+        queryset = Property.objects.filter(property_for_available_date__start_date__lte=start_date,
+                                           property_for_available_date__end_date__gte=end_date,
                                            address__icontains=location,
                                            number_of_guest__gte=number_of_guest)
         
@@ -154,7 +155,7 @@ class SearchPropertyView(ListAPIView):
         #     props_id.append(property.pk)
         # print(props_id, 'these are the props id ')
         
-        query_set2 = RangePriceHostOffer.objects.filter(property__in=queryset, start_date__gte=start_date, end_date__lte=end_date)
+        query_set2 = RangePriceHostOffer.objects.filter(property__in=queryset, start_date__lte=start_date, end_date__gte=end_date)
         # print(query_set2, 'this is the queryset of rangepricehostoffer')
         # query_set3 = query_set2.filter(start_date__gte=start_date, end_date__lte=end_date)
         
@@ -186,13 +187,15 @@ class FilterPropertyView(ListAPIView):
         # get the ids of all the properties 
         props_ids = []
         for i in range(len(properties)):
-            props_ids.append(properties[i]['property'])
+            if properties[i]['price_per_night'] <= price_per_night:
+                props_ids.append(properties[i]['property'])
 
         # get all the relevant properties through which I need to filter using the query params
         relevant_properties = Property.objects.filter(id__in=props_ids).distinct()
 
         # do the filtering 
-        filtered_relevant_properties = relevant_properties.filter(property_for_available_date__price_per_night__gte=price_per_night, 
+        filtered_relevant_properties = relevant_properties.filter(
+            # property_for_available_date__price_per_night__gte=price_per_night,  will now work, it will have property at other avaiblable dates
                                    number_of_rooms__gte=number_of_rooms,
                                    number_of_bed__gte=number_of_bed,
                                    baths__gte=baths)
