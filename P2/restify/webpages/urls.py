@@ -23,10 +23,11 @@ urlpatterns = [
     path('property/<int:pk>/edit/', EditPropertiesAPIView.as_view(), name='property_edit'), 
     path('property/<int:pk>/delete/', DeletePropertiesAPIView.as_view(), name='property_delete'),
 
-    path('property/<int:pk>/order/', OrderPropertyView.as_view(), name='property_order'),
+
     path('property/search/', SearchPropertyView.as_view(), name='property_search'),
     path('property/filter/', FilterPropertyView.as_view(), name='property_filter'),
     path('property/order/', OrderPropertyView.as_view(), name='property_order'),
+    path('property/price_order/', OrderPropertyPriceView.as_view(), name='property_price_order'),
     path('<int:pk>/create_timerange_price/', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'), #pk is property_id
 
     path('available_date/<int:pk>/edit/', EditAvailableDateAPIView.as_view(), name='property_edit'), 

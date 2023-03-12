@@ -114,19 +114,61 @@ class DetailPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
     def get_object(self):
         return get_object_or_404(Property, id=self.kwargs['pk'])
     
+
 class OrderPropertyView(ListAPIView):
     queryset = Property.objects.all()
+
     serializer_class = PropertySerializer
     pagination_class = PageNumberPagination
     page_size = 10
     
     filter_backends = [OrderingFilter]
-    ordering_fields = ["number_of_rooms", "number_of_guest"]
+    ordering_fields = ["baths"]
+
+    def get_queryset(self):
 
 
+        properties = json.loads(self.request.body)
 
+        # get the ids of all the properties 
+        props_ids = []
+        for i in range(len(properties)):
+            props_ids.append(properties[i]['property'])
+
+        # get all the relevant properties through which I need to filter using the query params
+        relevant_properties = Property.objects.filter(id__in=props_ids).distinct()
+
+
+        return relevant_properties 
+    
+
+class OrderPropertyPriceView(ListAPIView):
+    queryset = Property.objects.all()
+
+    serializer_class = PropertyTimeRangePriceHostOfferSerializer
+    pagination_class = PageNumberPagination
+    page_size = 10
+    
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["price_per_night"]
+
+    def get_queryset(self):
         
-        # return super().get_queryset()
+
+        properties = json.loads(self.request.body)
+
+        # get the ids of all the properties 
+        available_ids = []
+        for i in range(len(properties)):
+            available_ids.append(properties[i]['id'])
+
+        # get all the relevant properties through which I need to filter using the query params
+        relevant_properties = RangePriceHostOffer.objects.filter(id__in=available_ids).distinct()
+
+
+        return relevant_properties 
+
+
 
 class SearchPropertyView(ListAPIView):
     queryset = Property.objects.all()
@@ -237,11 +279,3 @@ class DeletePictureAPIView(DestroyAPIView):
     def get_object(self):
         return get_object_or_404(PropertyImage, id=self.kwargs['pk'])
     
-class OrderPropertyView(ListAPIView):
-    queryset = Property.objects.all()
-    serializer_class = PropertySerializer
-    pagination_class = PageNumberPagination
-    page_size = 10
-    
-    filter_backends = [OrderingFilter]
-    ordering_fields = ["number_of_rooms", "number_of_guest"]
