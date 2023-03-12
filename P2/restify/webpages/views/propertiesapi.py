@@ -198,3 +198,47 @@ class FilterPropertyView(ListAPIView):
                                    baths__gte=baths)
         
         return filtered_relevant_properties.distinct()
+    
+
+
+
+
+class DeleteAvailableDateAPIView(DestroyAPIView):
+    serializer_class = PropertyTimeRangePriceHostOfferSerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        return get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
+
+class EditAvailableDateAPIView(RetrieveAPIView, UpdateAPIView):
+    serializer_class = PropertyTimeRangePriceHostOfferSerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        return get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
+    
+
+class AddPictureAPIView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PropertyImageSerializer
+    
+    def perform_create(self, serializer):
+
+        # set the property_owner field of serializer to the current user
+        serializer.validated_data['property'] = get_object_or_404(Property, id=self.kwargs['pk'])
+
+        # call the super perform_create method to save the reservation instance
+        super().perform_create(serializer)
+
+class DeletePictureAPIView(DestroyAPIView):
+    serializer_class = PropertyImageSerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        return get_object_or_404(PropertyImage, id=self.kwargs['pk'])
+    
+class OrderPropertyView(ListAPIView):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+    pagination_class = PageNumberPagination
+    page_size = 10
+    
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["number_of_rooms", "number_of_guest"]

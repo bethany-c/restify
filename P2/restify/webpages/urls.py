@@ -29,6 +29,12 @@ urlpatterns = [
     path('property/order/', OrderPropertyView.as_view(), name='property_order'),
     path('<int:pk>/create_timerange_price/', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'), #pk is property_id
 
+    path('available_date/<int:pk>/edit/', EditAvailableDateAPIView.as_view(), name='property_edit'), 
+    path('available_date/<int:pk>/delete/', DeleteAvailableDateAPIView.as_view(), name='property_delete'), 
+    path('picture/<int:pk>/add/', AddPictureAPIView.as_view(), name='add_picture'), 
+    path('picture/<int:pk>/delete/', DeletePictureAPIView.as_view(), name='delete_picture'),   
+
+    
     # MUSTAFAS CODE 
     path('admin/', admin.site.urls),
     path('properties/all/', ListAllPropertiesAPIView.as_view(), name='list_all_properties_host'), # works - for host 
