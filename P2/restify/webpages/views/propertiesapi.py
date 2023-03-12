@@ -7,7 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
-
+import json
+from django.http import HttpResponse
 
     
 
@@ -45,7 +46,7 @@ class ListAllPropertiesAPIView(ListAPIView):
 class CreatePropertiesAPIView(CreateAPIView):
     # permission_classes = [IsAuthenticated]
     serializer_class = PropertySerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     
     def perform_create(self, serializer):
 
@@ -66,8 +67,21 @@ class CreateAvailableDateAPIView(CreateAPIView):
         # set the property_owner field of serializer to the current user
         serializer.validated_data['property'] = get_object_or_404(Property, id=self.kwargs['pk'])
 
+        start_date = serializer.validated_data['start_date']
+        end_date = serializer.validated_data['end_date']
+
+        overlap1 = RangePriceHostOffer.objects.filter(start_date__gte=end_date, end_date__lte=end_date)
+        overlap2 = RangePriceHostOffer.objects.filter(start_date__gte=start_date, end_date__lte=start_date)
+        # overlap3 = RangePriceHostOffer.objects.filter(start_date__gte=end_date, end_date__lte=end_date,
+        #                                    start_date__gte=start_date, end_date__lte=start_date) # causing an error 
+
         # call the super perform_create method to save the reservation instance
-        super().perform_create(serializer)
+        if overlap1: 
+            return HttpResponse(status=405)
+        if overlap2:
+            return HttpResponse(status=405)
+        else: 
+            return super().perform_create(serializer)
     
 # class ImagePropertiesAPIView(CreateAPIView):
 #     serializer_class = PropertyImageSerializer
@@ -146,23 +160,41 @@ class SearchPropertyView(ListAPIView):
         
         return query_set2.distinct()
 
-# class FilterPropertyView(ListAPIView):
-#     queryset = Property.objects.all()
-#     serializer_class = PropertySerializer
-#     # filter_backends = [SearchFilter]
-#     # search_fields = ['=address', "number_of_guest"]
+class FilterPropertyView(ListAPIView):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+    # filter_backends = [SearchFilter]
+    # search_fields = ['=address', "number_of_guest"]
 
-#     def get_queryset(self):
-#         # data = self.request.data
-#         price_per_night = self.request.query_params.get('price_per_night')
-#         number_of_bed = self.request.query_params.get('end_date')
-#         location = self.request.query_params.get('location')
-#         number_of_guest = self.request.query_params.get('number_of_guest')
-#         pagination_class = PageNumberPagination
-#         page_size = 10
-#         # searching thru a foreignkey
-#         queryset = Property.objects.filter(property_for_available_date__start_date__gte=start_date,
-#                                            property_for_available_date__end_date__lte=end_date,
-#                                            address__icontains=location,
-#                                            number_of_guest__gte=number_of_guest)
-#         return queryset.distinct()
+    def get_queryset(self):
+        # data = self.request.data
+
+        # get all query parameters
+        price_per_night = self.request.query_params.get('price_per_night')
+        number_of_rooms = self.request.query_params.get('number_of_rooms')
+        number_of_bed = self.request.query_params.get('number_of_bed')
+        baths = self.request.query_params.get('baths')
+        # essentials = self.request.query_params.get('essentials')
+        # features = self.request.query_params.get('features')
+        # safety_features = self.request.query_params.get('safety_features')
+        # location = self.request.query_params.get('location')
+
+
+        # get access to all the properties that satisfy the search button criteria
+        properties = json.loads(self.request.body)
+
+        # get the ids of all the properties 
+        props_ids = []
+        for i in range(len(properties)):
+            props_ids.append(properties[i]['property'])
+
+        # get all the relevant properties through which I need to filter using the query params
+        relevant_properties = Property.objects.filter(id__in=props_ids).distinct()
+
+        # do the filtering 
+        filtered_relevant_properties = relevant_properties.filter(property_for_available_date__price_per_night__gte=price_per_night, 
+                                   number_of_rooms__gte=number_of_rooms,
+                                   number_of_bed__gte=number_of_bed,
+                                   baths__gte=baths)
+        
+        return filtered_relevant_properties.distinct()

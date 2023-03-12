@@ -115,3 +115,4 @@ class RangePriceHostOffer(models.Model):
         return "Price/night: $" + str(self.price_per_night) + " with Property ID: " + str(self.property.pk)
     class Meta:
         verbose_name_plural = 'Available Ranges + Prices'
+

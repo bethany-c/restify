@@ -25,8 +25,9 @@ urlpatterns = [
 
     path('property/<int:pk>/order/', OrderPropertyView.as_view(), name='property_order'),
     path('property/search/', SearchPropertyView.as_view(), name='property_search'),
+    path('property/filter/', FilterPropertyView.as_view(), name='property_filter'),
     path('property/order/', OrderPropertyView.as_view(), name='property_order'),
-    path('<int:pk>/create_timerange_price', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'), #pk is property_id
+    path('<int:pk>/create_timerange_price/', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'), #pk is property_id
 
     # MUSTAFAS CODE 
     path('admin/', admin.site.urls),
