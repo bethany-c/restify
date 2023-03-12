@@ -25,6 +25,7 @@ from django.shortcuts import get_object_or_404
 from webpages.serializers.serializer_user import UserSerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer
 from webpages.serializers.serializers_property import PropertySerializer, PropertyImageSerializer, PropertyTimeRangePriceHostOfferSerializer
+from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSerializer
 
 #HOST VIEW
 
@@ -50,6 +51,7 @@ class CreatePropertiesAPIView(CreateAPIView):
 
         # set the property_owner field of serializer to the current user
         serializer.validated_data['property_owner'] = self.request.user
+        # print(self.request.GET, 'leo maaaaaaaan')
 
         # call the super perform_create method to save the reservation instance
         super().perform_create(serializer)
@@ -114,7 +116,7 @@ class OrderPropertyView(ListAPIView):
 
 class SearchPropertyView(ListAPIView):
     queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+    serializer_class = RangePriceOfferSerializer
     # filter_backends = [SearchFilter]
     # search_fields = ['=address', "number_of_guest"]
     pagination_class = PageNumberPagination
@@ -132,7 +134,17 @@ class SearchPropertyView(ListAPIView):
                                            property_for_available_date__end_date__lte=end_date,
                                            address__icontains=location,
                                            number_of_guest__gte=number_of_guest)
-        return queryset.distinct()
+        
+        # props_id = []
+        # for property in queryset.distinct():
+        #     props_id.append(property.pk)
+        # print(props_id, 'these are the props id ')
+        
+        query_set2 = RangePriceHostOffer.objects.filter(property__in=queryset, start_date__gte=start_date, end_date__lte=end_date)
+        # print(query_set2, 'this is the queryset of rangepricehostoffer')
+        # query_set3 = query_set2.filter(start_date__gte=start_date, end_date__lte=end_date)
+        
+        return query_set2.distinct()
 
 # class FilterPropertyView(ListAPIView):
 #     queryset = Property.objects.all()
