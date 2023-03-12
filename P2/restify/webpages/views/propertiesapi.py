@@ -171,7 +171,7 @@ class FilterPropertyView(ListAPIView):
         # data = self.request.data
 
         # get all query parameters
-        price_per_night = self.request.query_params.get('price_per_night')
+        price_per_night = int(self.request.query_params.get('price_per_night'))
         number_of_rooms = self.request.query_params.get('number_of_rooms')
         number_of_bed = self.request.query_params.get('number_of_bed')
         baths = self.request.query_params.get('baths')
