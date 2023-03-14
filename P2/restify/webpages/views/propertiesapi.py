@@ -270,14 +270,14 @@ class FilterPropertyView(ListAPIView):
                 relevant_properties = relevant_properties.filter(essentials__contains=e)
         if features:
             for e in features.split(","):
-                relevant_properties = relevant_properties.filter(essentials__contains=e)
+                relevant_properties = relevant_properties.filter(features__contains=e)
         if safety_features:
             for e in safety_features.split(","):
-                relevant_properties = relevant_properties.filter(essentials__contains=e)
+                relevant_properties = relevant_properties.filter(safety_features__contains=e)
         
         if location:
             for e in location.split(","):
-                relevant_properties = relevant_properties.filter(essentials__contains=e)
+                relevant_properties = relevant_properties.filter(location__contains=e)
 
 
 
