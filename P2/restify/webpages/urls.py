@@ -11,6 +11,8 @@ from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprov
 from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
 from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications
+from .views.propertiesapi import *
+from .views.commentsapi import GetAllPropertyComments, CreatePropertyCommentAPIView
 
 # format of spacing 
 # getter
@@ -20,9 +22,25 @@ app_name = 'webpages'
 urlpatterns = [
     # LEOS CODE 
     path('property/<int:pk>/detail/', DetailPropertiesAPIView.as_view(), name='property_detail'), # works
-    # path('properties/', ListAllPropertiesAPIView.as_view(), name='properties'),
+ 
     path('property/<int:pk>/edit/', EditPropertiesAPIView.as_view(), name='property_edit'), 
     path('property/<int:pk>/delete/', DeletePropertiesAPIView.as_view(), name='property_delete'),
+
+
+    path('property/search/', SearchPropertyView.as_view(), name='property_search'),
+    path('property/filter/', FilterPropertyView.as_view(), name='property_filter'),
+    path('property/order/', OrderPropertyView.as_view(), name='property_order'),
+    path('property/price_order/', OrderPropertyPriceView.as_view(), name='property_price_order'),
+    path('<int:pk>/create_timerange_price/', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'), #pk is property_id
+
+    path('available_date/<int:pk>/edit/', EditAvailableDateAPIView.as_view(), name='property_edit'), 
+    path('available_date/<int:pk>/delete/', DeleteAvailableDateAPIView.as_view(), name='property_delete'), 
+    path('picture/<int:pk>/add/', AddPictureAPIView.as_view(), name='add_picture'), 
+    path('picture/<int:pk>/delete/', DeletePictureAPIView.as_view(), name='delete_picture'),   
+    path('picture/<int:pk>/detail/', DetailImageAPIView.as_view(), name='view_picture'),   
+    path('available_date/<int:pk>/detail/', DetailRangePriceHostOfferAPIView.as_view(), name='property_image'), 
+
+    
     # MUSTAFAS CODE 
     path('admin/', admin.site.urls),
     path('properties/all/', ListAllPropertiesAPIView.as_view(), name='list_all_properties_host'), # works - for host 
@@ -53,7 +71,7 @@ urlpatterns = [
     #host - these are only available if there is a host dashboard on the front end 
     path('listings/all/', ListAllPropertiesAPIView.as_view(), name='all_listings'), # returns the current host's listings
 
-    path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), 
+    path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # not working 
     path('<int:reservation_id>/approve/', ApproveReservationAPIView.as_view(), name='host_approved'), # approve button host request page
     path('<int:reservation_id>/deny/', DenyReservationAPIView.as_view(), name='host_denied'), # deny button host request page
 

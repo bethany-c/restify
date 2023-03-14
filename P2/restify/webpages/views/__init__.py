@@ -2,5 +2,9 @@
 #     StoreGetSet, StoresOwned 
 
 from .accountsapi import SignupAPIView, LogoutAPIView, UserProfileAPIView,  UserProfileEditAPIView
-from .propertiesapi import ListAllPropertiesAPIView, CreatePropertiesAPIView, DeletePropertiesAPIView, EditPropertiesAPIView, DetailPropertiesAPIView 
+from .propertiesapi import ListAllPropertiesAPIView, CreatePropertiesAPIView, DeletePropertiesAPIView, EditPropertiesAPIView, DetailPropertiesAPIView
+from .reservationapi import CreateReservationAPIView, ListAllReservationsAPIView, RequestToTerminateReservationAPIView, ListAllRequestedReservationsAPIView, TerminateReservationAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView
+from .commentsapi import  CreatePropertyCommentAPIView, GetAllPropertyComments
+
+
     

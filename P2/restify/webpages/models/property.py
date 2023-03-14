@@ -51,7 +51,7 @@ class Property(models.Model):
         ('dryer', 'Dryer'),
 
     )
-    essentials = MultiSelectField(choices=CHOICES_ESSENTIALS, validators=[MaxValueMultiFieldValidator(8)])
+    essentials = MultiSelectField(blank=True, null=True,choices=CHOICES_ESSENTIALS, validators=[MaxValueMultiFieldValidator(8)])
     CHOICES_FEATURES = (
         ('pool', 'Pool'),
         ('hot_tub', 'Hot Tub'),
@@ -64,14 +64,14 @@ class Property(models.Model):
 
 
     )
-    features = MultiSelectField(choices=CHOICES_FEATURES, validators=[MaxValueMultiFieldValidator(8)])
+    features = MultiSelectField(blank=True, null=True,choices=CHOICES_FEATURES, validators=[MaxValueMultiFieldValidator(8)])
     CHOICES_LOCATION = (
         ('lake_access','Lake Access'),
         ('beach_access', 'Beach Access'),
         ('skiin_skiout', 'Ski-in/Ski-out'),
 
     )
-    location = MultiSelectField(choices=CHOICES_LOCATION, validators=[MaxValueMultiFieldValidator(8)])
+    location = MultiSelectField(blank=True, null=True, choices=CHOICES_LOCATION, validators=[MaxValueMultiFieldValidator(8)])
     CHOICES_SAFETY = (
         ('smoke_detector', 'Smoke Detector'),
         ('first_aid_kit', 'First Aid Kit'),
@@ -79,9 +79,9 @@ class Property(models.Model):
 
     )
 
-    safety_features = MultiSelectField(choices=CHOICES_SAFETY, validators=[MaxValueMultiFieldValidator(8)])
+    safety_features = MultiSelectField(blank=True, null=True,choices=CHOICES_SAFETY, validators=[MaxValueMultiFieldValidator(8)])
     def __str__(self) -> str:
-        return self.address
+        return self.address + " " + str(self.pk)
     class Meta:
         verbose_name_plural = 'properties'
 
@@ -94,13 +94,25 @@ class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='product_attribute_for_propimage')
     image = models.ImageField(upload_to='images/')
 
-class AvailableDate(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
-    start_date = models.DateTimeField(auto_now=True)
-    end_date = models.DateTimeField(auto_now=True)
+# class AvailableDate(models.Model):
+#     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
+#     start_date = models.DateTimeField()
+#     end_date = models.DateTimeField()
 
-class AskingPrice(models.Model):
-    start_date = models.DateTimeField(auto_now=True)
-    end_date = models.DateTimeField(auto_now=True)
-    price = models.PositiveBigIntegerField()
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_asking_price')
+# class AskingPrice(models.Model):
+#     start_date = models.DateTimeField(auto_now=True)
+#     end_date = models.DateTimeField(auto_now=True)
+#     price = models.PositiveBigIntegerField()
+#     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_asking_price')
+
+class RangePriceHostOffer(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
+    start_date = models.DateField()
+    end_date = models.DateField()
+    price_per_night = models.PositiveBigIntegerField()
+
+    def __str__(self) -> str:
+        return "Price/night: $" + str(self.price_per_night) + " with Property ID: " + str(self.property.pk)
+    class Meta:
+        verbose_name_plural = 'Available Ranges + Prices'
+
