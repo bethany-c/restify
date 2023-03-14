@@ -34,6 +34,8 @@ urlpatterns = [
     path('available_date/<int:pk>/delete/', DeleteAvailableDateAPIView.as_view(), name='property_delete'), 
     path('picture/<int:pk>/add/', AddPictureAPIView.as_view(), name='add_picture'), 
     path('picture/<int:pk>/delete/', DeletePictureAPIView.as_view(), name='delete_picture'),   
+    path('picture/<int:pk>/detail/', DetailImageAPIView.as_view(), name='view_picture'),   
+    path('available_date/<int:pk>/detail/', DetailRangePriceHostOfferAPIView.as_view(), name='property_image'), 
 
     
     # MUSTAFAS CODE 

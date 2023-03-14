@@ -318,3 +318,19 @@ class DeletePictureAPIView(DestroyAPIView):
     def get_object(self):
         return get_object_or_404(PropertyImage, id=self.kwargs['pk'])
     
+
+
+class DetailImageAPIView(RetrieveAPIView, UpdateAPIView):
+    serializer_class = PropertyImageSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return get_object_or_404(PropertyImage, id=self.kwargs['pk'])
+    
+class DetailRangePriceHostOfferAPIView(RetrieveAPIView, UpdateAPIView):
+    serializer_class = PropertyTimeRangePriceHostOfferSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
+    
