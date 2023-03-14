@@ -327,6 +327,9 @@ class DetailImageAPIView(RetrieveAPIView, UpdateAPIView):
     def get_object(self):
         return get_object_or_404(PropertyImage, id=self.kwargs['pk'])
     
+
+
+    
 class DetailRangePriceHostOfferAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertyTimeRangePriceHostOfferSerializer
     permission_classes = [IsAuthenticated]
@@ -334,3 +337,20 @@ class DetailRangePriceHostOfferAPIView(RetrieveAPIView, UpdateAPIView):
     def get_object(self):
         return get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
     
+
+class ListAllAvailableDatesAPIView(ListAPIView):
+    serializer_class = PropertyTimeRangePriceHostOfferSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+
+        return RangePriceHostOffer.objects.filter(property=self.kwargs['pk'])
+    
+class ListAllImageAPIView(ListAPIView):
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        return PropertyImage.objects.filter(property=self.kwargs['pk'])
