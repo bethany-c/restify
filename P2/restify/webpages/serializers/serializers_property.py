@@ -36,7 +36,8 @@ class PropertyTimeRangePriceHostOfferSerializer(ModelSerializer):
     
     class Meta:
         model = RangePriceHostOffer
-        fields = '__all__'
+        exclude = ("property", )
+
         # property_owner does not have to be sent 
 
     def create(self, validated_data):
