@@ -348,7 +348,7 @@ class ListAllAvailableDatesAPIView(ListAPIView):
         return RangePriceHostOffer.objects.filter(property=self.kwargs['pk'])
     
 class ListAllImageAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = PropertyImageSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
