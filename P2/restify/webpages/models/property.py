@@ -1,6 +1,7 @@
 from django.db import models
 from multiselectfield import MultiSelectField
 from multiselectfield.validators import MaxValueMultiFieldValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # Create your models here.
@@ -116,3 +117,7 @@ class RangePriceHostOffer(models.Model):
     class Meta:
         verbose_name_plural = 'Available Ranges + Prices'
 
+
+class PropertyRating(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_rating')
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
