@@ -13,21 +13,24 @@ from .reservation import Reservation
 
 
 class CommentBaseClass(models.Model):
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
     posted_on = models.DateTimeField(auto_now=True)
     text_content = models.TextField()
     content_object = ('content_type', 'object_id')
+    reply = models.TextField(null=True, blank=True)
     
     class Meta:
         abstract = True
 
 class PropertyComment(CommentBaseClass):
     author = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='property_comments')
+
 
 
 class GuestComment(CommentBaseClass):
     author = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
-
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='reservation_guest_comments')
+    guest = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='guest_comments', null=True, blank=True)
 
 
 

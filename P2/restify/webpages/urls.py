@@ -9,7 +9,8 @@ from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfile
 from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, ReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView
 from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView
-from .views.commentsapi import GetAllPropertyComments, CreatePropertyCommentAPIView
+from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
+from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications
 
 # format of spacing 
 # getter
@@ -77,8 +78,44 @@ urlpatterns = [
 
 
     # BETHANY's PART
-    path('reservations/<int:reservation_id>/property-comments/', GetAllPropertyComments.as_view(), name='get_all_property_comments'),
-    path('reservations/<int:reservation_id>/property-comments/new/', CreatePropertyCommentAPIView.as_view(), name='create_property_comment'),
+    
+    # this adds property comments for a specific reservation_id that has been terminated/completed
+    path('reservations/<int:reservation_id>/property-comments/add/', CreatePropertyCommentAPIView.as_view(), name='create_property_comment'),
+    
+    # this gets all comments on the property for a specific reservation_id, max 3 comments will be returned
+    path('reservations/<int:reservation_id>/property-comments/view/', GetAllReservationPropertyComments.as_view(), name='view_reservation_property_comments'),
+    
+    # this gets all comments for a specific property 
+    # reservations/property/<int:property_id>/property-comments/view/?page_size=5&page=2
+    path('reservations/property/<int:property_id>/property-comments/view/', GetAllPropertyComments.as_view(), name='view_all_property_comments'),
 
+    # this creates a comment on the guest for a reservation_id
+    path('reservations/<int:reservation_id>/guest-comments/add/', CreateGuestCommentAPIView.as_view(), name='create_guest_comment'),
+    
+    # this gets all comments on the guest for a specific reservation_id, max 3 comments will be returned
+    path('reservations/<int:reservation_id>/guest-comments/view/', GetAllReservationGuestComments.as_view(), name='view_reservation_property_comments'),
 
+    # this gets all comments for a specific guest 
+    # reservations/guest/<int:guest_id>/guest-comments/view/?page_size=5&page=2
+    path('reservations/guest/<int:guest_id>/guest-comments/view/', GetAllGuestComments.as_view(), name='view_all_property_comments'),
+    
+    # NOTIFICATION STUFF
+    
+    # this will create a notification for a user given the reservation_id and user_id
+    path('notifications/<int:reservation_id>/<int:user_id>/create/', CreateNotificationAPIView.as_view(), name='create_user_notification'),
+    
+    # this will list all the user's notifications - pagination
+    path('notifications/list/', GetAllUserNotifications.as_view(), name='list_all_user_notifications'),
+    
+    # this views a specific notification_id for a given user, will make read=True PUT request
+    path('notifications/<int:notification_id>/view/', ViewUserNotification.as_view(), name='view_user_notification'),
+    
+    # this will clear a specific notification given the notification_id
+    path('notifications/<int:notification_id>/clear/', ClearUserNotification.as_view(), name='clear_user_notification'),
+    
+    # this gets all the user's unread notifications
+    path('notifications/new/view/', GetAllNewNotifications.as_view(), name='list_unread_notifications'),
+    
+    # this gets all the user's specific position related notifications
+    path('notifications/<str:position>/view/', GetPositionNotifications.as_view(), name='list_position_notifications'),
 ]

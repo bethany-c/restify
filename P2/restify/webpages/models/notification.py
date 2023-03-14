@@ -9,15 +9,20 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from .comment import PropertyComment
+from .reservation import Reservation
 
 
 # For notification
 
 class Notification(models.Model):
     user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_notification')
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='user_content')
-    object_id = models.PositiveIntegerField()  # need to set SingleComment id to this object_id
+    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='user_content')
+    # object_id = models.PositiveIntegerField()  # need to set SingleComment id to this object_id
+    user_type = models.TextField(null=True, blank=True) # is this a host POV or guest POV type of notif?
     content_object = ('content_type', 'object_id')
+    read = models.BooleanField(default=False)
+    notification_message = models.TextField(null=True, blank=True)
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, null=True)
 
 # be notified when someone rates my property
 class RateNotification(models.Model):
