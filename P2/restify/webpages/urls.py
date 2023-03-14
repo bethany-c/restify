@@ -19,7 +19,7 @@ app_name = 'webpages'
 urlpatterns = [
     # LEOS CODE 
     path('property/<int:pk>/detail/', DetailPropertiesAPIView.as_view(), name='property_detail'), # works
-    # path('properties/', ListAllPropertiesAPIView.as_view(), name='properties'),
+ 
     path('property/<int:pk>/edit/', EditPropertiesAPIView.as_view(), name='property_edit'), 
     path('property/<int:pk>/delete/', DeletePropertiesAPIView.as_view(), name='property_delete'),
 

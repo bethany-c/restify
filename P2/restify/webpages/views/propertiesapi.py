@@ -7,9 +7,10 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
+from django.db.models import Case, When, Value, IntegerField
 import json
 from django.http import HttpResponse
-
+from itertools import chain
     
 
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
@@ -145,17 +146,19 @@ class OrderPropertyView(ListAPIView):
 class OrderPropertyPriceView(ListAPIView):
     queryset = Property.objects.all()
 
-    serializer_class = PropertyTimeRangePriceHostOfferSerializer
+    serializer_class = PropertySerializer
     pagination_class = PageNumberPagination
     page_size = 10
     
-    filter_backends = [OrderingFilter]
-    ordering_fields = ["price_per_night"]
+
 
     def get_queryset(self):
         
 
         properties = json.loads(self.request.body)
+        price = self.request.query_params.get('ordering')
+        
+
 
         # get the ids of all the properties 
         available_ids = []
@@ -163,10 +166,23 @@ class OrderPropertyPriceView(ListAPIView):
             available_ids.append(properties[i]['id'])
 
         # get all the relevant properties through which I need to filter using the query params
-        relevant_properties = RangePriceHostOffer.objects.filter(id__in=available_ids).distinct()
+     
+        available_date= RangePriceHostOffer.objects.filter(id__in=available_ids).distinct().order_by('price_per_night')
+        if price:
+            if price == "-price_per_night":
+                available_date= RangePriceHostOffer.objects.filter(id__in=available_ids).distinct().order_by('-price_per_night')
+        p_id = []
+        for a in available_date:
+            p_id.append(a.property.id)
+
+        q = Property.objects.filter(id__in=p_id)
 
 
-        return relevant_properties 
+        q = q.order_by(Case(*[When(id=p_id[i], then=Value(i)) for i in range(len(p_id))],
+            output_field=IntegerField()
+        ))
+
+        return q
 
 
 
@@ -213,14 +229,14 @@ class FilterPropertyView(ListAPIView):
         # data = self.request.data
 
         # get all query parameters
-        price_per_night = int(self.request.query_params.get('price_per_night'))
+        price_per_night = self.request.query_params.get('price_per_night')
         number_of_rooms = self.request.query_params.get('number_of_rooms')
         number_of_bed = self.request.query_params.get('number_of_bed')
         baths = self.request.query_params.get('baths')
-        # essentials = self.request.query_params.get('essentials')
-        # features = self.request.query_params.get('features')
-        # safety_features = self.request.query_params.get('safety_features')
-        # location = self.request.query_params.get('location')
+        essentials = self.request.query_params.get('essentials')
+        features = self.request.query_params.get('features')
+        safety_features = self.request.query_params.get('safety_features')
+        location = self.request.query_params.get('location')
 
 
         # get access to all the properties that satisfy the search button criteria
@@ -228,21 +244,44 @@ class FilterPropertyView(ListAPIView):
 
         # get the ids of all the properties 
         props_ids = []
-        for i in range(len(properties)):
-            if properties[i]['price_per_night'] <= price_per_night:
+        if price_per_night:
+            for i in range(len(properties)):
+                if properties[i]['price_per_night'] <= int(price_per_night):
+                    props_ids.append(properties[i]['property'])
+        else:
+            for i in range(len(properties)):
                 props_ids.append(properties[i]['property'])
 
+ 
+
         # get all the relevant properties through which I need to filter using the query params
+      
         relevant_properties = Property.objects.filter(id__in=props_ids).distinct()
 
         # do the filtering 
-        filtered_relevant_properties = relevant_properties.filter(
-            # property_for_available_date__price_per_night__gte=price_per_night,  will now work, it will have property at other avaiblable dates
-                                   number_of_rooms__gte=number_of_rooms,
-                                   number_of_bed__gte=number_of_bed,
-                                   baths__gte=baths)
+        if number_of_rooms:
+            relevant_properties = relevant_properties.filter(number_of_rooms__gte=number_of_rooms)
+        if number_of_bed:
+            relevant_properties = relevant_properties.filter(number_of_beds__gte=number_of_bed)
+        if baths:
+            relevant_properties = relevant_properties.filter(baths__gte=baths)
+        if essentials:
+            for e in essentials.split(","):
+                relevant_properties = relevant_properties.filter(essentials__contains=e)
+        if features:
+            for e in features.split(","):
+                relevant_properties = relevant_properties.filter(essentials__contains=e)
+        if safety_features:
+            for e in safety_features.split(","):
+                relevant_properties = relevant_properties.filter(essentials__contains=e)
         
-        return filtered_relevant_properties.distinct()
+        if location:
+            for e in location.split(","):
+                relevant_properties = relevant_properties.filter(essentials__contains=e)
+
+
+
+        return relevant_properties
     
 
 
