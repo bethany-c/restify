@@ -13,7 +13,7 @@ from .reservation import Reservation
 
 
 class CommentBaseClass(models.Model):
-    posted_on = models.DateTimeField(auto_now=True)
+    posted_on = models.DateField(auto_now=True)
     text_content = models.TextField()
     content_object = ('content_type', 'object_id')
     reply = models.TextField(null=True, blank=True)
