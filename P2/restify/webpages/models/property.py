@@ -112,7 +112,7 @@ class RangePriceHostOffer(models.Model):
     price_per_night = models.PositiveBigIntegerField()
 
     def __str__(self) -> str:
-        return "Price/night: $" + str(self.price_per_night) + " with Property ID: " + str(self.property.pk)
+        return "Price/night: $" + str(self.price_per_night) + " with Property ID: " + str(self.property.pk) + " || ID: " + str(self.pk)
     class Meta:
         verbose_name_plural = 'Available Ranges + Prices'
 
