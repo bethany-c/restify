@@ -222,6 +222,8 @@ class SearchPropertyView(ListAPIView):
 class FilterPropertyView(ListAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+    pagination_class = PageNumberPagination
+    page_size = 10
     # filter_backends = [SearchFilter]
     # search_fields = ['=address', "number_of_guest"]
 
