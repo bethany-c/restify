@@ -35,7 +35,7 @@ from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSeria
 # only triggered on host dashboard /allListings
 class ListAllPropertiesAPIView(ListAPIView):
     serializer_class = PropertySerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
 

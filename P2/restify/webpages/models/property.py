@@ -108,8 +108,8 @@ class PropertyImage(models.Model):
 
 class RangePriceHostOffer(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     price_per_night = models.PositiveBigIntegerField()
     booked_for = models.BooleanField(default=False)
 

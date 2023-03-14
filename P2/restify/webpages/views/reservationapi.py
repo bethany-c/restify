@@ -40,42 +40,63 @@ class CreateReservationAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
 
+        # get property_id from url
+        property_id = self.kwargs['property_id']
+        # get property instance with property_id
+        property = get_object_or_404(Property, id=property_id)
+
         # take all the available dates out of the property we at hand 
         all_available_dates = RangePriceHostOffer.objects.filter(property=property)
 
         # get all the queryparams
-        start_date = self.request.query_params.get('start_date')
-        end_date = self.request.query_params.get('end_date')
+        start_date = serializer.validated_data['start_date']
+        end_date = serializer.validated_data['end_date']
+        # start_date = argss['start_date']
+        # end_date = argss['end_date']
         # number_of_guests = self.request.query_params.get('number_of_guests')
 
         # first check if the start_date and end_date are even within any of the Property's available dates
         # here we are finding the possible available date objects 
         # this should be only 1 
-        valid_available_date = all_available_dates.objects.filter(start_date__lte=start_date, end_date__gte=start_date).filter(start_date__lte=end_date, end_date__gte=end_date)
+        valid_available_date = all_available_dates.filter(start_date__lte=start_date, end_date__gte=start_date)
+        print('this should only be one', valid_available_date, 'this should only be one')
 
-        start_date_for_availDate = valid_available_date.start_date
-        end_date_for_availDate = valid_available_date.end_date
+        # check if there is even an available date 
+        if valid_available_date: 
+            valid_available_date = valid_available_date.filter(start_date__lte=end_date, end_date__gte=end_date)
+ 
 
-        # check if this available date has a reservation attached to it, if not, attach this to the reservation
-        booked_already = Reservation.objects.filter(date_this_reservation_is_booked_for__start_date=start_date_for_availDate,
-        date_this_reservation_is_booked_for__end_date=end_date_for_availDate)
+        # start_date_for_availDate = valid_available_date[0].start_date
+        # end_date_for_availDate = valid_available_date[0].end_date
 
+        # # check if this available date has a reservation attached to it, if not, attach this to the reservation
+        # booked_already = Reservation.objects.filter(date_this_reservation_is_booked_for__start_date=start_date_for_availDate,
+        # date_this_reservation_is_booked_for__end_date=end_date_for_availDate)
+        try:
+            booked_already = Reservation.objects.filter(available_date=valid_available_date[0])
+        except:
+            return HttpResponse(status=405)
+
+    
+        # check if the valid available date that we can book for is already booked by someone else 
         if booked_already:
             return HttpResponse(status=405)
         else:
-            serializer.validated_data['booked_date'] = valid_available_date
-            # get property_id from url
-            property_id = self.kwargs['property_id']
-            # get property instance with property_id
-            property = get_object_or_404(Property, id=property_id)
+
             # set the property field of serializer to the retrieved property instance
             serializer.validated_data['property'] = property
+            serializer.validated_data['available_date'] = valid_available_date[0]
+            valid_available_date[0].booked_for = True # nobody can now book this time till 
 
             # set the user field of serializer to the current user
             serializer.validated_data['user'] = self.request.user
+            serializer.save() 
 
-        # call the super perform_create method to save the reservation instance
-        super().perform_create(serializer)
+
+
+        
+
+        return super().perform_create(serializer) 
 
     
 
@@ -122,7 +143,7 @@ class ListAllReservationsAPIView(ListAPIView):
 # user: requested, host: cancellations 
 class RequestToTerminateReservationAPIView(UpdateAPIView): # user:request to cancel ~ host: terminate tab done 
     
-    serializer_class = ReservationSerializerAdd
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -131,7 +152,7 @@ class RequestToTerminateReservationAPIView(UpdateAPIView): # user:request to can
     
     def perform_update(self, serializer):
         reservation = serializer.save()
-        reservation.status = "CR"
+        reservation.status = "CR" # then goes to CA
         serializer.save()
 
 
@@ -141,7 +162,7 @@ class RequestToTerminateReservationAPIView(UpdateAPIView): # user:request to can
 
 
 class ListAllRequestedReservationsAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
@@ -151,12 +172,13 @@ class ListAllRequestedReservationsAPIView(ListAPIView):
 
         # takes out all the reservations that are requested for approval 
         reservations = Reservation.objects.filter(user=self.request.user, status='AR')
-        prop_ids = []
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
+        return reservations
+        # prop_ids = []
+        # for reservation in reservations:
+        #     prop_ids.append(reservation.property.pk)
         
-        # returns all the properties that have an approved reservation on them 
-        return Property.objects.filter(id__in=prop_ids)
+        # # returns all the properties that have an approved reservation on them 
+        # return Property.objects.filter(id__in=prop_ids).distinct()
 
 
 
@@ -177,6 +199,8 @@ class TerminateReservationAPIView(UpdateAPIView): # terminated tab done
     def perform_update(self, serializer):
         reservation = serializer.save()
         reservation.status = "TE"
+        reservation.available_date.booked_for = False
+        reservation.available_date = None
         serializer.save()
 
 
@@ -186,7 +210,7 @@ class TerminateReservationAPIView(UpdateAPIView): # terminated tab done
 # all user cancellations 
 
 class ListAllCancelledReservationsAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
@@ -196,13 +220,14 @@ class ListAllCancelledReservationsAPIView(ListAPIView):
     def get_queryset(self):
 
         # takes out all the reservations that are cancelled
-        reservations = Reservation.objects.filter(user=self.request.user, status='CA')
-        prop_ids = []
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
+        reservations = Reservation.objects.filter(user=self.request.user, status="CA")
+        return reservations
+        # prop_ids = []
+        # for reservation in reservations:
+        #     prop_ids.append(reservation.property.pk)
         
-        # returns all the properties that have an approved reservation on them 
-        return Property.objects.filter(id__in=prop_ids)
+        # # returns all the properties that have an approved reservation on them 
+        # return Property.objects.filter(id__in=prop_ids)
     
 # user: terminated tab, host: terminated tab 
 class ReasonForCancellingAPIView(UpdateAPIView): # terminated tab done 
@@ -302,7 +327,7 @@ class ReviewForHostAPIView(UpdateAPIView):
 
 # list all terminated reservations --> host: terminated, user: terminated 
 class ListAllTerminatedReservationsAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
@@ -312,12 +337,7 @@ class ListAllTerminatedReservationsAPIView(ListAPIView):
 
         # takes out all the reservations that are cancelled
         reservations = Reservation.objects.filter(user=self.request.user, status='TE')
-        prop_ids = []
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
-        
-        # returns all the properties that have an approved reservation on them 
-        return Property.objects.filter(id__in=prop_ids)
+        return reservations
     
 # HOST VIEWS
 # -------------------------------------------------------------------------------------------------------------------
@@ -327,24 +347,15 @@ class ListAllTerminatedReservationsAPIView(ListAPIView):
 
 # REQUEST TAB
 class HostListAllRequestedReservationsAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
 
     def get_queryset(self):
         # get all reservations that have status="AR"
-        reservations = Reservation.objects.filter(status="AR")
-        prop_ids = []
-        # get all the property_ids that correspond to these reservations
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
-
-        # then get properties which have these ids AND for which the loggedin user is the property_owner
-        properties_i_own = Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
-
-
-        return properties_i_own
+        reservations = Reservation.objects.filter(status="AR", property__property_owner=self.request.user)
+        return reservations
     
 
 
@@ -374,6 +385,8 @@ class DenyReservationAPIView(UpdateAPIView): # attach to red deny button
     def perform_update(self, serializer):
         reservation = serializer.save()
         reservation.status = "DE" # change to this from 'AR' to denied(DE)
+        reservation.available_date.booked_for = False
+        reservation.available_date = None
         serializer.save()
 
 
@@ -382,24 +395,25 @@ class DenyReservationAPIView(UpdateAPIView): # attach to red deny button
 
 class HostListAllOfApprovedReservationsAPIView(ListAPIView):
 
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
 
     def get_queryset(self):
         # get all reservations that have status="AR"
-        reservations = Reservation.objects.filter(status="AP")
-        prop_ids = []
-        # get all the property_ids that correspond to these reservations
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
+        reservations = Reservation.objects.filter(status="AP",  property__property_owner=self.request.user)
+        return reservations
+        # prop_ids = []
+        # # get all the property_ids that correspond to these reservations
+        # for reservation in reservations:
+        #     prop_ids.append(reservation.property.pk)
 
-        # then get properties which have these ids AND for which the loggedin user is the property_owner
-        properties_i_own = Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
+        # # then get properties which have these ids AND for which the loggedin user is the property_owner
+        # properties_i_own = Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
 
 
-        return properties_i_own
+        # return properties_i_own
 
 # already implemented above 
 # class TerminateReservationAPIView(UpdateAPIView): 
@@ -426,7 +440,7 @@ class HostListAllOfApprovedReservationsAPIView(ListAPIView):
 
 
 class HostListAllCancelledReservationsAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
@@ -436,13 +450,14 @@ class HostListAllCancelledReservationsAPIView(ListAPIView):
     def get_queryset(self):
 
         # takes out all the reservations that are cancelled
-        reservations = Reservation.objects.filter(status='CR')
-        prop_ids = []
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
+        reservations = Reservation.objects.filter(status='CR', property__property_owner=self.request.user)
+        return reservations
+        # prop_ids = []
+        # for reservation in reservations:
+        #     prop_ids.append(reservation.property.pk)
         
-        # returns all the properties that have an approved reservation on them 
-        return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
+        # # returns all the properties that have an approved reservation on them 
+        # return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
     
 class HostApproveCancellationRequestAPIView(UpdateAPIView): # attach to green approve button on cancellation host page
     
@@ -456,6 +471,8 @@ class HostApproveCancellationRequestAPIView(UpdateAPIView): # attach to green ap
     def perform_update(self, serializer):
         reservation = serializer.save()
         reservation.status = "CA" # change to this from 'CR'
+        reservation.available_date.booked_for = False
+        reservation.available_date = None
         serializer.save()
 
 class HostDenyCancellationRequestAPIView(UpdateAPIView): # attach to red deny button on cancellation host page
@@ -477,7 +494,7 @@ class HostDenyCancellationRequestAPIView(UpdateAPIView): # attach to red deny bu
 # HOST COMPLETED PAGE 
 
 class HostListAllCompletedReservationsAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
@@ -486,13 +503,14 @@ class HostListAllCompletedReservationsAPIView(ListAPIView):
     def get_queryset(self):
 
         # takes out all the reservations that are cancelled
-        reservations = Reservation.objects.filter(status='CO')
-        prop_ids = []
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
+        reservations = Reservation.objects.filter(status='CO',  property__property_owner=self.request.user)
+        return reservations
+        # prop_ids = []
+        # for reservation in reservations:
+        #     prop_ids.append(reservation.property.pk)
         
-        # returns all the properties that have an approved reservation on them 
-        return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
+        # # returns all the properties that have an approved reservation on them 
+        # return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
 
 class ReviewForGuestAPIView(UpdateAPIView):  
     
@@ -521,13 +539,14 @@ class ReviewForGuestAPIView(UpdateAPIView):
         # REPLACE THE 'url to trigger view' WITH THE VIEW TO TRIGGER NOTIF URL
         response['url_to_redirect_to'] = ['url to trigger view', reservation.content_type]
         return response
+        # this review for guest goes into history button on hosts requests tab 
 
     
 
 # HOST TERMINATIONS 
 
 class HostListAllTerminatedReservationsAPIView(ListAPIView):
-    serializer_class = PropertySerializer
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     page_size = 10
@@ -536,13 +555,14 @@ class HostListAllTerminatedReservationsAPIView(ListAPIView):
     def get_queryset(self):
 
         # takes out all the reservations that are cancelled
-        reservations = Reservation.objects.filter(status='TE')
-        prop_ids = []
-        for reservation in reservations:
-            prop_ids.append(reservation.property.pk)
+        reservations = Reservation.objects.filter(status='TE',  property__property_owner=self.request.user)
+        return reservations
+        # prop_ids = []
+        # for reservation in reservations:
+        #     prop_ids.append(reservation.property.pk)
         
-        # returns all the properties that have an approved reservation on them 
-        return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
+        # # returns all the properties that have an approved reservation on them 
+        # return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
     
 
 class ReasonForTerminatingAPIView(UpdateAPIView):  
@@ -572,6 +592,7 @@ class ReasonForTerminatingAPIView(UpdateAPIView):
         # REPLACE THE 'url to trigger view' WITH THE VIEW TO TRIGGER NOTIF URL
         response['url_to_redirect_to'] = ['url to trigger view', reservation.content_type]
         return response
+        # from here I need to send the reason for terminating as a notification 
     
     
 

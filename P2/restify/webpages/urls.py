@@ -45,55 +45,55 @@ urlpatterns = [
 
     
     # MUSTAFAS CODE 
-    path('admin/', admin.site.urls),
-    path('properties/all/', ListAllPropertiesAPIView.as_view(), name='list_all_properties_host'), # works - for host 
-    path('property/add/', CreatePropertiesAPIView.as_view(), name="add_property"),
+    path('admin/', admin.site.urls), #works11
+    path('properties/all/', ListAllPropertiesAPIView.as_view(), name='list_all_properties_host'), # works11
+    path('property/add/', CreatePropertiesAPIView.as_view(), name="add_property"), # works11
 
-    path('login/', LoginAPIView.as_view(), name='login'), # didnt test, do with prof
-    path('signup/', SignupAPIView.as_view(), name='signup'), # didnt test, do with prof
-    path('logout/', LogoutAPIView.as_view(), name='logout'), # didnt test, do with prof
-    path('profile/view/', UserProfileAPIView.as_view(), name='view_profile'), # works 
-    path('profile/edit/', UserProfileEditAPIView.as_view(), name='edit_profile'), # works 
+    path('login/', LoginAPIView.as_view(), name='login'), # works11
+    path('signup/', SignupAPIView.as_view(), name='signup'), # works11
+    path('logout/', LogoutAPIView.as_view(), name='logout'), # will try at the end 
+    path('profile/view/', UserProfileAPIView.as_view(), name='view_profile'), # works11
+    path('profile/edit/', UserProfileEditAPIView.as_view(), name='edit_profile'), # works11
 
-    path('<int:property_id>/reservations/add/', CreateReservationAPIView.as_view(), name='create_reservation'), # works
+    path('<int:property_id>/reservations/add/', CreateReservationAPIView.as_view(), name='create_reservation'), # works11
 
-    path('reservations/approved/', ListAllReservationsAPIView.as_view(), name='approved_by_host_reservations'), # buggy, returns unique properties - i want repeat properties corresponding to each reservation
-    path('<int:reservation_id>/terminate_request/', RequestToTerminateReservationAPIView.as_view(), name='request_to_terminate_reservation'), # works - changing status to CR
+    path('reservations/approved/', ListAllReservationsAPIView.as_view(), name='approved_by_host_reservations'), # works11
+    path('<int:reservation_id>/terminate_request/', RequestToTerminateReservationAPIView.as_view(), name='request_to_terminate_reservation'), # works11 - changing status to CR
 
-    path('reservations/requested/', ListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # works but same bug as approved_by_host_reservations
-    path('<int:reservation_id>/terminate/', TerminateReservationAPIView.as_view(), name='terminate_reservation'), # can only directly terminate if the reservation has not been approved yet
+    path('reservations/requested/', ListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # works11 --> gives all reservations with associated property attached
+    path('<int:reservation_id>/terminate/', TerminateReservationAPIView.as_view(), name='terminate_reservation'), # works11 --> terminates right away and frees available date - can only directly terminate if the reservation has not been approved yet
 
-    path('reservations/cancellations/', ListAllCancelledReservationsAPIView.as_view() ,name='cancellations'),
+    path('reservations/cancellations/', ListAllCancelledReservationsAPIView.as_view() ,name='cancellations'), # works11 --> after host approves cancellation request
     path('<int:reservation_id>/reason_for_cancelling/', ReasonForCancellingAPIView.as_view(), name='reason_for_cancelling'),
 
-    path('reservations/completed/', ListAllCompletedReservationsAPIView.as_view(), name='completed_reservations'),
+    path('reservations/completed/', ListAllCompletedReservationsAPIView.as_view(), name='completed_reservations'), # make some of them completed and test it 
     path('<int:reservation_id>/review_for_host/', ReviewForHostAPIView.as_view(), name='review_for_host'), #for both: review for host button on completed page and terminated page 
 
-    path('reservations/terminated/', ListAllTerminatedReservationsAPIView.as_view(), name='completed_reservations'),
+    path('reservations/terminated/', ListAllTerminatedReservationsAPIView.as_view(), name='completed_reservations'), # works11 --> all the reservations that were terminated by the host (can be done at anytime)
 
     #host - these are only available if there is a host dashboard on the front end 
-    path('listings/all/', ListAllPropertiesAPIView.as_view(), name='all_listings'), # returns the current host's listings
+    path('listings/all/', ListAllPropertiesAPIView.as_view(), name='all_listings'), # works11 - returns the current host's listings - not reservation based
 
-    path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # not working 
-    path('<int:reservation_id>/approve/', ApproveReservationAPIView.as_view(), name='host_approved'), # approve button host request page
-    path('<int:reservation_id>/deny/', DenyReservationAPIView.as_view(), name='host_denied'), # deny button host request page
-
-
-    path('listings/approved/', HostListAllOfApprovedReservationsAPIView.as_view(), name='approved_by_host_listings'), # all of the listings he approved are his own(for which hes a prop owner)
-    path('<int:reservation_id>/termination_by_host/', TerminateReservationAPIView.as_view(), name='termination_by_host'), 
+    path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # works11 --> gives me  hosts all reservation requests  
+    path('<int:reservation_id>/approve/', ApproveReservationAPIView.as_view(), name='host_approved'), # works11 # approve button host request page
+    path('<int:reservation_id>/deny/', DenyReservationAPIView.as_view(), name='host_denied'), # works11 --> deny button host request page
 
 
-    path('listings/cancellations/', HostListAllCancelledReservationsAPIView.as_view() ,name='all_cancellation_requests'), 
-    path('<int:reservation_id>/approve_cancellation/', HostApproveCancellationRequestAPIView.as_view(), name='host_approved_cancellation'), # approve button host cancellation page
-    path('<int:reservation_id>/deny_cancellation/', HostDenyCancellationRequestAPIView.as_view(), name='host_denied_cancellation'), # deny button host cancellation page
+    path('listings/approved/', HostListAllOfApprovedReservationsAPIView.as_view(), name='approved_by_host_listings'), # works11 --> all of the reservations he approved and are not active and waiting to be completed
+    path('<int:reservation_id>/termination_by_host/', TerminateReservationAPIView.as_view(), name='termination_by_host'), # works11 - terminates right away
+
+
+    path('listings/cancellations/', HostListAllCancelledReservationsAPIView.as_view() ,name='all_cancellation_requests'), # works11 --> all cancellations requests this host has recieved for his approved reservations
+    path('<int:reservation_id>/approve_cancellation/', HostApproveCancellationRequestAPIView.as_view(), name='host_approved_cancellation'), # works11 --> approve button host cancellation page
+    path('<int:reservation_id>/deny_cancellation/', HostDenyCancellationRequestAPIView.as_view(), name='host_denied_cancellation'), # works11 --> deny button host cancellation page
 
 
 
-    path('listings/completed/', HostListAllCompletedReservationsAPIView.as_view(), name='completed_listings'), # get all completed listings that this host owns 
+    path('listings/completed/', HostListAllCompletedReservationsAPIView.as_view(), name='completed_listings'), # works11 --> get all completed listings that this host owns 
     path('<int:reservation_id>/review_for_guest/', ReviewForGuestAPIView.as_view(), name='review_for_guest_by_host'), #for both: review for host button on completed page and terminated page
 
 
-    path('listings/terminated/', HostListAllTerminatedReservationsAPIView.as_view(), name='all_listings_terminated_by_host'), # get all completed listings that this host owns 
+    path('listings/terminated/', HostListAllTerminatedReservationsAPIView.as_view(), name='all_listings_terminated_by_host'), # works11 --> get all completed listings that this host owns 
     path('<int:reservation_id>/reason_for_terminating/', ReasonForTerminatingAPIView.as_view(), name='reason_for_cancelling'),
 
 
