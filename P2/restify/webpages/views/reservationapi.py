@@ -20,13 +20,13 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import Response
 from rest_framework_simplejwt.authentication import api_settings, JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
-from ..models.reservation import Reservation
-from ..models.property import Property
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
+from django.http import HttpResponse
 
 
-
+from ..models.reservation import Reservation
+from ..models.property import Property, RangePriceHostOffer
 from webpages.serializers.serializer_user import UserSerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
 from webpages.serializers.serializers_property import PropertySerializer
@@ -39,18 +39,40 @@ class CreateReservationAPIView(CreateAPIView):
 
 
     def perform_create(self, serializer):
-        # get property_id from url
-        property_id = self.kwargs['property_id']
-        # get property instance with property_id
-        property = get_object_or_404(Property, id=property_id)
-        # set the property field of serializer to the retrieved property instance
-        serializer.validated_data['property'] = property
 
-        # set the user field of serializer to the current user
-        serializer.validated_data['user'] = self.request.user
-        # serializer.validated_data['object_id'] = serializer.validated_data['pk']
+        # take all the available dates out of the property we at hand 
+        all_available_dates = RangePriceHostOffer.objects.filter(property=property)
 
-        # serializer.validated_data['num_reservations'] += 1
+        # get all the queryparams
+        start_date = self.request.query_params.get('start_date')
+        end_date = self.request.query_params.get('end_date')
+        # number_of_guests = self.request.query_params.get('number_of_guests')
+
+        # first check if the start_date and end_date are even within any of the Property's available dates
+        # here we are finding the possible available date objects 
+        # this should be only 1 
+        valid_available_date = all_available_dates.objects.filter(start_date__lte=start_date, end_date__gte=start_date).filter(start_date__lte=end_date, end_date__gte=end_date)
+
+        start_date_for_availDate = valid_available_date.start_date
+        end_date_for_availDate = valid_available_date.end_date
+
+        # check if this available date has a reservation attached to it, if not, attach this to the reservation
+        booked_already = Reservation.objects.filter(date_this_reservation_is_booked_for__start_date=start_date_for_availDate,
+        date_this_reservation_is_booked_for__end_date=end_date_for_availDate)
+
+        if booked_already:
+            return HttpResponse(status=405)
+        else:
+            serializer.validated_data['booked_date'] = valid_available_date
+            # get property_id from url
+            property_id = self.kwargs['property_id']
+            # get property instance with property_id
+            property = get_object_or_404(Property, id=property_id)
+            # set the property field of serializer to the retrieved property instance
+            serializer.validated_data['property'] = property
+
+            # set the user field of serializer to the current user
+            serializer.validated_data['user'] = self.request.user
 
         # call the super perform_create method to save the reservation instance
         super().perform_create(serializer)
