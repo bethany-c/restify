@@ -25,7 +25,7 @@ class PropertyImageSerializer(ModelSerializer):
     
     class Meta:
         model = PropertyImage
-        fields = '__all__'
+        exclude = ("property", )
         # property_owner does not have to be sent 
 
     def create(self, validated_data):
@@ -48,6 +48,7 @@ class PropertyRatingSerializer(ModelSerializer):
     
     class Meta:
         model = PropertyRating
+
         # property_owner does not have to be sent 
 
     def create(self, validated_data):

@@ -11,7 +11,8 @@ from django.db.models import Case, When, Value, IntegerField
 import json
 from django.http import HttpResponse
 from itertools import chain
-    
+from django.core.exceptions import PermissionDenied
+   
 
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.views import APIView
@@ -35,7 +36,7 @@ from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSeria
 # only triggered on host dashboard /allListings
 class ListAllPropertiesAPIView(ListAPIView):
     serializer_class = PropertySerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
 
@@ -64,6 +65,9 @@ class CreateAvailableDateAPIView(CreateAPIView):
 
     
     def perform_create(self, serializer):
+        p = get_object_or_404(Property, id=self.kwargs['pk'])
+        if p.property_owner != self.request.user:
+            raise PermissionDenied()
 
         # set the property_owner field of serializer to the current user
         serializer.validated_data['property'] = get_object_or_404(Property, id=self.kwargs['pk'])
@@ -97,6 +101,9 @@ class DeletePropertiesAPIView(DestroyAPIView):
     serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
+        p = get_object_or_404(Property, id=self.kwargs['pk'])
+        if p.property_owner != self.request.user:
+            raise PermissionDenied()
         return get_object_or_404(Property, id=self.kwargs['pk'])
 
     
@@ -104,11 +111,13 @@ class EditPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
+        p = get_object_or_404(Property, id=self.kwargs['pk'])
+        if p.property_owner != self.request.user:
+            raise PermissionDenied()
         return get_object_or_404(Property, id=self.kwargs['pk'])
     
 class DetailPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertySerializer
-    permission_classes = [IsAuthenticated]
     # image = get_object_or_404(Property, id=self.kwargs['pk']).PropertyImage_set.all()
     # available = get_object_or_404(Property, id=self.kwargs['pk']).AvailableDate_set.all()
     # price = get_object_or_404(Property, id=self.kwargs['pk']).AskingPrice_set.all()
@@ -293,12 +302,23 @@ class DeleteAvailableDateAPIView(DestroyAPIView):
     serializer_class = PropertyTimeRangePriceHostOfferSerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
+        ava = get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
+        p = get_object_or_404(Property, id=ava.property.id)
+        if p.property_owner != self.request.user:
+            raise PermissionDenied()
+
+
         return get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
 
 class EditAvailableDateAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertyTimeRangePriceHostOfferSerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
+        ava = get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
+        p = get_object_or_404(Property, id=ava.property.id)
+        if p.property_owner != self.request.user:
+            raise PermissionDenied()
+
         return get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
     
 
@@ -307,6 +327,12 @@ class AddPictureAPIView(CreateAPIView):
     serializer_class = PropertyImageSerializer
     
     def perform_create(self, serializer):
+     
+        p = get_object_or_404(Property, id=self.kwargs['pk'])
+        if p.property_owner != self.request.user:
+            raise PermissionDenied()
+
+        
 
         # set the property_owner field of serializer to the current user
         serializer.validated_data['property'] = get_object_or_404(Property, id=self.kwargs['pk'])
@@ -318,13 +344,17 @@ class DeletePictureAPIView(DestroyAPIView):
     serializer_class = PropertyImageSerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
+        ava = get_object_or_404(PropertyImage, id=self.kwargs['pk'])
+        p = get_object_or_404(Property, id=ava.property.id)
+        if p.property_owner != self.request.user:
+            raise PermissionDenied()
         return get_object_or_404(PropertyImage, id=self.kwargs['pk'])
     
 
 
 class DetailImageAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertyImageSerializer
-    permission_classes = [IsAuthenticated]
+
 
     def get_object(self):
         return get_object_or_404(PropertyImage, id=self.kwargs['pk'])
@@ -334,7 +364,7 @@ class DetailImageAPIView(RetrieveAPIView, UpdateAPIView):
     
 class DetailRangePriceHostOfferAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertyTimeRangePriceHostOfferSerializer
-    permission_classes = [IsAuthenticated]
+
 
     def get_object(self):
         return get_object_or_404(RangePriceHostOffer, id=self.kwargs['pk'])
