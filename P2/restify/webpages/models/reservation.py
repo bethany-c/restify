@@ -27,7 +27,7 @@ class Reservation(models.Model):
     # content_object = ('content_type', 'object_id')
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reservation_property')
     num_of_guests = models.PositiveBigIntegerField(default=1)
-    reason_for_cancelling = models.CharField(max_length=400)
+    # reason_for_cancelling = models.CharField(max_length=400)
     available_date = models.ForeignKey(RangePriceHostOffer, on_delete=models.CASCADE, related_name="date_booked_for", null=True, blank=True)
 
 
