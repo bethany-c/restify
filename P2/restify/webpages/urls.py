@@ -77,6 +77,8 @@ urlpatterns = [
     path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # works11 --> gives me  hosts all reservation requests  
     path('<int:reservation_id>/approve/', ApproveReservationAPIView.as_view(), name='host_approved'), # works11 # approve button host request page
     path('<int:reservation_id>/deny/', DenyReservationAPIView.as_view(), name='host_denied'), # works11 --> deny button host request page
+    path('<int:user_id>/history/', DenyReservationAPIView.as_view(), name='host_denied'), # works11 --> deny button host request page
+
 
 
     path('listings/approved/', HostListAllOfApprovedReservationsAPIView.as_view(), name='approved_by_host_listings'), # works11 --> all of the reservations he approved and are not active and waiting to be completed
@@ -90,7 +92,7 @@ urlpatterns = [
 
 
     path('listings/completed/', HostListAllCompletedReservationsAPIView.as_view(), name='completed_listings'), # works11 --> get all completed listings that this host owns 
-    path('<int:reservation_id>/review_for_guest/', ReviewForGuestAPIView.as_view(), name='review_for_guest_by_host'), #for both: review for host button on completed page and terminated page
+    path('<int:reservation_id>/review_for_guest/', ReviewForGuestAPIView.as_view(), name='review_for_guest_by_host'), # works11 -> #for both: review for host button on completed page and terminated page
 
 
     path('listings/terminated/', HostListAllTerminatedReservationsAPIView.as_view(), name='all_listings_terminated_by_host'), # works11 --> get all completed listings that this host owns 

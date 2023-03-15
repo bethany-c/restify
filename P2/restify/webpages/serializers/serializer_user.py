@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from ..models.user import RestifyUser
+from ..models.user import RestifyUser, UserHistory
 from webpages.models.property import Property 
 from django.contrib.auth import get_user_model
 
@@ -18,6 +18,12 @@ class UserSerializer(ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class UserHistorySerializer(ModelSerializer):
+
+    class Meta:
+        model = UserHistory
+        exclude = ('comment_for_this_user', )
     
 
 

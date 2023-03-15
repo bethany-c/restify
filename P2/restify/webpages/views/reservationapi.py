@@ -27,7 +27,7 @@ from django.http import HttpResponse
 
 from ..models.reservation import Reservation
 from ..models.property import Property, RangePriceHostOffer
-from webpages.serializers.serializer_user import UserSerializer
+from webpages.serializers.serializer_user import UserSerializer, UserHistorySerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
 from webpages.serializers.serializers_property import PropertySerializer
 
@@ -295,6 +295,7 @@ class ListAllCompletedReservationsAPIView(ListAPIView):
     
 
     
+# for the "leave review for host" button when the reservation is completed or terminated
 class ReviewForHostAPIView(UpdateAPIView):  
     
     serializer_class = ReservationSerializer
@@ -309,6 +310,7 @@ class ReviewForHostAPIView(UpdateAPIView):
         reservation = serializer.save()
         # hard coding the reason for cancelling at the moment, will use react to import modal message here
         comment = PropertyComment()
+        print(serializer.validated_data, 'yooooo')
         comment.content = "This host was wonderful! 10/10 would come again!"
         reservation.content_type = ContentType.objects.get_for_model(comment)
         serializer.save()
@@ -320,7 +322,8 @@ class ReviewForHostAPIView(UpdateAPIView):
         reservation = Reservation.objects.get(pk=self.kwargs['reservation_id'])
 
         # REPLACE THE 'url to trigger view' WITH THE VIEW TO TRIGGER NOTIF URL
-        response['url_to_redirect_to'] = ['url to trigger view', reservation.content_type]
+        url = "reservations/" + str(self.kwargs['reservation_id']) + "/property-comments/add/"
+        response['url_to_redirect_to'] = [url, reservation.content_type]
         return response
     
 
@@ -512,33 +515,46 @@ class HostListAllCompletedReservationsAPIView(ListAPIView):
         # # returns all the properties that have an approved reservation on them 
         # return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
 
-class ReviewForGuestAPIView(UpdateAPIView):  
+class ReviewForGuestAPIView(CreateAPIView):  
     
-    serializer_class = ReservationSerializer
+    serializer_class = UserHistorySerializer
     permission_classes = [IsAuthenticated]
     pk_url_kwarg = 'reservation_id'
 
-    def get_object(self):
+    # def get_object(self):
+    #     reservation = get_object_or_404(Reservation, pk=self.kwargs['reservation_id'])
+    #     return reservation
+
+    def perform_create(self, serializer):
         reservation = get_object_or_404(Reservation, pk=self.kwargs['reservation_id'])
-        return reservation
+
+        # get user for this reservation
+        user1 = reservation.user
+
+        serializer.validated_data['comment_for_this_user'] = user1
+
+        return super().perform_create(serializer)
     
-    def perform_update(self, serializer):
-        reservation = serializer.save()
-        # hard coding the reason for cancelling at the moment, will use react to import modal message here
-        comment = PropertyComment()
-        comment.content = "This user was wonderful! 10/10 would come again!"
-        reservation.content_type = ContentType.objects.get_for_model(comment)
-        serializer.save()
 
-    def update(self, request, *args, **kwargs):
-        # update your shit 
-        response = super().update(request, *args, **kwargs)
-        # need a url here that will trigger a notification to the property_owner that the user who cancelled has left a reason for cancelling
-        reservation = Reservation.objects.get(pk=self.kwargs['reservation_id'])
 
-        # REPLACE THE 'url to trigger view' WITH THE VIEW TO TRIGGER NOTIF URL
-        response['url_to_redirect_to'] = ['url to trigger view', reservation.content_type]
-        return response
+    
+    # def perform_update(self, serializer):
+    #     reservation = serializer.save()
+    #     # hard coding the reason for cancelling at the moment, will use react to import modal message here
+    #     comment = PropertyComment()
+    #     comment.content = "This user was wonderful! 10/10 would come again!"
+    #     reservation.content_type = ContentType.objects.get_for_model(comment)
+    #     serializer.save()
+
+    # def update(self, request, *args, **kwargs):
+    #     # update your shit 
+    #     response = super().update(request, *args, **kwargs)
+    #     # need a url here that will trigger a notification to the property_owner that the user who cancelled has left a reason for cancelling
+    #     reservation = Reservation.objects.get(pk=self.kwargs['reservation_id'])
+
+    #     # REPLACE THE 'url to trigger view' WITH THE VIEW TO TRIGGER NOTIF URL
+    #     response['url_to_redirect_to'] = ['url to trigger view', reservation.content_type]
+    #     return response
         # this review for guest goes into history button on hosts requests tab 
 
     
