@@ -80,7 +80,6 @@ urlpatterns = [
     path('<int:user_id>/history/', GetUserHistoryAPIView.as_view(), name='add_history'), # works11 --> gives all the history of the user in the host dashboard
 
 
-
     path('listings/approved/', HostListAllOfApprovedReservationsAPIView.as_view(), name='approved_by_host_listings'), # works11 --> all of the reservations he approved and are not active and waiting to be completed
     path('<int:reservation_id>/termination_by_host/', TerminateReservationAPIView.as_view(), name='termination_by_host'), # works11 - terminates right away
 
