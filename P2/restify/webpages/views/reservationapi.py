@@ -110,7 +110,8 @@ class ListAllReservationsAPIView(ListAPIView):
     # we are returning a collection of Property objects therefore we need a property serializer
     serializer_class = ReservationSerializer
     pagination_class = PageNumberPagination
-    page_size = 10
+    # page_size = 10
+    default_page_size = 5
 
     def get_queryset(self):
 
@@ -166,7 +167,7 @@ class ListAllRequestedReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
 
     # need to get all properties with status=
     def get_queryset(self):
@@ -214,7 +215,7 @@ class ListAllCancelledReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
     
 
     # need to get all properties with status=
@@ -280,7 +281,7 @@ class ListAllCompletedReservationsAPIView(ListAPIView):
     serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
 
     # need to get all properties with status="CO"
     def get_queryset(self):
@@ -334,7 +335,7 @@ class ListAllTerminatedReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
 
     # need to get all properties with status="CO"
     def get_queryset(self):
@@ -354,7 +355,7 @@ class HostListAllRequestedReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
 
     def get_queryset(self):
         # get all reservations that have status="AR"
@@ -402,7 +403,7 @@ class HostListAllOfApprovedReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
 
     def get_queryset(self):
         # get all reservations that have status="AR"
@@ -447,7 +448,7 @@ class HostListAllCancelledReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
     
 
     # need to get all properties with status=
@@ -501,7 +502,7 @@ class HostListAllCompletedReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
 
     # need to get all properties with status="CO"
     def get_queryset(self):
@@ -546,6 +547,8 @@ class GetUserHistoryAPIView(ListAPIView):
         # histories = get_object_or_404(UserHistory, pk=self.kwargs['user_id'])
         histories = UserHistory.objects.filter(comment_for_this_user__id=self.kwargs['user_id'])
         return histories
+
+
     
 
 
@@ -577,7 +580,7 @@ class HostListAllTerminatedReservationsAPIView(ListAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
-    page_size = 10
+    default_page_size = 5
     
     # need to get all properties with status="CO"
     def get_queryset(self):

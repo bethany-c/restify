@@ -95,7 +95,7 @@ urlpatterns = [
 
 
     path('listings/terminated/', HostListAllTerminatedReservationsAPIView.as_view(), name='all_listings_terminated_by_host'), # works11 --> get all completed listings that this host owns 
-    path('<int:reservation_id>/reason_for_terminating/', ReasonForTerminatingAPIView.as_view(), name='reason_for_cancelling'),
+    # path('<int:reservation_id>/reason_for_terminating/', ReasonForTerminatingAPIView.as_view(), name='reason_for_cancelling'),
 
 
 
