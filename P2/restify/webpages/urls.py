@@ -64,7 +64,7 @@ urlpatterns = [
     path('<int:reservation_id>/terminate/', TerminateReservationAPIView.as_view(), name='terminate_reservation'), # works11 --> terminates right away and frees available date - can only directly terminate if the reservation has not been approved yet
 
     path('reservations/cancellations/', ListAllCancelledReservationsAPIView.as_view() ,name='cancellations'), # works11 --> after host approves cancellation request
-    path('<int:reservation_id>/reason_for_cancelling/', ReasonForCancellingAPIView.as_view(), name='reason_for_cancelling'),
+    # path('<int:reservation_id>/reason_for_cancelling/', ReasonForCancellingAPIView.as_view(), name='reason_for_cancelling'),
 
     path('reservations/completed/', ListAllCompletedReservationsAPIView.as_view(), name='completed_reservations'), # make some of them completed and test it 
     path('<int:reservation_id>/review_for_host/', CreatePropertyCommentAPIView.as_view(), name='review_for_host'), #for both: review for host button on completed page and terminated page 
