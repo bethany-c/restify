@@ -27,6 +27,7 @@ from django.http import HttpResponse
 
 from ..models.reservation import Reservation
 from ..models.property import Property, RangePriceHostOffer
+from ..models.user import UserHistory
 from webpages.serializers.serializer_user import UserSerializer, UserHistorySerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
 from webpages.serializers.serializers_property import PropertySerializer
@@ -515,7 +516,7 @@ class HostListAllCompletedReservationsAPIView(ListAPIView):
         # # returns all the properties that have an approved reservation on them 
         # return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
 
-class ReviewForGuestAPIView(CreateAPIView):  
+class CreateReviewForGuestAPIView(CreateAPIView):  
     
     serializer_class = UserHistorySerializer
     permission_classes = [IsAuthenticated]
@@ -534,6 +535,17 @@ class ReviewForGuestAPIView(CreateAPIView):
         serializer.validated_data['comment_for_this_user'] = user1
 
         return super().perform_create(serializer)
+
+class GetUserHistoryAPIView(ListAPIView):
+    serializer_class = UserHistorySerializer
+    permission_classes = [IsAuthenticated]
+    pk_url_kwarg = 'user_id'
+
+    def get_queryset(self):
+
+        # histories = get_object_or_404(UserHistory, pk=self.kwargs['user_id'])
+        histories = UserHistory.objects.filter(comment_for_this_user__id=self.kwargs['user_id'])
+        return histories
     
 
 

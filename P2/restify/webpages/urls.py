@@ -7,7 +7,7 @@ from .views import accountsapi
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
 from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView
-from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, ReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView
+from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView
 from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
 from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications
@@ -67,7 +67,7 @@ urlpatterns = [
     path('<int:reservation_id>/reason_for_cancelling/', ReasonForCancellingAPIView.as_view(), name='reason_for_cancelling'),
 
     path('reservations/completed/', ListAllCompletedReservationsAPIView.as_view(), name='completed_reservations'), # make some of them completed and test it 
-    path('<int:reservation_id>/review_for_host/', ReviewForHostAPIView.as_view(), name='review_for_host'), #for both: review for host button on completed page and terminated page 
+    path('<int:reservation_id>/review_for_host/', CreatePropertyCommentAPIView.as_view(), name='review_for_host'), #for both: review for host button on completed page and terminated page 
 
     path('reservations/terminated/', ListAllTerminatedReservationsAPIView.as_view(), name='completed_reservations'), # works11 --> all the reservations that were terminated by the host (can be done at anytime)
 
@@ -77,7 +77,7 @@ urlpatterns = [
     path('listings/requested/', HostListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # works11 --> gives me  hosts all reservation requests  
     path('<int:reservation_id>/approve/', ApproveReservationAPIView.as_view(), name='host_approved'), # works11 # approve button host request page
     path('<int:reservation_id>/deny/', DenyReservationAPIView.as_view(), name='host_denied'), # works11 --> deny button host request page
-    path('<int:user_id>/history/', DenyReservationAPIView.as_view(), name='host_denied'), # works11 --> deny button host request page
+    path('<int:user_id>/history/', GetUserHistoryAPIView.as_view(), name='add_history'), # works11 --> gives all the history of the user in the host dashboard
 
 
 
@@ -92,7 +92,7 @@ urlpatterns = [
 
 
     path('listings/completed/', HostListAllCompletedReservationsAPIView.as_view(), name='completed_listings'), # works11 --> get all completed listings that this host owns 
-    path('<int:reservation_id>/review_for_guest/', ReviewForGuestAPIView.as_view(), name='review_for_guest_by_host'), # works11 -> #for both: review for host button on completed page and terminated page
+    path('<int:reservation_id>/review_for_guest/', CreateReviewForGuestAPIView.as_view(), name='review_for_guest_by_host'), # works11 -> #for both: review for host button on completed page and terminated page
 
 
     path('listings/terminated/', HostListAllTerminatedReservationsAPIView.as_view(), name='all_listings_terminated_by_host'), # works11 --> get all completed listings that this host owns 

@@ -17,6 +17,9 @@ class RestifyUser(AbstractUser):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
+    def __str__(self) -> str:
+        return self.username + " || User ID: " + str(self.pk)
+
 
 class UserHistory(models.Model):
     comment_for_this_user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)

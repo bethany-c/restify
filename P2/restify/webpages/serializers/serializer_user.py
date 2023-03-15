@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
 from rest_framework import serializers
 from ..models.user import RestifyUser, UserHistory
 from webpages.models.property import Property 
@@ -20,10 +20,16 @@ class UserSerializer(ModelSerializer):
         return user
 
 class UserHistorySerializer(ModelSerializer):
+    # user = Pri
+    # property = PropertySerializer(read_only=True) # cannot be changed 
+    comment_for_this_user = PrimaryKeyRelatedField(queryset= UserHistory.objects.all() ,required=False)
+    
+
 
     class Meta:
         model = UserHistory
-        exclude = ('comment_for_this_user', )
+        # exclude = ('comment_for_this_user', )
+        fields = "__all__"
     
 
 
