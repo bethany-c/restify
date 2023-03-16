@@ -466,7 +466,7 @@ class HostListAllCancelledReservationsAPIView(ListAPIView):
     
 class HostApproveCancellationRequestAPIView(UpdateAPIView): # attach to green approve button on cancellation host page
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationSerializerAdd
     permission_classes = [IsAuthenticated]
 
     def get_object(self):

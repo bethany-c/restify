@@ -22,7 +22,7 @@ class Reservation(models.Model):
     user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='restify_user_for_reservation') # user that booked this 
     # property_owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='property_owner_of_reservation')
     posted_on = models.DateTimeField(auto_now=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='reservation_content', null=True, blank=True)
+    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='reservation_content', null=True, blank=True)
     object_id = models.PositiveIntegerField(default=1)  # need to set SingleComment id to this object_id
     # content_object = ('content_type', 'object_id')
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reservation_property')

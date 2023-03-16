@@ -95,6 +95,13 @@ class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='product_attribute_for_propimage')
     image = models.ImageField(upload_to='images/')
 
+    def __str__(self) -> str:
+        return "Property Image ID: " + str(self.pk) + " for Property ID: " + str(self.property.pk)
+    class Meta:
+        verbose_name_plural = 'Property Images'
+
+
+
 # class AvailableDate(models.Model):
 #     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_for_available_date')
 #     start_date = models.DateTimeField()

@@ -13,7 +13,7 @@ class ReservationSerializerAdd(ModelSerializer):
     class Meta:
         model = Reservation
         # datetime --> "date_joined": "2024-02-10T07:23:53.568Z"
-        fields = ['start_date', 'end_date', 'num_of_guests', 'content_type']
+        fields = ['content_type']
 
     def create(self, validated_data):
         # print(self.context['request'].user)

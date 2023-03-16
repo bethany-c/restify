@@ -21,27 +21,27 @@ from .views.commentsapi import GetAllPropertyComments, CreatePropertyCommentAPIV
 app_name = 'webpages'
 urlpatterns = [
     # LEOS CODE 
-    path('property/<int:pk>/detail/', DetailPropertiesAPIView.as_view(), name='property_detail'), # works
+    path('property/<int:pk>/detail/', DetailPropertiesAPIView.as_view(), name='property_detail'), # works11
  
-    path('property/<int:pk>/edit/', EditPropertiesAPIView.as_view(), name='property_edit'), 
-    path('property/<int:pk>/delete/', DeletePropertiesAPIView.as_view(), name='property_delete'),
+    path('property/<int:pk>/edit/', EditPropertiesAPIView.as_view(), name='property_edit'), # works11
+    path('property/<int:pk>/delete/', DeletePropertiesAPIView.as_view(), name='property_delete'), # works11
 
 
-    path('property/search/', SearchPropertyView.as_view(), name='property_search'),
-    path('property/filter/', FilterPropertyView.as_view(), name='property_filter'),
-    path('property/order/', OrderPropertyView.as_view(), name='property_order'),
-    path('property/price_order/', OrderPropertyPriceView.as_view(), name='property_price_order'),
-    path('<int:pk>/create_timerange_price/', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'), #pk is property_id
+    path('property/search/', SearchPropertyView.as_view(), name='property_search'), # works11
+    path('property/filter/', FilterPropertyView.as_view(), name='property_filter'), # works11
+    path('property/order/', OrderPropertyView.as_view(), name='property_order'), # works11
+    path('property/price_order/', OrderPropertyPriceView.as_view(), name='property_price_order'), # works11
+    path('<int:pk>/create_timerange_price/', CreateAvailableDateAPIView.as_view(), name='create_timerange_price'), # works11 --> pk is property_id
 
-    path('available_date/<int:pk>/edit/', EditAvailableDateAPIView.as_view(), name='property_edit'), 
-    path('available_date/<int:pk>/delete/', DeleteAvailableDateAPIView.as_view(), name='property_delete'), 
-    path('picture/<int:pk>/add/', AddPictureAPIView.as_view(), name='add_picture'), 
+    path('available_date/<int:pk>/edit/', EditAvailableDateAPIView.as_view(), name='property_edit'), # works11 --> pk is rangepricehostoffer.pk
+    path('available_date/<int:pk>/delete/', DeleteAvailableDateAPIView.as_view(), name='property_delete'), # works11 --> pk is rangepricehostoffer.pk
+    path('picture/<int:pk>/add/', AddPictureAPIView.as_view(), name='add_picture'), # works11 --> pk is property_id
 
-    path('picture/<int:pk>/delete/', DeletePictureAPIView.as_view(), name='delete_picture'),   
-    path('picture/<int:pk>/detail/', DetailImageAPIView.as_view(), name='view_picture'),   
-    path('available_date/<int:pk>/detail/', DetailRangePriceHostOfferAPIView.as_view(), name='property_image'), 
-    path('available_date/<int:pk>/list/', ListAllAvailableDatesAPIView.as_view(), name='list_avaiable'), #pk is property_id
-    path('picture/<int:pk>/list/', ListAllImageAPIView.as_view(), name='list_images'), #pk is property_id
+    path('picture/<int:pk>/delete/', DeletePictureAPIView.as_view(), name='delete_picture'), # works11 --> pk is propertyImage pk
+    path('picture/<int:pk>/detail/', DetailImageAPIView.as_view(), name='view_picture'), # works11 --> pk is PropertyImage pk
+    path('available_date/<int:pk>/detail/', DetailRangePriceHostOfferAPIView.as_view(), name='property_image'), # works11
+    path('available_date/<int:pk>/list/', ListAllAvailableDatesAPIView.as_view(), name='list_avaiable'), # works11 --> pk is property_id
+    path('picture/<int:pk>/list/', ListAllImageAPIView.as_view(), name='list_images'), # works11 --> pk is property_id
 
     
     # MUSTAFAS CODE 
