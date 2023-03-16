@@ -1,10 +1,10 @@
 sudo apt update
 sudo apt install python3-pip
 pip3 install django
-pip3 install virtualenv
+sudo apt install virtualenv
 virtualenv venv
 source venv/bin/activate
-pip3 install djangorestframework-simplejwt 
-pip3 install django-multiselectfield
-pip3 install pillow
-pip3 install django-filter
+python -m pip install djangorestframework-simplejwt 
+python -m pip install django-multiselectfield
+python -m pip install Pillow
+python -m pip install django-filter
