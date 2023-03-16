@@ -273,7 +273,7 @@ class FilterPropertyView(ListAPIView):
         if number_of_rooms:
             relevant_properties = relevant_properties.filter(number_of_rooms__gte=number_of_rooms)
         if number_of_bed:
-            relevant_properties = relevant_properties.filter(number_of_beds__gte=number_of_bed)
+            relevant_properties = relevant_properties.filter(number_of_bed__gte=number_of_bed)
         if baths:
             relevant_properties = relevant_properties.filter(baths__gte=baths)
         if essentials:
