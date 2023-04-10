@@ -10,13 +10,20 @@ import LogIn from './components/login';
 import LogOut from './components/logout';
 import LogInPage from './pages/loginpage';
 import HomePage from './pages/homepage';
+
+// FOR BETHANYS TESTING
+import CardComponent from './components/Card/CardComponent';
+import { RenderStarRating } from './components/Card/RenderStarRating';
+
 import "./index.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+import { useState, React } from 'react'
 import { Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom'
 
 function App() {
+
+  
   return (
     // <div className="App">
     //   <NavbarSO/>
@@ -31,6 +38,14 @@ function App() {
             <Route index element={<HomePage />}/>
             <Route path="signup" element={<SignUpPage/>}/>
             <Route path="logout" element={<LogOut />}/>
+            {/* <Route path='testcard' element={
+            <CardComponent
+              title='hello'
+              description='idk'
+              price='10'
+              totalPrice='30'
+              topRightBtn={ <RenderStarRating rating='5'/> }
+            />}/> */}
           </Route>
         </Routes>
     </Router>
