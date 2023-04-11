@@ -38,14 +38,14 @@ function App() {
             <Route index element={<HomePage />}/>
             <Route path="signup" element={<SignUpPage/>}/>
             <Route path="logout" element={<LogOut />}/>
-            {/* <Route path='testcard' element={
+            <Route path='testcard' element={
             <CardComponent
               title='hello'
               description='idk'
               price='10'
               totalPrice='30'
               topRightBtn={ <RenderStarRating rating='5'/> }
-            />}/> */}
+            />}/>
           </Route>
         </Routes>
     </Router>

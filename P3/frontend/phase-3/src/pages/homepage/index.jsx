@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { InputGroup, Form, Button } from 'react-bootstrap'
 import NavbarSO from '../../components/Navbar/Navbar-signedOut'
 import './style.css'
-
+import FilterModal from '../../components/modals/FilterModal'
 const HomePage = () => {
 
   const [start, setStart] = useState(getToday())
@@ -14,6 +14,8 @@ const HomePage = () => {
   const [numGuest, setNumGuest] = useState(0)
 
   const [invalid, setInvalid] = useState(false)
+
+  
 
 
 
@@ -143,11 +145,8 @@ const HomePage = () => {
           </p>
           : null
         }
-
-
-
-          
       </div>
+      <FilterModal/>
     </div>
   )
 }
