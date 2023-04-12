@@ -1,4 +1,4 @@
-import React, {useState, useEffect}from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BsList } from 'react-icons/bs';
@@ -7,50 +7,108 @@ import { Link } from 'react-router-dom';
 import '../Sidebar/sidebarstyle.css';
 import Collapse from 'react-bootstrap/Collapse';
 import Accordion from 'react-bootstrap/Accordion';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { Sidebar, Menu, MenuItem, SubMenu, useProSidebar } from 'react-pro-sidebar';
+import AuthContext from '../../context';
 
 
 
-const CustomSidebar = () => {
+const CustomSidebar = (props) => {
+    const {collapsed, setCollapsed} = props.collapseStatus
+    const {collapseSidebar, toggleSidebar} = useProSidebar()
+    const {isHost, setIsHost} = useContext(AuthContext);
 
-  return (
-            <Sidebar collapsedWidth="0px">
+    const handleResize = () => {
+        // console.log(window.innerWidth, 'this is the width of the viewport')
+        if (window.innerWidth < 910) {
+            console.log('value of collapsed when width < 460',collapsed)
+            if (!collapsed) { // if not collapsed, collapse it and update its state
+                collapseSidebar(false) //only closes
+                setCollapsed(true)
+
+            }
+            else {
+                collapseSidebar(true) //only opens 
+                setCollapsed(false)
+            }
+            
+        }
+    }
+
+    useEffect(() => {
+        handleResize()
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+
+    },[])
+
+
+    return (
+            <Sidebar collapsedWidth="0px" className='sidebarcontainer' id='container-sidebar'>
                 <Menu className='bg-color h-100' id='sidebar'>
                     <br />
                     <br />
                     <br />
                     <Navbar.Brand className="w-100 m-0">
-                        <Nav.Link className="fs-2" to="../index.html">Restify</Nav.Link>
+                        
+                        <Nav.Link as={Link} className="fs-2" to="/" >Restify</Nav.Link>
+    
                     </Navbar.Brand>
                     <br />
                     <br />
                     <br />
-                    <MenuItem className='hoverit'> <FaUserAlt /> Profile </MenuItem>
+                    <MenuItem className='sidebarstyling'> 
+                        <Link className='cheetah w-100 h-100' to="/dashboard/profile"><FaUserAlt/> Profile </Link>
+                    </MenuItem>
                     <br />
                     <br />
                     <h4> Your Dashboard </h4>
-                    <SubMenu className='hoverit' label="Your Orders">
-                        <MenuItem className='hoverit'> Approved </MenuItem>
-                        <MenuItem className='hoverit'> Requested </MenuItem>
-                        <MenuItem className='hoverit'> Cancellations </MenuItem>
-                        <MenuItem className='hoverit'> Completed </MenuItem>
-                        <MenuItem className='hoverit'> Terminated </MenuItem>
+                    <SubMenu label="Your Orders">
+                        <MenuItem ><Link className='cheetah' to="/dashboard/approved" > Approved </Link></MenuItem> 
+                        <MenuItem > <Link className='cheetah' to="/dashboard/requested" > Requested </Link></MenuItem>
+                        <MenuItem > <Link className='cheetah' to="/dashboard/cancellations" > Cancellations </Link></MenuItem>
+                        <MenuItem > <Link className='cheetah' to="/dashboard/completed" > Completed </Link> </MenuItem>
+                        <MenuItem > <Link className='cheetah' to="/dashboard/terminated" > Terminated </Link> </MenuItem>
                     </SubMenu>
-                    <MenuItem className='hoverit'> <FaBell/> Notifications </MenuItem>
+                    {/* <MenuItem className='hoverit'> <FaBell/> Notifications </MenuItem> */}
+                    <br />
+                    <MenuItem >
+                        <Link className='cheetah' to="/dashboard/notifications"> <FaBell/> Notifications </Link>
+                    </MenuItem>
                     <br />
                     <br />
                     <br />
-                    <h4> Host Dashboard </h4>
-                    <SubMenu label="Your Listings" className='hoverit'>
-                        <MenuItem className='hoverit'> Requests </MenuItem>
-                        <MenuItem className='hoverit'> Approved </MenuItem>
-                        <MenuItem className='hoverit'> Cancellations </MenuItem>
-                        <MenuItem className='hoverit'> Completed </MenuItem>
-                        <MenuItem className='hoverit'> Terminated </MenuItem>
-                        <MenuItem className='hoverit'> All listings </MenuItem>
-                    </SubMenu>
+
+
+
+                    
+                    {isHost ? (      
+                              <> <h4> Host Dashboard </h4>
+                            <SubMenu label="Your Listings" className='hoverit'>
+                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_requests'> Requests </MenuItem>
+                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_approved'> Approved </MenuItem>
+                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_cancellations'> Cancellations </MenuItem>
+                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_completed'> Completed </MenuItem>
+                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_terminated'> Terminated </MenuItem>
+                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_alllistings'> All listings </MenuItem>
+                            </SubMenu> </>
+
+                    ) : (
+                        <div></div>
+                    )}
+                        <h4> Host Dashboard </h4>
+                        <SubMenu label="Your Listings" className='hoverit'>
+                            <MenuItem className='hoverit'> Requests </MenuItem>
+                            <MenuItem className='hoverit'> Approved </MenuItem>
+                            <MenuItem className='hoverit'> Cancellations </MenuItem>
+                            <MenuItem className='hoverit'> Completed </MenuItem>
+                            <MenuItem className='hoverit'> Terminated </MenuItem>
+                            <MenuItem className='hoverit'> All listings </MenuItem>
+                        </SubMenu>
                 </Menu>
             </Sidebar>
+
         
         
 

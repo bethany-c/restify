@@ -3,13 +3,14 @@ import "../signup/signupstyles.css";
 
 
 // imports 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, React } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import API from '../API/apiservice';
-import { useNavigate } from 'react-router-dom';
+import AuthContext from "../../context";
+// import API from '../API/apiservice';
+import { useNavigate, Link} from 'react-router-dom';
 
 function LogIn() {
-  const [isLogin, setLogin] = useState(true);
+  const { isloggedin, setIsloggedin } = useContext(AuthContext);
   const [formDataLogin, setFormDataLogin ] = useState({
     username : "",
     password : ""
@@ -17,16 +18,17 @@ function LogIn() {
 
   let navigate = useNavigate()
 
-  // const [token, setToken] = useCookies(['mytoken'])
-
-
   useEffect(() => {
-    console.log("this is the local storage length", localStorage.length)
-    if (localStorage.length >= 1) {
+   
+    // if (isloggedin) {
+    //   console.log('we are loggedin!')
+    //   navigate('/')
+    // // }
+    // if (localStorage.length >= 1) {
+  
+    //   navigate("/")
       
-      navigate("/")
-      
-    }
+    // }
     
   }, []);
 
@@ -34,7 +36,7 @@ function LogIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Send formData to backend API via POST request
+    // Send formDataLogin to backend API via POST request
     fetch("http://localhost:8000/webpages/login/", {
       method: "POST",
       body: JSON.stringify(formDataLogin),
@@ -44,7 +46,7 @@ function LogIn() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setFormDataLogin(true);
+        setIsloggedin(true);
         localStorage.setItem("token", data.token);
         navigate("/")
         
@@ -68,6 +70,7 @@ function LogIn() {
 
   return (
     <div className="myform">
+        <p>{isloggedin.toString()}</p>
         <h4>Please Log In here!</h4>
         <Form onSubmit={handleSubmit} className="p-5 form2" >
             <Form.Group controlId="formUsername">
@@ -92,9 +95,13 @@ function LogIn() {
                 />
             </Form.Group>
             <br />
+
             <Button variant="primary" type="submit">
                 Log In
             </Button>
+            <br />
+            <p>Dont have an account? <Link to="/signup"> Sign Up!</Link></p>
+
         </Form>
         <div></div>
     </div>
