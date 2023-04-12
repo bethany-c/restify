@@ -1,5 +1,7 @@
 import './App.css';
 import NavbarD from './components/Navbar/Navbar-dashboard';
+import Add_pic from './components/PhotoAdd'
+import Display_pic from './components/PhotoDisplay'
 import NavbarSO from './components/Navbar/Navbar-signedOut';
 import NavbarSI from './components/Navbar/Navbar-signedIn';
 import CustomSidebar from './components/Sidebar';
@@ -10,7 +12,7 @@ import LogIn from './components/login';
 import LogOut from './components/logout';
 import LogInPage from './pages/loginpage';
 import HomePage from './pages/homepage';
-
+import Property from './pages/p_form';
 // FOR BETHANYS TESTING
 import CardComponent from './components/Card/CardComponent';
 import { RenderStarRating } from './components/Card/RenderStarRating';
@@ -35,7 +37,7 @@ function App() {
         <Routes>
           <Route path='/'>
             <Route path="login" element={<LogInPage/>} />
-            <Route index element={<HomePage />}/>
+            <Route index element={<Display_pic/>}/>
             <Route path="signup" element={<SignUpPage/>}/>
             <Route path="logout" element={<LogOut />}/>
             <Route path='testcard' element={
