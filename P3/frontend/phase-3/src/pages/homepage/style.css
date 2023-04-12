@@ -1,0 +1,12 @@
+.wrapper2 {
+    width: 75vw;
+    margin: auto;
+    padding: 50px;
+}
+
+.invalid {
+    color: red;
+    display: block;
+    margin: auto;
+    padding-top: 10px;
+}

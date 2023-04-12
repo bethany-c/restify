@@ -140,12 +140,14 @@ a.article:hover {
 
 #sidebar.bg-color {
     background-color: #007bff;
-    color: white;
+    color: white !important;
+    text-align: center;
 }
 
 .hoverit {
     background-color: #007bff;
-    color: white;
+    color: white !important;
+    text-decoration: none !important;
 }
 .hoverit:hover {
     background-color: white !important;
@@ -157,3 +159,14 @@ a.article:hover {
     color: #007bff !important;
 
 }
+
+/* .hoverit2 {
+    text-decoration: none !important;
+    color: white !important;
+    background-color: #007bff;
+} */
+/* 
+.hoverit:hover .hoverit2 {
+    background-color: white;
+    color: blue;
+  } */
