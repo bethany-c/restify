@@ -138,35 +138,41 @@ a.article:hover {
     background-color: #007bff;
 } */
 
+/* #container-sidebar.sidebarcontainer {
+    display: flex;
+    width: 20%;
+} */
+
+
+
+
+
+
+
 #sidebar.bg-color {
     background-color: #007bff;
     color: white !important;
     text-align: center;
+    width: 100% !important;
+
 }
 
-.hoverit {
+
+.ps-menu-button {
     background-color: #007bff;
-    color: white !important;
+}
+
+.ps-menu-button:hover {
+    background-color: blue !important;
+}
+
+a.cheetah {
     text-decoration: none !important;
-}
-.hoverit:hover {
-    background-color: white !important;
-    color: #007bff !important;
+    color: white;
 }
 
-.hoverit:focus {
-    background-color: white !important;
-    color: #007bff !important;
-
+a.cheetah:hover {
+    color: white;
 }
 
-/* .hoverit2 {
-    text-decoration: none !important;
-    color: white !important;
-    background-color: #007bff;
-} */
-/* 
-.hoverit:hover .hoverit2 {
-    background-color: white;
-    color: blue;
-  } */
+

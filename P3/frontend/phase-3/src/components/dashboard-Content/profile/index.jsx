@@ -61,7 +61,7 @@ const Profile = () => {
 
     const putImageIn = (e) => {
         const file = e.target.file
-        $('#wizardPicturePreview').attr('src', file.toString())
+        $('#wizardPicturePreview').attr('src', file)
     }
 
 
@@ -71,7 +71,7 @@ const Profile = () => {
 
 
   return (
-    <Form>
+    <Form className='form234'>
         <Container>
             <Row className="picture-container">
                 <Col className="picture">

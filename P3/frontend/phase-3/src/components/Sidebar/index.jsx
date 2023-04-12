@@ -45,44 +45,44 @@ const CustomSidebar = (props) => {
 
 
     return (
-            <Sidebar collapsedWidth="0px">
+            <Sidebar collapsedWidth="0px" className='sidebarcontainer' id='container-sidebar'>
                 <Menu className='bg-color h-100' id='sidebar'>
                     <br />
                     <br />
                     <br />
                     <Navbar.Brand className="w-100 m-0">
                         
-                        <Nav.Link className="fs-2" to="../index.html">Restify</Nav.Link>
+                        <Nav.Link as={Link} className="fs-2" to="/" >Restify</Nav.Link>
     
                     </Navbar.Brand>
                     <br />
                     <br />
                     <br />
-                    {/* <MenuItem className='hoverit'> 
-                        <Link className="hoverit2" to="/dashboard/profile"> 
-                        <FaUserAlt />Profile
-                        </Link> 
-                    </MenuItem> */}
-                    <MenuItem className='hoverit'><FaUserAlt />Profile</MenuItem>
+                    <MenuItem className='sidebarstyling'> 
+                        <Link className='cheetah w-100 h-100' to="/dashboard/profile"><FaUserAlt/> Profile </Link>
+                    </MenuItem>
                     <br />
                     <br />
                     <h4> Your Dashboard </h4>
-                    <SubMenu className='hoverit' label="Your Orders">
-                        {/* <MenuItem className='hoverit'> 
-                            <Link to="/dashboard/approved" className='hoverit2'> 
-                            Approved 
-                            </Link> 
-                        </MenuItem> */}
-                        <MenuItem className='hoverit'> Approved </MenuItem>
-                        <MenuItem className='hoverit'> Requested </MenuItem>
-                        <MenuItem className='hoverit'> Cancellations </MenuItem>
-                        <MenuItem className='hoverit'> Completed </MenuItem>
-                        <MenuItem className='hoverit'> Terminated </MenuItem>
+                    <SubMenu label="Your Orders">
+                        <MenuItem ><Link className='cheetah' to="/dashboard/approved" > Approved </Link></MenuItem> 
+                        <MenuItem > <Link className='cheetah' to="/dashboard/requested" > Requested </Link></MenuItem>
+                        <MenuItem > <Link className='cheetah' to="/dashboard/cancellations" > Cancellations </Link></MenuItem>
+                        <MenuItem > <Link className='cheetah' to="/dashboard/completed" > Completed </Link> </MenuItem>
+                        <MenuItem > <Link className='cheetah' to="/dashboard/terminated" > Terminated </Link> </MenuItem>
                     </SubMenu>
-                    <MenuItem className='hoverit'> <FaBell/> Notifications </MenuItem>
+                    {/* <MenuItem className='hoverit'> <FaBell/> Notifications </MenuItem> */}
+                    <br />
+                    <MenuItem >
+                        <Link className='cheetah' to="/dashboard/notifications"> <FaBell/> Notifications </Link>
+                    </MenuItem>
                     <br />
                     <br />
                     <br />
+
+
+
+                    
                     {isHost ? (      
                               <> <h4> Host Dashboard </h4>
                             <SubMenu label="Your Listings" className='hoverit'>

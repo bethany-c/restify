@@ -12,7 +12,7 @@ class PropertySerializer(ModelSerializer):
     location = MultipleChoiceField(choices=Property.CHOICES_LOCATION)
     class Meta:
         model = Property
-        fields = ['address', 'number_of_guest', 'number_of_bed', 'number_of_bed', 'number_of_rooms', 'baths', 'description', 'essentials', 'features', 'location', 'safety_features']
+        fields = ['id', 'address', 'number_of_guest', 'number_of_bed', 'number_of_bed', 'number_of_rooms', 'baths', 'description', 'essentials', 'features', 'location', 'safety_features']
         # property_owner does not have to be sent 
 
     def create(self, validated_data):

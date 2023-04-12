@@ -1,11 +1,12 @@
 import {React, useEffect, useState} from 'react'
 import '../../dashboard-Content/contentstyle.css';
 import CardComponent from '../../Card/CardComponent';
+import CardComponentD from '../../Card/CardDashboard/Card';
 
 
 const Approved = () => {
 
-    const [formDataApproved, setFormDataApproved] = useState({});
+    const [formDataApproved, setFormDataApproved] = useState([]);
 
 
     useEffect(() => {
@@ -31,7 +32,9 @@ const Approved = () => {
 
   return (
     <div>
-      
+        {formDataApproved.map((propertyInfo) => (
+            <CardComponentD value={propertyInfo} />
+        ))}
     </div>
   )
 }
