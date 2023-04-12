@@ -1,3 +1,5 @@
+import './App.css';
+
 
 import NavbarSO from './components/Navbar';
 import Dashboard from './pages/dashboard';
@@ -39,7 +41,9 @@ function App() {
               <Route index element={<HomePage />}/>
               <Route path="signup" element={<SignUpPage/>}/>
               <Route path="logout" element={<LogOut />}/>
-              <Route path="property_register" element={<PropertyRegister />} /> 
+              <Route path="property_register" element={<PropertyRegister />}>
+
+              </Route>
               <Route path='dashboard/' element={<Dashboard/>}>
                 <Route path='profile/' element={<Profile />}/>
                 <Route path='approved/' element={<Approved />}/>

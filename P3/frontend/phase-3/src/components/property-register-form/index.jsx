@@ -551,45 +551,7 @@ const PropertyRegisterForm = () => {
             rows={5}
             />
         </Form.Group>
-        <Form.Group className="my-3">
-            <Form.Label>Slider Images</Form.Label>
-            <Form.Control
-            multiple
-            type="file"
-            id="slider_images"
-            name="images"
-            onChange={handleSliderImages}
-            />                
-        </Form.Group>
-        <div className="amenities-title">
-            <strong className="text-dark">Pick your availability!</strong>
-        </div>
-        <Form.Group className="my-3 incrementer">
-            <Form.Control
-            className='p-2'
-            type='date'
-            placeholder="Start Date"
-            aria-describedby="basic-addon1"
-            name='start_date'
-            />
-            <Form.Control
-            className='p-2'
-            type='date'
-            placeholder="End Date"
-            aria-describedby="basic-addon1"
-            name='end_date'
-            />
-            <Form.Control
-            className='p-2'
-            type='number'
-            placeholder="Enter a price"
-            aria-describedby="basic-addon1"
-            name='price_per_night'
-            />
-            <Button variant='dark' > Add </Button>
-
-            
-        </Form.Group>
+        
 
         <Button type='submit'> Register Your Property!</Button>
     </Form>
