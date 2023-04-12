@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import API from '../API/apiservice';
+// import API from '../API/apiservice'; // need this to sign the user up 
 import "./signupstyles.css"
 import { useNavigate } from 'react-router-dom';
 
@@ -34,13 +34,6 @@ function Signup() {
         .catch((error) => console.error(error));
   };
 
-//   const handleChange = (event) => {
-//     setFormData({
-//       ...formData,
-//       [event.target.name]: event.target.value,
-//     });
-//     console.log(event, 'this is the event');
-//   };
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;

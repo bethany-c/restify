@@ -1,19 +1,19 @@
 // import './App.css';
-import NavbarD from '../../components/Navbar/Navbar-dashboard';
-import NavbarSI from '../../components/Navbar/Navbar-signedIn';
-import NavbarSO from '../../components/Navbar/Navbar-signedOut';
+// import NavbarD from '../../components/Navbar/Navbar-dashboard';
+// import NavbarSI from '../../components/Navbar/Navbar-signedIn';
+import NavbarSO from '../../components/Navbar';
 import Signup from '../../components/signup';
 // import "./index.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-import { Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom'
+// import { Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom'
 
 function SignUpPage() {
   return (
     <div className="signuppage App">
       <NavbarSO/>
-      <div className='wrapper'>
+      <div className='wrapper2'>
         <Signup />
       </div>
     </div>

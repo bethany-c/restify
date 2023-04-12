@@ -1,22 +1,26 @@
 // import './App.css';
-import NavbarD from '../../components/Navbar/Navbar-dashboard';
-import NavbarSI from '../../components/Navbar/Navbar-signedIn';
-import NavbarSO from '../../components/Navbar/Navbar-signedOut';
+// import NavbarD from '../../components/Navbar/Navbar-dashboard';
+// import NavbarSI from '../../components/Navbar/Navbar-signedIn';
+import NavbarSO from '../../components/Navbar';
 import LogIn from '../../components/login';
+import { React } from 'react';
 // import "./index.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-import { Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom'
+// import { Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom'
+
 
 function LogInPage() {
+
+
   return (
-    <div className="loginpage App">
-      <NavbarSO/>
-      <div className='wrapper'>
-        <LogIn />
+      <div className="loginpage App">
+        <NavbarSO/>
+        <div className='wrapper2'>
+          <LogIn />
+        </div>
       </div>
-    </div>
 
   );
 }
