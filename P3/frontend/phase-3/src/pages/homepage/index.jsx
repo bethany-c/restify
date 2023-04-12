@@ -3,6 +3,8 @@ import { InputGroup, Form, Button } from 'react-bootstrap'
 import NavbarSO from '../../components/Navbar/Navbar-signedOut'
 import './style.css'
 import FilterModal from '../../components/modals/FilterModal'
+import SearchBar from '../../components/Inputs/SearchBar'
+
 const HomePage = () => {
 
   const [start, setStart] = useState(getToday())
@@ -16,8 +18,6 @@ const HomePage = () => {
   const [invalid, setInvalid] = useState(false)
 
   
-
-
 
   function getToday() {
     var today = new Date();
@@ -33,44 +33,7 @@ const HomePage = () => {
     return yyyy+'-'+mm+'-'+dd;
   }
 
-  function makeDay(day) {
-    var today = new Date(day);
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1;
-    var yyyy = today.getFullYear();
-    if(dd<10){
-      dd='0'+dd
-    } 
-    if(mm<10){
-      mm='0'+mm
-    }
-    return yyyy+'-'+mm+'-'+dd;
-  }
-
-  function checkDate() {
-    var today = getToday();
-    setMin(today)
-    // document.getElementById("start").setAttribute("min", today);
-    var start = document.getElementById('start');
-    var end = document.getElementById('end');
-    
-    if(start) {
-      var minDate = new Date(start);
-      minDate.setDate(minDate.getDate() + 2);
-      let strMinDate = new Date(minDate).toISOString().slice(0, 10);
-      var mini = makeDay(strMinDate);
-      setMin(mini)
-      // document.getElementById('end').setAttribute('min', mini);
-    }
-    if(end) {
-      var maxDate = new Date(end.value);
-      maxDate.setDate(maxDate.getDate());
-      let strMaxDate = new Date(maxDate).toISOString().slice(0, 10);
-      var maxi = makeDay(strMaxDate)
-      setMax(maxi)
-      // document.getElementById('start').setAttribute('max', maxi)
-    }
-  };
+  
 
   const onSearch = () => {
     if(!location || numGuest < 1) {
@@ -101,52 +64,16 @@ const HomePage = () => {
     <div>
       <NavbarSO />
       <div className='wrapper'>
-
-        <InputGroup>
-          <Form.Control 
-            placeholder='Location'
-            type='text'
-            required
-            name='location'
-            onChange={ (e) => setLocation(e.target.value) }
-          />
-          <Form.Control 
-            type='date'
-            required
-            id='start'
-            name='start'
-            min={ getToday() }
-            onChange={ (e) => setStart(e.target.value) }
-          />
-          <Form.Control 
-            type='date'
-            required
-            id='end'
-            name='end'
-            min={ getToday( )}
-            onChange={ (e) => setEnd(e.target.value) }
-          />
-
-          <Form.Control 
-            placeholder='# of Guests'
-            type="number"
-            min="0"
-            required
-            name='numGuests'
-            onChange={ (e) => setNumGuest(e.target.value) }
-          />
-          <Button onClick={ () => onSearch() }>Search</Button>
-
-        </InputGroup>
-
-        { invalid ? 
-          <p className='invalid'>
-            Missing required field
-          </p>
-          : null
-        }
+        <SearchBar
+          setLocation={ setLocation }
+          setStart={ setStart }
+          setEnd={ setEnd }
+          setNumGuest={ setNumGuest }
+          onSearch={ onSearch }
+          invalid={ invalid }
+        />
       </div>
-      <FilterModal/>
+      {/* <FilterModal/> */}
     </div>
   )
 }
