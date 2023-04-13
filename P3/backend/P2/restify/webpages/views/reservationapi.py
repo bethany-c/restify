@@ -35,7 +35,7 @@ from webpages.serializers.serializers_property import PropertySerializer
 # add a reservation - note: there has to be a property to tie it to 
 class CreateReservationAPIView(CreateAPIView):
     # takes only post request
-    serializer_class = ReservationSerializerAdd
+    serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
 
 
