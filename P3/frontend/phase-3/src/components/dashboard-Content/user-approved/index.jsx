@@ -1,12 +1,14 @@
-import {React, useEffect, useState} from 'react'
+import {React, useEffect, useState, useContext} from 'react'
 import '../../dashboard-Content/contentstyle.css';
 import CardComponent from '../../Card/CardComponent';
 import CardComponentD from '../../Card/CardDashboard/Card';
+import AuthContext from '../../../context';
 
 
 const Approved = () => {
 
     const [formDataApproved, setFormDataApproved] = useState([]);
+    const { token } = useContext(AuthContext)
 
 
     useEffect(() => {
@@ -15,7 +17,7 @@ const Approved = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization" : "Bearer " + localStorage.getItem('token')
+            "Authorization" : "Bearer " + token['token']
           },
         })
           .then((response) => response.json())

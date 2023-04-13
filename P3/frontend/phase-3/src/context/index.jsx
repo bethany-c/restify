@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 const AuthContext = createContext();
 
@@ -11,6 +12,7 @@ export const AuthProvider = ({children}) => {
     let [isloggedin, setIsloggedin] = useState(false)
     let [isHost, setIsHost] = useState(false)
     let [properties, setProperties] = useState([])
+    const [token, setToken, removeCookie] = useCookies(['token'])
 
     let contextData = {
         isloggedin: isloggedin,
@@ -19,6 +21,9 @@ export const AuthProvider = ({children}) => {
         setIsHost: setIsHost,
         properties: properties,
         setProperties: setProperties,
+        token: token,
+        setToken: setToken,
+        removeCookie: removeCookie,
 
     }
 

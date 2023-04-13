@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import API from '../API/apiservice';
 import $ from 'jquery';
 
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context';
 
 function Add_pic(props) {
   const [name, setName] = useState('');
   const [image, setImage] = useState(null);
+  const { token } = useContext(AuthContext)
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -28,7 +30,7 @@ function Add_pic(props) {
       method: 'POST',
       body: formData,
       headers: {
-        "Authorization": "Bearer " + localStorage.getItem('token')
+        "Authorization": "Bearer " + token['token']
       },
     })
       .then((response) => {

@@ -1,19 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { Form, Button } from 'react-bootstrap';
 import API from '../API/apiservice';
 
 
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context';
 
 function DisplayPic(props) {
   const [pictures, setPictures] = useState([]);
+  const { token } = useContext(AuthContext)
+  
 
 
   useEffect(() => {
     fetch('http://localhost:8000/webpages/picture/'+props.property_id +'/list/', {
       method: "GET",
       headers: {
-        "Authorization": "Bearer " + localStorage.getItem('token'),
+        "Authorization": "Bearer " + token['token'],
         "Content-Type": "application/json"
       }
 

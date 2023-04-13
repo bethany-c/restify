@@ -1,17 +1,25 @@
 import '../cardstyles.css'
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState, useContext} from 'react';
 import { Card, Button } from 'react-bootstrap';
+import AuthContext from '../../../context';
 
 export const CardComponentD = (props) => {
   const { id, available_date, property } = props.value;
   const [price, setPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const { token } = useContext(AuthContext)
   console.log(property)
+  
+
 
   const onViewListing = (event) => {
     event.preventDefault()
-    fetch('http://localhost:8000/webpages/' + property.id + '/detail', {
+    fetch('http://localhost:8000/webpages/property/' + property.id + '/detail/', {
       method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+      },
+
     })
     .then((res) => res.json())
     .then((data) => {
@@ -26,7 +34,7 @@ export const CardComponentD = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization" : "Bearer " + localStorage.getItem('token')
+        "Authorization" : "Bearer " + token['token']
       },
     })
       .then((response) => response.json())

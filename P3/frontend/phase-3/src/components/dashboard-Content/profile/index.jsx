@@ -1,10 +1,12 @@
 
-import {React, useState, useEffect} from 'react'
+import {React, useState, useEffect, useContext} from 'react'
 import {Form, Container, Col, Row, Image, Button} from 'react-bootstrap';
 import './profilestyle.css';
 import $ from 'jquery';
+import AuthContext from '../../../context';
 const Profile = () => {
     const [formDataProfile, setFormDataProfile] = useState({});
+    const { token } = useContext(AuthContext);
 
 
     useEffect(() => {
@@ -13,7 +15,7 @@ const Profile = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization" : "Bearer " + localStorage.getItem('token')
+        "Authorization" : "Bearer " + token['token']
       },
     })
       .then((response) => response.json())
@@ -45,7 +47,7 @@ const Profile = () => {
             body: JSON.stringify(formDataProfile),
             headers: {
             "Content-Type": "application/json",
-            "Authorization" : "Bearer " + localStorage.getItem('token')
+            "Authorization" : "Bearer " + token['token']
             },
         })
             .then((response) => response.json())

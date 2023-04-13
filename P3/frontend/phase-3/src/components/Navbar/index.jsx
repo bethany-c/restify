@@ -14,12 +14,20 @@ import API from '../API/apiservice';
 {/* <Nav.Link as={Link} className="navbar-background" to="login">Log In</Nav.Link> */}
 
 const NavbarSO = () => {
-    const { isloggedin, setIsloggedin, isHost, setIsHost } = useContext(AuthContext);
+    const { isloggedin, setIsloggedin, isHost, setIsHost, removeCookie } = useContext(AuthContext);
 
     // useEffect(() => {
     //     console.log("Is user logged in", isloggedin);
         
     // }, [isloggedin]);
+
+    const LogOut = () => {
+        removeCookie(['token'])
+        setIsHost(false)
+        setIsloggedin(false)
+    }
+
+
     
     return (
 
@@ -31,6 +39,7 @@ const NavbarSO = () => {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarNavDropdown" />
                 <Navbar.Collapse id="navbarNavDropdown">
+                    <div> {isloggedin.toString()} </div>
                     <Nav className="me-auto">
                         
                     {isHost ? (
@@ -76,7 +85,7 @@ const NavbarSO = () => {
                                 <NavDropdown.Item as={Link} to="/dashboard/approved" >View Reservations</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="../Profile_pageBoth/ProfilePageDashboard.html">Help</NavDropdown.Item>
-                                <NavDropdown.Item onClick={API.LogOutUser}>Log Out</NavDropdown.Item>
+                                <NavDropdown.Item onClick={LogOut}>Log Out</NavDropdown.Item>
                             </NavDropdown>
                             ) : 
                             (

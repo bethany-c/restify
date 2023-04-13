@@ -10,7 +10,7 @@ import AuthContext from "../../context";
 import { useNavigate, Link} from 'react-router-dom';
 
 function LogIn() {
-  const { isloggedin, setIsloggedin } = useContext(AuthContext);
+  const { isloggedin, setIsloggedin, setToken } = useContext(AuthContext);
   const [formDataLogin, setFormDataLogin ] = useState({
     username : "",
     password : ""
@@ -48,6 +48,7 @@ function LogIn() {
       .then((data) => {
         setIsloggedin(true);
         localStorage.setItem("token", data.token);
+        setToken('token', data.token)
         navigate("/")
         
 

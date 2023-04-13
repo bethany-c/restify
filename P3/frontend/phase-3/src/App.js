@@ -42,11 +42,9 @@ function App() {
               <Route index element={<HomePage />}/>
               <Route path="signup" element={<SignUpPage/>}/>
               <Route path="logout" element={<LogOut />}/>
-              <Route path="property_extra_page" element={<Property_extra/>}></Route>
+              <Route path="property_extra_page" element={<Property_extra/>} />
               <Route path="property_register" element={<PropertyRegister />}>
-                
-              
-
+  
               </Route>
               <Route path='dashboard/' element={<Dashboard/>}>
                 <Route path='profile/' element={<Profile />}/>
