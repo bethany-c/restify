@@ -75,8 +75,8 @@ class CreateAvailableDateAPIView(CreateAPIView):
         start_date = serializer.validated_data['start_date']
         end_date = serializer.validated_data['end_date']
 
-        overlap1 = RangePriceHostOffer.objects.filter(start_date__gte=end_date, end_date__lte=end_date)
-        overlap2 = RangePriceHostOffer.objects.filter(start_date__gte=start_date, end_date__lte=start_date)
+        overlap1 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=end_date, end_date__lte=end_date)
+        overlap2 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=start_date, end_date__lte=start_date)
         # overlap3 = RangePriceHostOffer.objects.filter(start_date__gte=end_date, end_date__lte=end_date,
         #                                    start_date__gte=start_date, end_date__lte=start_date) # causing an error 
 
@@ -203,6 +203,8 @@ class SearchPropertyView(ListAPIView):
     # search_fields = ['=address', "number_of_guest"]
     pagination_class = PageNumberPagination
     page_size = 10
+    permission_classes = [AllowAny]
+    
 
     def get_queryset(self):
         # data = self.request.data
