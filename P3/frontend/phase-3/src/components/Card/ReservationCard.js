@@ -40,28 +40,14 @@ const ReservationCard = (props) => {
           }
           if (newData.length === 0) {
             $('#notification').text('Oops! Looks like there are currently no available slots for this property.').css('color','red')
-
           }
           else {
-
             setAvailableDates(newData);
           }
-          
       })
       .catch((error) => console.error(error));
 
-    // if(start && end && start < end && start > getToday()) {
-    //   //fetch api to reserve
-
-    //   //setPpn, call getTotal, 
-      
-    // }
   }, [])
-
-
-  const onReserve = () => {
-    // fetch api to reserve
-  }
 
   function getToday() {
     var today = new Date();
@@ -77,12 +63,7 @@ const ReservationCard = (props) => {
     return yyyy+'-'+mm+'-'+dd;
   }
 
-  
   function getNights() {
-    // const night = 24 * 60 * 60 * 1000; 
-    // console.log(start, end, 'dont mess')
-    // const diffDays = Math.round(Math.abs((start - end) / night));
-    // console.log(diffDays, 'this is diff days')
     const timeDiff = Math.abs(end.getTime() - start.getTime());
     console.log(timeDiff, 'this is the timediff')
     const numDays = Math.ceil(timeDiff / (86400000));
@@ -122,6 +103,29 @@ const ReservationCard = (props) => {
 
   }, [start, end]);
 
+  // console.log('this is the import we need', chosenAvailD)
+
+  
+  const onReserve = () => {
+    fetch("http://localhost:8000/webpages/" + propertyInfo.id + "/reservations/add/", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+      },
+      body: JSON.stringify({
+        start_date: chosenAvailD.start_date,
+        end_date: chosenAvailD.end_date,
+        num_of_guests: numGuests
+      })
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data);
+      })
+      .catch((error) => console.error(error));
+
+  }
 
 
 
@@ -217,7 +221,7 @@ const ReservationCard = (props) => {
             <br/>
             <br/>
             <div class="submit-form-btn">
-              <Button class='full-width'>
+              <Button onClick={onReserve} class='full-width'>
                 Request to Reserve
               </Button>
             </div>
