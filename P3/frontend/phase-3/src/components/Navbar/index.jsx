@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Navbar, Container, Nav, NavDropdown} from 'react-bootstrap'
 import { BiHomeHeart, BiBell } from 'react-icons/bi';
 import LogIn from '../login';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../../context';
 import API from '../API/apiservice';
 
@@ -14,7 +14,8 @@ import API from '../API/apiservice';
 {/* <Nav.Link as={Link} className="navbar-background" to="login">Log In</Nav.Link> */}
 
 const NavbarSO = () => {
-    const { isloggedin, setIsloggedin, isHost, setIsHost, removeCookie } = useContext(AuthContext);
+    const { isloggedin, setIsloggedin, isHost, setIsHost, removeCookie, token } = useContext(AuthContext);
+    let navigate = useNavigate()
 
     // useEffect(() => {
     //     console.log("Is user logged in", isloggedin);
@@ -25,7 +26,41 @@ const NavbarSO = () => {
         removeCookie(['token'])
         setIsHost(false)
         setIsloggedin(false)
+        navigate('/')
     }
+
+    useEffect(() => {
+   
+        if (token['token'] === undefined) {
+            setIsloggedin(false)
+        }
+        else {
+            setIsloggedin(true)
+            fetch("http://localhost:8000/webpages/properties/all/", {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization" : "Bearer " + token['token']
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log(data);
+                  if (data.length > 0) {
+                    setIsHost(true)
+                  }
+                  else {
+                    setIsHost(false)
+                  }
+          
+          
+                })
+                .catch((error) => console.error(error));
+        }
+        
+
+    }, []);
+
 
 
     
@@ -43,7 +78,7 @@ const NavbarSO = () => {
                     <Nav className="me-auto">
                         
                     {isHost ? (
-                        <Nav.Link className="navbar-background" as={Link} to="dashboard">My Listings</Nav.Link>
+                        <Nav.Link className="navbar-background" as={Link} to="/dashboard">My Listings</Nav.Link>
                     ) : 
                     ( isloggedin ? (
                         <Nav.Link as={Link} className="navbar-background" to="/property_register">Become a Host!</Nav.Link>
@@ -55,7 +90,7 @@ const NavbarSO = () => {
                     
 
                     {isloggedin ? (
-                        <Nav.Link className="navbar-background" as={Link} to='/dashboard' >My Reservations</Nav.Link>
+                        <Nav.Link className="navbar-background" as={Link} to='/dashboard/approved' >My Reservations</Nav.Link>
                     ) : 
                     (
                         <div></div>

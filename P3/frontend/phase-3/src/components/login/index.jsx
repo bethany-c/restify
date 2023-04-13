@@ -18,19 +18,6 @@ function LogIn() {
 
   let navigate = useNavigate()
 
-  useEffect(() => {
-   
-    // if (isloggedin) {
-    //   console.log('we are loggedin!')
-    //   navigate('/')
-    // // }
-    // if (localStorage.length >= 1) {
-  
-    //   navigate("/")
-      
-    // }
-    
-  }, []);
 
 
 
@@ -47,7 +34,6 @@ function LogIn() {
       .then((response) => response.json())
       .then((data) => {
         setIsloggedin(true);
-        localStorage.setItem("token", data.token);
         setToken('token', data.token)
         navigate("/")
         

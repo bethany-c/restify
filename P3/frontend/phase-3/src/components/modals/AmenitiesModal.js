@@ -10,6 +10,7 @@ const AmenitiesModal = (props) => {
     address
   } = props;
 
+
   const [showModal, setShowModal] = useState(false)
   const [total, setTotal] = useState()
 
@@ -20,24 +21,36 @@ const AmenitiesModal = (props) => {
     setTotal(essentials.length + features.length + location.length + safety.length)
   }, [essentials, features, location, safety])
 
-  const renderItem = (arr, title) => {
-    if (arr.length > 0) {
+  const formattedStr = (amenity2) => {
+    if (amenity2 === 'skiin_skiout') {
+      return 'Ski-in/Ski-out'
+    }
+    return amenity2.replace(/_/g, ' ').replace(/\w\S*/g, function(eachWord) {
+    return eachWord.charAt(0).toUpperCase() + eachWord.substr(1).toLowerCase();
+  }
+  )}
+
+  const renderItem = (amenity, title) => {
+    if (amenity.length > 0) {
       return (
         <>
           <div className="amenities-title">
             <strong>{ title }</strong>
           </div>
-          { arr.map((item, index) => {
+          { amenity.map((item, index) => {
             if(index % 2 === 0) {
               return (
                 <div className="form-group row">
                   <div className="col-md-4">
-                    <span>{ item }</span>
+                    <span>{ formattedStr(item) }</span>
                   </div>
-                  { arr[index + 1] && (
+                  { amenity[index + 1] ? (
                     <div className='col-md-4 offset-md-2'>
-                      <span>{ item[index + 1] }</span>
+                      <span>{ formattedStr(amenity[index + 1]) }</span>
                     </div>
+                  ) : (
+                    <div></div>
+                    
                   )}
                 </div>
               )
@@ -60,7 +73,7 @@ const AmenitiesModal = (props) => {
 
       <Modal show={ showModal } onHide={ handleHide }>
         <Modal.Header closeButton>
-          <Modal.Title>Amentities at { address }</Modal.Title>
+          <Modal.Title>Amenities at { address }</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>

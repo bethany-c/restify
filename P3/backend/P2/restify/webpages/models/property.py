@@ -18,6 +18,7 @@ from .user import RestifyUser
 # For Property
 
 class Property(models.Model):
+
     property_owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='property_owner')
     address = models.TextField() # just the city 
     number_of_guest = models.PositiveIntegerField()

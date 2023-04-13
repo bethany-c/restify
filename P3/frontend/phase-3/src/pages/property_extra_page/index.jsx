@@ -58,7 +58,7 @@ function Property_extra(props) {
 
         <Display_Ava property_id={id}/>
         <Container className="d-flex justify-content-center">
-          <button className="btn btn-outline-primary mt-3 mb-3" onClick={handleShowModal3}>Add Availble Dates & Price</button>
+          <button className="btn btn-outline-primary mt-3 mb-3" onClick={handleShowModal3}>Add Available Dates & Price</button>
         </Container>
       
         
