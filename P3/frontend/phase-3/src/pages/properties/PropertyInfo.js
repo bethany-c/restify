@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ImageDisplay from '../../components/modals/ImageDisplay'
 import AmenitiesModal from '../../components/modals/AmenitiesModal';
 import ReservationCard from '../../components/Card/ReservationCard';
 import './style.css'
+import { Button, Modal } from 'react-bootstrap'
+import { BsStarFill, BsPersonFill } from 'react-icons/bs';
 
 const PropertyInfo = (props) => {
   const {
@@ -11,6 +13,11 @@ const PropertyInfo = (props) => {
     host // called from profile/view/
   } = props;
 
+  const [allComments, setAllComments] = useState([])
+
+  useEffect(() => {
+    // fetch comments list view
+  }, [])
 
   const renderImagePreview = () => (
     <div className='row property-imgs'>
@@ -82,6 +89,35 @@ const PropertyInfo = (props) => {
     </>
   )
 
+  const renderReviews = () => (
+    <>
+      <h4 class="line-left-align" id="all-property-reviews">
+        Reviews
+        <p class="mb-2 rating-right-align purple-color"><BsStarFill/>{ propertyInfo.rating }</p>
+      </h4>
+      <div class='comment-container row'>
+        { allComments.map((comment, index) => {
+          if(index < 8) {
+            return (
+                <div class="col-sm-12 col-md-6 comment-card">
+                <p class="line-left-align">
+                  <h5><BsPersonFill/>{ comment.author }</h5>
+                  <p class="mb-2 line-right-align purple-color"><BsStarFill/>{ comment.rating }</p>
+                </p>
+                <span>{ comment.text_content }</span>
+              </div>
+            )
+          } else {
+            return null;
+          }
+        }) }
+      </div>
+      <div class="view-amenities-btn">
+        <Button>View all reviews MAKE THIS A MODAL</Button>
+      </div>
+    </>
+  )
+
   return (
     <div className="property-info-container">
       {/* { renderImagePreview } */}
@@ -97,6 +133,7 @@ const PropertyInfo = (props) => {
           <ReservationCard propertyInfo={ propertyInfo }/>
         </div>
       </div>
+      <hr class="sticky-line"></hr>
 
       {/* Commented out reviews */}
       
