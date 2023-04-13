@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer, MultipleChoiceField
 from ..models.user import RestifyUser
 from webpages.models.property import Property, PropertyImage, RangePriceHostOffer,PropertyRating
 # from .serializers_reservation import ReservationSerializer
+from webpages.serializers.serializer_user import UserSerializer
 
 
 class PropertySerializer(ModelSerializer):
@@ -10,9 +11,11 @@ class PropertySerializer(ModelSerializer):
     features = MultipleChoiceField(choices=Property.CHOICES_FEATURES)
     safety_features = MultipleChoiceField(choices=Property.CHOICES_SAFETY)
     location = MultipleChoiceField(choices=Property.CHOICES_LOCATION)
+    property_owner = UserSerializer(read_only=True)
+
     class Meta:
         model = Property
-        fields = ['id', 'address', 'number_of_guest', 'number_of_bed', 'number_of_bed', 'number_of_rooms', 'baths', 'description', 'essentials', 'features', 'location', 'safety_features']
+        fields = ['id', 'property_owner' ,'address', 'number_of_guest', 'number_of_bed', 'number_of_bed', 'number_of_rooms', 'baths', 'description', 'essentials', 'features', 'location', 'safety_features']
         # property_owner does not have to be sent 
 
     def create(self, validated_data):

@@ -2,6 +2,7 @@ import { React, useState, useContext} from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context';
+
 import './prop_register.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { BsTextarea } from 'react-icons/bs';
@@ -11,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PropertyRegisterForm = () => {
     let navigate = useNavigate();
-    const { setIsHost } = useContext(AuthContext);
+    const { setIsHost, token} = useContext(AuthContext);
     const [guestNum, setGuestNum] = useState(0);
     const [bedroomNum, setBedroomNum] = useState(0);
     const [bathroomNum, setBathroomNum] = useState(0);
@@ -25,7 +26,7 @@ const PropertyRegisterForm = () => {
                 ...prevState,
                 essentials: [...prevState.essentials, name]
               }));
-          console.log(propertyFormData.essentials)
+
 
 
         } else {
@@ -43,7 +44,7 @@ const PropertyRegisterForm = () => {
                 ...prevState,
                 features: [...prevState.features, name]
             }));
-            console.log(propertyFormData.features)
+
 
 
             
@@ -62,7 +63,7 @@ const PropertyRegisterForm = () => {
                 ...prevState,
                 safety_features: [...prevState.safety_features, name]
             }));
-            console.log(propertyFormData.safety_features)
+          
 
 
 
@@ -81,7 +82,7 @@ const PropertyRegisterForm = () => {
                 ...prevState,
                 location: [...prevState.location, name]
             }));
-            console.log(propertyFormData.location)
+       
 
 
         } else {
@@ -112,12 +113,12 @@ const PropertyRegisterForm = () => {
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        console.log(value)
+
         setPropertyFormData(values => ({
             ...values,
             [name]: value 
         }))
-        console.log(propertyFormData)
+
       }
 
 
@@ -130,7 +131,7 @@ const PropertyRegisterForm = () => {
                 slider_images: [...prevState.slider_images, ...e.target.files]
             }));
         }
-        console.log("Update slider images", propertyFormData.slider_images);
+
       };
 
   
@@ -185,15 +186,20 @@ const PropertyRegisterForm = () => {
           body: JSON.stringify(propertyFormData),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem('token')
+            "Authorization": "Bearer " + token['token']
           },
         })
-          .then((response) => response.json())
+          .then((response) => response.json()
+          )
           .then((data) => {
+            
             setIsHost(true)
-            navigate('/') // after creating the property, navigate to the home page 
+            console.log(data.id);
+            console.log("dasdasdasdsad");
+            
+            navigate('/property_extra_page?property_id=' + data.id) 
             // once a host always a host 
-            console.log(data, 'propertyFormData')
+
 
           })
           .catch((error) => console.error(error));

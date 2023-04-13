@@ -95,7 +95,7 @@ const PropertySearchResults = (props) => {
     return (
       <div>
         <NavbarSO />
-        <div className='wrapper'>
+        <div className='wrapper2'>
           <SearchBar
             setLocation={ setLocation }
             setStart={ setStart }

@@ -1,13 +1,16 @@
-import React from 'react'
+import {React, useContext} from 'react'
 import { Button } from 'react-bootstrap';
+import AuthContext from '../../context';
 import API from '../API/apiservice';
 
 const LogOut = () => {
 
-return (<>
-  <Button variant="primary" onClick={API.LogOutUser}> Log Out </Button>
-  </>
-  )
+  const {setIsHost, setIsloggedin, removeCookie} = useContext(AuthContext);
+
+  removeCookie('token')
+  setIsHost(false)
+  setIsloggedin(false)
+
 }
 
 export default LogOut

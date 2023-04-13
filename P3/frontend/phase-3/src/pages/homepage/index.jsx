@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { InputGroup, Form, Button } from 'react-bootstrap'
-import NavbarSO from '../../components/Navbar/Navbar-signedOut'
+import NavbarSO from '../../components/Navbar/'
 import './style.css'
 import FilterModal from '../../components/modals/FilterModal'
 import SearchBar from '../../components/Inputs/SearchBar'
+import AuthContext from '../../context'
+
 
 const HomePage = () => {
-
+  const {setIsloggedin, token} = useContext(AuthContext)
   const [start, setStart] = useState(getToday())
   const [end, setEnd] = useState(getToday())
   const [min, setMin] = useState()
@@ -17,7 +19,19 @@ const HomePage = () => {
 
   const [invalid, setInvalid] = useState(false)
 
-  
+  // this is an authenticated view I am calling 
+  useEffect(() => {
+    console.log(token['token'])
+    console.log(token['token'] === undefined)
+    if (token['token'] === undefined) {
+      setIsloggedin(false)
+    }
+    else {
+      setIsloggedin(true)
+    }}
+  , []);
+
+
 
   function getToday() {
     var today = new Date();
@@ -45,26 +59,27 @@ const HomePage = () => {
   }
 
   const handleSearch = (event) => {
-    fetch('http://localhost:8000/webpages/property/search', {
+    fetch('http://localhost:8000/webpages/property/search?location='+location+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest, {
       method: 'GET',
-      body: JSON.stringify({
-        start_date: start,
-        end_date: end,
-        location: location,
-        number_of_guest: numGuest
-      })
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
     .then((response) => response.json())
     .then((data) => {
       console.log(data)
+      console.log("this is end")
     })
+    .catch(error => {
+      console.log(error);
+    });
   }
   
 
   return (
     <div>
       <NavbarSO />
-      <div className='wrapper'>
+      <div className='wrapper2'>
         <SearchBar
           setLocation={ setLocation }
           setStart={ setStart }

@@ -2,6 +2,7 @@ import Add_pic from '../../components/PhotoAdd'
 import Display_pic from '../../components/PhotoDisplay'
 import Add_Ava from '../../components/Add_available'
 import Display_Ava from '../../components/Display_Available'
+import NavbarSO from '../../components/Navbar'
 import { Button, Modal, Container } from 'react-bootstrap';
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -40,27 +41,25 @@ function Property_extra(props) {
       }
   
     return (
-        
-      <div >
+      <>
+      <NavbarSO />
+      <div>
         <hr className="divider" />
         <h2 className='m-3'>Pictures of Property</h2>
         
         <div className="form-group row m-3">
-        <div className="col-md-4">
-
-          <button className="btn btn-outline-primary mt-3" onClick={handleShowModal2}>Add Picture</button>
-          
-
+          <div className="col-md-4">
+            <button className="btn btn-outline-primary mt-3" onClick={handleShowModal2}>Add Picture</button>
+          </div>
+          <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>View Uploaded Picture(s)</button>
         </div>
 
-        <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>View Uploaded Picture(s)</button>
+        <hr className="divider" />
 
-      </div>
-      <hr className="divider" />
-      <Display_Ava property_id={id}/>
-      <Container className="d-flex justify-content-center">
-      <button className="btn btn-outline-primary mt-3 mb-3" onClick={handleShowModal3}>Add Availble Dates & Price</button>
-    </Container>
+        <Display_Ava property_id={id}/>
+        <Container className="d-flex justify-content-center">
+          <button className="btn btn-outline-primary mt-3 mb-3" onClick={handleShowModal3}>Add Available Dates & Price</button>
+        </Container>
       
         
 
@@ -69,7 +68,7 @@ function Property_extra(props) {
             <Modal.Title className="fw-bold mb-2 text-uppercase">Upload photo!</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-          <Add_pic property_id={id} />
+            <Add_pic property_id={id} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal2}>Close</Button>
@@ -77,13 +76,12 @@ function Property_extra(props) {
         </Modal>
   
         
-  
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title className="fw-bold mb-2 text-uppercase">Your Uploaded Photos</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-          <Display_pic property_id={id}/>
+            <Display_pic property_id={id}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
@@ -95,13 +93,14 @@ function Property_extra(props) {
             <Modal.Title className="fw-bold mb-2 text-uppercase">Add Available Dates!</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-          <Add_Ava  property_id={id}/>
+            <Add_Ava  property_id={id}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal3}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
+    </>
     );
   }
   

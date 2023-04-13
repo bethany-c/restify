@@ -50,6 +50,8 @@ class LoginAPIView(APIView):
             # Create JWT token
             # token = TokenObtainPairSerializer().get_token(user)
             token = RefreshToken.for_user(user)
+            # print('this is the token',token.refresh_token)
+            print('this is the access token', token.access_token)
             return Response({"token": str(token.access_token)})
         else:
             return Response({'error': 'Invalid credentials'})
@@ -60,10 +62,18 @@ class LogoutAPIView(APIView):
 
     def post(self, request):
         try:
-            refresh_token = request.data["refresh_token"]
+            # print('these are the query params',request.META.get('HTTP_AUTHORIZATION')[7:])
+            
+            # refresh_token = request.META.get('HTTP_AUTHORIZATION')[7:]
+
+            refresh_token = request.data['refresh']
+            print('this is the refresh' ,refresh_token)
+            
             token = RefreshToken(refresh_token)
+            print('getting here line75')
             # blacklisting the token
             token.blacklist()
+            print('getting here line78')
             return Response({"message": "Successfully logged out."})
         except Exception:
             return Response({"error": "Invalid refresh token."}, status=400)

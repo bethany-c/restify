@@ -9,6 +9,7 @@ import LogIn from './components/login';
 import LogOut from './components/logout';
 import LogInPage from './pages/loginpage';
 import HomePage from './pages/homepage';
+import PropertyInfo from './pages/properties/PropertyInfo';
 // import AuthContext from './context';
 import { AuthProvider } from './context';
 import PropertyRegister from './pages/property-register';
@@ -42,11 +43,10 @@ function App() {
               <Route index element={<HomePage />}/>
               <Route path="signup" element={<SignUpPage/>}/>
               <Route path="logout" element={<LogOut />}/>
-              <Route path="property_extra_page" element={<Property_extra/>}></Route>
+              <Route path="property_extra_page" element={<Property_extra/>} />
+              <Route path="property-info" element={<PropertyInfo />} />
               <Route path="property_register" element={<PropertyRegister />}>
-                
-              
-
+  
               </Route>
               <Route path='dashboard/' element={<Dashboard/>}>
                 <Route path='profile/' element={<Profile />}/>

@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { Form, Button } from 'react-bootstrap';
 import API from '../API/apiservice';
 import $ from 'jquery';
 
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context';
 
 function Add_Ava(props) {
+  const { token } = useContext(AuthContext);
   const [start_date, setSd] = useState(new Date().toLocaleDateString());
   const [end_date, setEd] = useState(new Date().toLocaleDateString());
   const [price_per_night, setPpn] = useState(0);
@@ -34,7 +36,7 @@ function Add_Ava(props) {
       method: 'POST',
       body: formData,
       headers: {
-        "Authorization": "Bearer " + localStorage.getItem('token')
+        "Authorization": "Bearer " + token['token']
       },
     })
       .then((response) => {

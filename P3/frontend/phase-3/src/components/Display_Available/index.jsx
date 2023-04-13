@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import API from '../API/apiservice';
 import $ from 'jquery';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context';
 
 function Display_Ava(props) {
   const [availableDates, setAvailableDates] = useState([]);
+  const { token } = useContext(AuthContext)
 
   useEffect(() => {
     fetch('http://localhost:8000/webpages/available_date/'+ props.property_id +'/list/', {
       method: 'GET',
       headers: {
-        "Authorization": "Bearer " + localStorage.getItem('token')
+        "Authorization": "Bearer " + token['token']
       },
     })
     .then((response) => response.json())

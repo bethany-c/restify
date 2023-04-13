@@ -16,7 +16,7 @@ function Dashboard() {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <div className="dashboard-wrapper">
+    <div className='dashboard-wrapper'>
       <NavbarSO/>
       <div className='wrapper'>
         <CustomSidebar collapseStatus={ {collapsed, setCollapsed} }/>
