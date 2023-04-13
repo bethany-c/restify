@@ -118,6 +118,7 @@ class EditPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
     
 class DetailPropertiesAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertySerializer
+    permission_classes = [AllowAny]
     # image = get_object_or_404(Property, id=self.kwargs['pk']).PropertyImage_set.all()
     # available = get_object_or_404(Property, id=self.kwargs['pk']).AvailableDate_set.all()
     # price = get_object_or_404(Property, id=self.kwargs['pk']).AskingPrice_set.all()
