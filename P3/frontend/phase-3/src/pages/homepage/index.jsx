@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { InputGroup, Form, Button } from 'react-bootstrap'
-import NavbarSO from '../../components/Navbar/Navbar-signedOut'
+import NavbarSO from '../../components/Navbar/'
 import './style.css'
 import FilterModal from '../../components/modals/FilterModal'
 import SearchBar from '../../components/Inputs/SearchBar'
@@ -45,19 +45,21 @@ const HomePage = () => {
   }
 
   const handleSearch = (event) => {
-    fetch('http://localhost:8000/webpages/property/search', {
+    fetch('http://localhost:8000/webpages/property/search?location='+location+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest, {
       method: 'GET',
-      body: JSON.stringify({
-        start_date: start,
-        end_date: end,
-        location: location,
-        number_of_guest: numGuest
-      })
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('token')
+      },
     })
     .then((response) => response.json())
     .then((data) => {
       console.log(data)
+      console.log("this is end")
     })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   return (
