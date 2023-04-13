@@ -202,6 +202,8 @@ class SearchPropertyView(ListAPIView):
     # search_fields = ['=address', "number_of_guest"]
     pagination_class = PageNumberPagination
     page_size = 10
+    permission_classes = [AllowAny]
+    
 
     def get_queryset(self):
         # data = self.request.data
