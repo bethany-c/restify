@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { InputGroup, Form, Button } from 'react-bootstrap'
 
-import NavbarSO from '../../components/Navbar'
+import NavbarSO from '../../components/Navbar/'
 
 import './style.css'
 import FilterModal from '../../components/modals/FilterModal'

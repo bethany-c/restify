@@ -2,6 +2,7 @@ import Add_pic from '../../components/PhotoAdd'
 import Display_pic from '../../components/PhotoDisplay'
 import Add_Ava from '../../components/Add_available'
 import Display_Ava from '../../components/Display_Available'
+import DisplayOne from '../../components/Display_one_pic'
 import { Button, Modal, Container } from 'react-bootstrap';
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';

@@ -1,7 +1,7 @@
 // import './App.css';
 // import NavbarD from '../../components/Navbar/Navbar-dashboard';
 // import NavbarSI from '../../components/Navbar/Navbar-signedIn';
-import NavbarSO from '../../components/Navbar';
+import Navbar from '../../components/Navbar';
 import LogIn from '../../components/login';
 import { React } from 'react';
 // import "./index.css"
@@ -16,7 +16,7 @@ function LogInPage() {
 
   return (
       <div className="loginpage App">
-        <NavbarSO/>
+        <Navbar/>
         <div className='wrapper2'>
           <LogIn />
         </div>
