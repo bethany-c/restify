@@ -1,33 +1,53 @@
-import React, { useState, useEffect } from 'react'
-import { Card, Form, Button } from 'react-bootstrap'
-import BsFillStarFill from 'react-icons/bs'
+import React, { useState, useEffect, useContext } from 'react'
+import { Card, Form, Button, Col, Row} from 'react-bootstrap'
+import AuthContext from '../../context';
+// import BsFillStarFill from 'react-icons/bs'
 import './cardstyles.css'
+import $ from 'jquery';
 
 const ReservationCard = (props) => {
-  const {
-    propertyInfo,
-  } = props;
+  const { propertyInfo } = props;
+  const { token } = useContext(AuthContext);
+  const [start, setStart] = useState();
+  const [startChecker, setStartChecker] = useState(false);
+  const [end, setEnd] = useState();
+  const [endChecker, setEndChecker] = useState(false);
+  const [numGuests, setNumGuests] = useState(1);
+  const [ppn, setPpn] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [numNights, setNumNights] = useState(0);
+  const [availableDates, setAvailableDates] = useState([]);
+  const [chosenAvailD, setChosenAvailD] = useState();
 
-  const [start, setStart] = useState()
-  const [end, setEnd] = useState()
-  const [numGuests, setNumGuests] = useState()
-  const [ppn, setPpn] = useState()
-  const [total, setTotal] = useState()
-  const [numNights, setNumNights] = useState()
-
-
+  // available_date/<int:pk>/list/
   useEffect(() => {
-    if(start && end && start < end && start > getToday()) {
-      //fetch api to reserve
+    fetch("http://localhost:8000/webpages/available_date/" + propertyInfo.id + "/list/", {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+      },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data);
+          let newData = []
+          for (let i = 0; i < data.length;i++) {
+            var availableDate = data[i]
+            if (!availableDate.booked_for) {
+              newData.push(availableDate)
+            }
+          }
+          if (newData.length === 0) {
+            $('#notification').text('Oops! Looks like there are currently no available slots for this property.').css('color','red')
+          }
+          else {
+            setAvailableDates(newData);
+          }
+      })
+      .catch((error) => console.error(error));
 
-      //setPpn, call getTotal, 
-      
-    }
-  })
-
-  const onReserve = () => {
-    // fetch api to reserve
-  }
+  }, [])
 
   function getToday() {
     var today = new Date();
@@ -43,33 +63,119 @@ const ReservationCard = (props) => {
     return yyyy+'-'+mm+'-'+dd;
   }
 
-  
   function getNights() {
-    const night = 24 * 60 * 60 * 1000; 
-    const diffDays = Math.round(Math.abs((start - end) / night));
-    setNumNights(diffDays)
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+    console.log(timeDiff, 'this is the timediff')
+    const numDays = Math.ceil(timeDiff / (86400000));
+    setNumNights(numDays)
   }
   
   function getTotalPrice() {
-    return (numNights * ppn).toFixed(2)
+    return (numNights * ppn * numGuests).toFixed(2)
   }
+  function getTotalPrice2() {
+    var total23 = 1.3*(numNights * ppn * numGuests).toFixed(2)
+    return total23
+  }
+
+  useEffect(() => {
+    if (startChecker && endChecker) {
+      // get the number of nights
+      getNights()
+
+      // see which one it is in
+      for (let j = 0; j < availableDates.length;j++) {
+        let availableDate = availableDates[j]
+        let startDate = new Date(availableDate.start_date)
+        let endDate = new Date(availableDate.end_date)
+
+        console.log( j ,start >= startDate, start < endDate, end <= endDate, end > startDate)
+        if (start >= startDate && start < endDate && end <= endDate && end > startDate) {
+          console.log('where you at chief')
+          setChosenAvailD(availableDate)
+          setPpn(availableDate.price_per_night)
+
+        }
+        else {}
+      }
+
+    }
+
+  }, [start, end]);
+
+  // console.log('this is the import we need', chosenAvailD)
+
+  
+  const onReserve = () => {
+    fetch("http://localhost:8000/webpages/" + propertyInfo.id + "/reservations/add/", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+      },
+      body: JSON.stringify({
+        start_date: chosenAvailD.start_date,
+        end_date: chosenAvailD.end_date,
+        num_of_guests: numGuests
+      })
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data);
+      })
+      .catch((error) => console.error(error));
+
+  }
+
+
 
 
   return (
     <Card className='sticky-top sticky-offset'>
       <Card.Body>
+        <div>
+        <p> These are this Property's Available Dates. You may choose your timeline within any given slot </p>
+        <p id='notification'> </p>
+        {availableDates.map((dateObject, index) => {
+
+          let start_date = new Date(dateObject.start_date)
+          let end_date = new Date(dateObject.end_date)
+          let price_per_night = dateObject.price_per_night
+
+          return (
+
+            <>
+            <Row>
+              <Col>
+              <div> { start_date.toDateString()} </div>
+              </Col>
+              <Col>
+              <div> { end_date.toDateString() } </div>
+              </Col>
+              <Col>
+                <div> ${ price_per_night }/night </div>
+              </Col>
+            </Row>
+            </>
+
+          )
+        })}
+        </div>
         <Form>
           <div className='row card-center'>
-            <h4>${ propertyInfo.price } per night</h4>
-            <a class="mb-2 line-right-align purple-color" href="#rating-link"><BsFillStarFill/>{ propertyInfo.rating }</a>
+            <a class="mb-2 line-right-align purple-color" href="#rating-link">{ } rating </a>
             <div class="form-group col-lg-6 col-md-12">
               <Form.Control 
                 type='date'
                 required
                 id='start'
-                name='start'
+                name='start_date'
                 min={ getToday() }
-                onChange={ (e) => setStart(e.target.value) }
+                onChange={ (e) => {
+                  let startDate = new Date(e.target.value)
+                  setStart(startDate)
+                  setStartChecker(true)
+                } }
               />
             </div>
             <div class='form-group col-lg-6 col-md-12'>
@@ -77,9 +183,13 @@ const ReservationCard = (props) => {
                 type='date'
                 required
                 id='end'
-                name='end'
+                name='end_date'
                 min={ getToday() }
-                onChange={ (e) => setEnd(e.target.value) }
+                onChange={ (e) => {
+                  let endDate = new Date(e.target.value)
+                  setEnd(endDate)
+                  setEndChecker(true)
+                } }
               />
             </div>
             <div class="form-group col-12">
@@ -87,26 +197,31 @@ const ReservationCard = (props) => {
                 type='number'
                 required
                 id='end'
-                name='# of Guests'
+                name='number_of_guest'
                 min={ 0 }
-                onChange={ (e) => setNumGuests(e.target.value) }
+                placeholder="Number of Guests"
+                onChange={ (e) => {
+                  setNumGuests(e.target.value)
+                } }
               />
             </div>
             <p class="card-left-align">
-              $ { propertyInfo.price } x { numNights } nights:
+              $ { ppn.toFixed() } x { numNights } nights:
               <span class="card-right-align">
-                ${ total }
+                ${ getTotalPrice() }
               </span>
             </p>
             <hr/>
             <strong class="card-left-align">
-              Total Price
+              Total Price w/ Taxes
               <span class="card-right-align">
-                ${ total }
+                ${ getTotalPrice2() }
               </span>
             </strong>
+            <br/>
+            <br/>
             <div class="submit-form-btn">
-              <Button class='full-width'>
+              <Button onClick={onReserve} class='full-width'>
                 Request to Reserve
               </Button>
             </div>

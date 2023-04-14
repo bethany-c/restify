@@ -5,15 +5,16 @@ import NavbarSO from '../../components/Navbar';
 import Signup from '../../components/signup';
 // import "./index.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../loginpage/loginstyles.css'
 
 
 // import { Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom'
 
 function SignUpPage() {
   return (
-    <div className="signuppage App">
+    <div className="signuppage">
       <NavbarSO/>
-      <div className='wrapper2'>
+      <div className='wrapper3'>
         <Signup />
       </div>
     </div>

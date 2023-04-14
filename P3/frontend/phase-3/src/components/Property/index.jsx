@@ -5,6 +5,7 @@ import API from '../API/apiservice';
 import { useNavigate } from 'react-router-dom';
 
 function Create_property() {
+  
     const [formData, setFormData] = useState({
         address: "",
         number_of_guest: 0,

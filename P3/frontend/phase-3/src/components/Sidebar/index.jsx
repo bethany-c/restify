@@ -97,15 +97,7 @@ const CustomSidebar = (props) => {
                     ) : (
                         <div></div>
                     )}
-                        <h4> Host Dashboard </h4>
-                        <SubMenu label="Your Listings" className='hoverit'>
-                            <MenuItem className='hoverit'> Requests </MenuItem>
-                            <MenuItem className='hoverit'> Approved </MenuItem>
-                            <MenuItem className='hoverit'> Cancellations </MenuItem>
-                            <MenuItem className='hoverit'> Completed </MenuItem>
-                            <MenuItem className='hoverit'> Terminated </MenuItem>
-                            <MenuItem className='hoverit'> All listings </MenuItem>
-                        </SubMenu>
+
                 </Menu>
             </Sidebar>
 

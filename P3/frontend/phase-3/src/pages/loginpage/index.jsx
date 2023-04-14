@@ -6,6 +6,7 @@ import LogIn from '../../components/login';
 import { React } from 'react';
 // import "./index.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './loginstyles.css'
 
 
 // import { Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom'
@@ -15,9 +16,15 @@ function LogInPage() {
 
 
   return (
+<<<<<<< HEAD
       <div className="loginpage App">
         <Navbar/>
         <div className='wrapper2'>
+=======
+      <div className="loginpage">
+        <NavbarSO/>
+        <div className='wrapper3'>
+>>>>>>> d2d9cb687e8ebc005f7442f47ad21353996569d1
           <LogIn />
         </div>
       </div>

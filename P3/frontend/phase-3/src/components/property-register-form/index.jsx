@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PropertyRegisterForm = () => {
     let navigate = useNavigate();
-    const { setIsHost } = useContext(AuthContext);
+    const { setIsHost, token} = useContext(AuthContext);
     const [guestNum, setGuestNum] = useState(0);
     const [bedroomNum, setBedroomNum] = useState(0);
     const [bathroomNum, setBathroomNum] = useState(0);
@@ -186,7 +186,7 @@ const PropertyRegisterForm = () => {
           body: JSON.stringify(propertyFormData),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem('token')
+            "Authorization": "Bearer " + token['token']
           },
         })
           .then((response) => response.json()
@@ -197,7 +197,7 @@ const PropertyRegisterForm = () => {
             console.log(data.id);
             console.log("dasdasdasdsad");
             
-            navigate('/property_extra_page?property_id=' + data.id) // after creating the property, navigate to the home page 
+            navigate('/property_extra_page?property_id=' + data.id) 
             // once a host always a host 
 
 
