@@ -59,7 +59,7 @@ const HomePage = () => {
   }
 
   const handleSearch = (event) => {
-    fetch('http://localhost:8000/webpages/property/search?location='+location+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest, {
+    fetch('http://localhost:8000/webpages/property/search/?location='+location+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
