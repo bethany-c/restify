@@ -1,7 +1,7 @@
 // import './App.css';
 // import NavbarD from '../../components/Navbar/Navbar-dashboard';
 // import NavbarSI from '../../components/Navbar/Navbar-signedIn';
-import NavbarSO from '../../components/Navbar';
+import Navbar from '../../components/Navbar';
 import LogIn from '../../components/login';
 import { React } from 'react';
 // import "./index.css"
@@ -16,9 +16,15 @@ function LogInPage() {
 
 
   return (
+<<<<<<< HEAD
+      <div className="loginpage App">
+        <Navbar/>
+        <div className='wrapper2'>
+=======
       <div className="loginpage">
         <NavbarSO/>
         <div className='wrapper3'>
+>>>>>>> d2d9cb687e8ebc005f7442f47ad21353996569d1
           <LogIn />
         </div>
       </div>
