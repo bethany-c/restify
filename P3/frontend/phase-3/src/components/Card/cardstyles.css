@@ -46,3 +46,35 @@
 .reacticon {
   padding-right: 5px;
 }
+
+/* Reservation card */
+
+.sticky-offset {
+  top: 100px;
+  z-index: 1;
+}
+
+.card-center {
+  width: 100%;
+  margin: auto;
+}
+
+.line-right-align {
+  float: right
+}
+
+.purple-color {
+  color: #007bff;
+}
+
+.form-group {
+  padding-bottom: 20px;
+}
+
+.submit-form-btn {
+  padding-top: 10px;
+}
+
+.full-width {
+  width: 100%
+}

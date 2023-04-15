@@ -1,21 +1,45 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ImageDisplay from '../../components/modals/ImageDisplay'
 import AmenitiesModal from '../../components/modals/AmenitiesModal';
 import ReservationCard from '../../components/Card/ReservationCard';
+import CommentsModal from '../../components/modals/CommentsModal';
 import './style.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom';
 import NavbarSO from '../../components/Navbar';
 import { BsStarFill, BsPersonFill } from 'react-icons/bs'
+import AuthContext from '../../context';
+
 
 const PropertyInfo = (props) => {
 
   const {state} = useLocation();
   const host = state.property_owner
+  const { token } = useContext(AuthContext);
 
+  const [allComments, setAllComments] = useState([])
 
+  useEffect(() => {
+    console.log('state is ', state)
+    getComments()
+  }, [])
+
+  const getComments = () => {
+    fetch('http://localhost:8000/webpages/reservations/property/' + state.id + '/property-comments/view/', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('this is the data ', data)
+      setAllComments(data)
+    })
+  }
 
 
   // const renderImagePreview = () => (
@@ -59,16 +83,28 @@ const PropertyInfo = (props) => {
   const renderHost = () => (
     <>
       <h6 id="rating-link">Questions?</h6>
-        <p>Contact { host.username } by
-        <a href={ `mailto:${ host.email }` }>{ host.email }</a>
-          <span> or </span>
-          <a href={ `tel:${ host.phone_number }` }>{ host.phone_number }</a>
+        <p>Contact { host.username } by 
+          { host.email && host.phone_number && (
+            <>
+              <a href={`mailto:${host.email}`}> { host.email }</a>
+              <span> or </span>
+              <a href={`tel:${host.phone_number}`}>{ host.phone_number }</a>
+            </>
+          )}
+
+          { host.email && !host.phone_number && (
+            <a href={`mailto:${host.email}`}> { host.email }</a>
+          )}
+
+          { !host.email && host.phone_number && (
+            <a href={`tel:${host.phone_number}`}> { host.phone_number }</a>
+          )}
         </p>
     </>
   )
 
   const renderReservationCard = () => (
-    <div class='col-md-5 col-sm-12'>
+    <div className='col-md-5 col-sm-12'>
       <ReservationCard
         propertyInfo={ state }
       />
@@ -83,39 +119,68 @@ const PropertyInfo = (props) => {
           features={ state.features }
           location={ state.location }
           safety={ state.safety_features }
+          address={ state.address }
         />
       </div>
     </>
   )
 
-  // const renderReviews = () => (
-  //   <>
-  //     <h4 class="line-left-align" id="all-property-reviews">
-  //       Reviews
-  //       <p class="mb-2 rating-right-align purple-color"><BsStarFill/>{ propertyInfo.rating }</p>
-  //     </h4>
-  //     <div class='comment-container row'>
-  //       { allComments.map((comment, index) => {
-  //         if(index < 8) {
-  //           return (
-  //               <div class="col-sm-12 col-md-6 comment-card">
-  //               <p class="line-left-align">
-  //                 <h5><BsPersonFill/>{ comment.author }</h5>
-  //                 <p class="mb-2 line-right-align purple-color"><BsStarFill/>{ comment.rating }</p>
-  //               </p>
-  //               <span>{ comment.text_content }</span>
-  //             </div>
-  //           )
-  //         } else {
-  //           return null;
-  //         }
-  //       }) }
-  //     </div>
-  //     <div class="view-amenities-btn">
-  //       <Button>View all reviews MAKE THIS A MODAL</Button>
-  //     </div>
-  //   </>
-  // )
+  const renderAmenitiesPreview = () => {
+    let allAmenities = [...state.essentials, ...state.features, ...state.location, ...state.safety_features]
+    return (
+      <>
+        <h5>Amenities</h5>
+        <div>
+          { allAmenities.slice(0, 9).map((amenity, index) => {
+        
+            if(index % 2 === 0) {
+              return (
+                <div className='row'>
+                  <div className="col-md-6 col-sm-12">
+                    <span>&#8226; </span>{ (amenity.replace('_', ' ')) }
+                  </div>
+                  { allAmenities[index + 1] && (
+                    <div className="col-md-6 col-sm-12">
+                      <span>&#8226; </span>{ allAmenities[index+1].replace('_', ' ') }
+                    </div>
+                  )}
+                </div>
+              )
+            } else { return null }
+          })}
+        </div>
+      </>
+    )
+  }
+
+
+
+  const renderReviews = () => (
+    <>
+      <h4 className="line-left-align" id="all-property-reviews">
+        Reviews
+        {/* <p className="mb-2 rating-right-align purple-color"><BsStarFill/>{ propertyInfo.rating }</p> */}
+      </h4>
+      <div className='comment-container row'>
+      {allComments.filter(comment => comment.reply === 'Original Property Comment').map((comment, index) => {
+
+        const twoSentences = comment.text_content.split('.').slice(0, 2).join('. ') + (comment.text_content.split('.').length > 2 ? 
+       '... see more': '')
+        return (
+          <div className="col-sm-12 col-md-6 comment-card">
+            <p className="line-left-align">
+              <h5><BsPersonFill/>{ comment.author }</h5>
+              {/* <p className="mb-2 line-right-align purple-color"><BsStarFill/>{ comment.rating }</p> */}
+            </p>
+            <span>{ twoSentences }</span>
+          </div>
+        );
+        }).slice(0, 6)}
+
+
+      </div>
+    </>
+  )
 
   return (
     <>
@@ -134,8 +199,9 @@ const PropertyInfo = (props) => {
         <hr/> */}
         { renderPropertyDetails() }
 
-        <div class='row'>
-          <div class="col-md-7 col-sm-12">
+        <div className='row'>
+          <div className="col-md-7 col-sm-12">
+            { renderAmenitiesPreview() }
             {/* <div className='view-amenities-btn'>
               <AmenitiesModal 
               essentials={ state.essentials }
@@ -157,16 +223,17 @@ const PropertyInfo = (props) => {
             { renderHost() }
           </div>
 
-          {/* <div class='col-md-5 col-sm-12'>
+          {/* <div className='col-md-5 col-sm-12'>
             <ReservationCard propertyInfo={ state }/>
           </div> */}
           { renderReservationCard() }
         </div>
-        <hr class="sticky-line"></hr>
+        <hr className="sticky-line"></hr>
 
         {/* Commented out reviews */}
+        { renderReviews() }
         
-
+        <CommentsModal allComments={ allComments }/>
       </div>
     </>
   )

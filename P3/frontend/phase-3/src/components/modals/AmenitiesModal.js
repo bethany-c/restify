@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import './style.css'
 
 const AmenitiesModal = (props) => {
   const {

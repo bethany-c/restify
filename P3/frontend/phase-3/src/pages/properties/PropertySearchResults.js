@@ -106,7 +106,7 @@ const PropertySearchResults = (props) => {
           />
         </div>
         <FilterModal/>
-        <div class="results-row row">
+        <div className="results-row row">
           { renderResults() }
         </div>
 

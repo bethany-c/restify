@@ -37,3 +37,31 @@
   padding: 20px 0px;
   margin: auto;
 }
+
+.sticky-line {
+  margin-top: 10px;
+}
+
+.line-left-align {
+  text-align: left;
+}
+
+.rating-right-align {
+  float: right;
+  margin-right:23px;
+}
+
+.comment-container {
+  width: 100%;
+  padding-bottom: 10px !important;
+}
+
+.comment-card {
+  border: 1px solid #dee2e6;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.line-right-align {
+  float: right
+}

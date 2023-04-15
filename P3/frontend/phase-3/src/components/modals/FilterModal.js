@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { BsFillFilterSquareFill, BsStar } from 'react-icons/bs'
 import './style.css'
@@ -30,9 +30,10 @@ export const FilterModal = () => {
 
   const handleCancel = () => {
     setChecked([])
-    setNumBed()
-    setNumBedroom()
-    setNumBath()
+    setNumBed('')
+    setNumBedroom('')
+    setNumBath('')
+    setRating()
     setShowModal(false)
   }
 
@@ -278,7 +279,7 @@ export const FilterModal = () => {
         { renderRatings() }
         <hr/>
 
-        <h6 className="modal-category">Amentities</h6>
+        <h6 className="modal-category">Amenities</h6>
         <Form>
           <div className="amenities-title">
             <strong>Essentials</strong>

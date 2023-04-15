@@ -70,5 +70,44 @@
   padding-right: 5px;
 }
 
+/* IMAGEDISPLAY */
+.view-all-photos-btn {
+  font-size: small;
+}
 
+.overlay-btn {
+  position: absolute;
+  left: 82%; /* adjust as required */
+  top: 85%; /* adjust as required */
+  font-size: 1em;
+  padding: 2px;
+}
+
+/* AMENITIES MODAL */
+
+.amenities-title {
+  padding-bottom: 20px;
+  padding-top: 30px;
+}
+
+.line-left-align {
+  text-align: left;
+}
+
+/* COMMENTS MODAL */
+.line-right-align {
+  float: right
+}
+
+.comment-reply {
+  padding-top: 25px;
+  padding-left: 20px;
+}
+
+
+/* Comment Modal */
+.pagination-bar {
+  width: 100px;
+  margin-bottom: 15px;
+}
 

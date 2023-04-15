@@ -163,8 +163,8 @@ const ReservationCard = (props) => {
         </div>
         <Form>
           <div className='row card-center'>
-            <a class="mb-2 line-right-align purple-color" href="#rating-link">{ } rating </a>
-            <div class="form-group col-lg-6 col-md-12">
+            <a className="mb-2 line-right-align purple-color" href="#rating-link">{ } rating </a>
+            <div className="form-group col-lg-6 col-md-12">
               <Form.Control 
                 type='date'
                 required
@@ -178,7 +178,7 @@ const ReservationCard = (props) => {
                 } }
               />
             </div>
-            <div class='form-group col-lg-6 col-md-12'>
+            <div className='form-group col-lg-6 col-md-12'>
               <Form.Control 
                 type='date'
                 required
@@ -192,7 +192,7 @@ const ReservationCard = (props) => {
                 } }
               />
             </div>
-            <div class="form-group col-12">
+            <div className="form-group col-12">
               <Form.Control 
                 type='number'
                 required
@@ -205,23 +205,23 @@ const ReservationCard = (props) => {
                 } }
               />
             </div>
-            <p class="card-left-align">
+            <p className="card-left-align">
               $ { ppn.toFixed() } x { numNights } nights:
-              <span class="card-right-align">
+              <span className="card-right-align">
                 ${ getTotalPrice() }
               </span>
             </p>
             <hr/>
-            <strong class="card-left-align">
+            <strong className="card-left-align">
               Total Price w/ Taxes
-              <span class="card-right-align">
+              <span className="card-right-align">
                 ${ getTotalPrice2() }
               </span>
             </strong>
             <br/>
             <br/>
-            <div class="submit-form-btn">
-              <Button onClick={onReserve} class='full-width'>
+            <div className="submit-form-btn">
+              <Button onClick={onReserve} className='full-width'>
                 Request to Reserve
               </Button>
             </div>

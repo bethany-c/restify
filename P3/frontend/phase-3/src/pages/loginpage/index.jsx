@@ -16,15 +16,9 @@ function LogInPage() {
 
 
   return (
-<<<<<<< HEAD
-      <div className="loginpage App">
-        <Navbar/>
-        <div className='wrapper2'>
-=======
       <div className="loginpage">
-        <NavbarSO/>
+        <Navbar/>
         <div className='wrapper3'>
->>>>>>> d2d9cb687e8ebc005f7442f47ad21353996569d1
           <LogIn />
         </div>
       </div>

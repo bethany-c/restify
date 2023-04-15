@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap'
+import './style.css'
 
 const SearchBar = (props) => {
   const {
@@ -69,7 +70,8 @@ const SearchBar = (props) => {
 
   return (
     <>
-      <InputGroup>
+    <div className='line'>
+    <InputGroup>
       <Form.Control 
         placeholder='Location'
         type='text'
@@ -105,13 +107,15 @@ const SearchBar = (props) => {
       <Button onClick={ () => onSearch() }>Search</Button>
 
       </InputGroup>
-
+    </div>
+      
       { invalid ? 
         <p className='invalid'>
           Missing required field
         </p>
         : null
       }
+      
     </>
     
   )

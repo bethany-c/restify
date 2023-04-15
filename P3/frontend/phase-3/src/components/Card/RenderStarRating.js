@@ -8,7 +8,7 @@ export const RenderStarRating = (props) => {
   } = props;
 
   return (
-    <div class="upper-right">
+    <div className="upper-right">
       <AiFillStar className='reacticon'></AiFillStar>{ rating } stars
     </div>
   )
