@@ -257,9 +257,10 @@ function PropertyUpdateForm(props){
           )
           .then((data) => {
             
-            setIsHost(true)
+            
             console.log(data.id);
             console.log("dasdasdasdsad");
+            navigate('/home')
             
 
             // once a host always a host 

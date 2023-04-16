@@ -2,6 +2,7 @@ import Add_pic from '../../components/PhotoAdd'
 import Display_pic from '../../components/PhotoDisplay'
 import Add_Ava from '../../components/Add_available'
 import Display_Ava from '../../components/Display_Available'
+import DeleteProp from '../../components/PropertyDeleteButton'
 import NavbarSO from '../../components/Navbar'
 import { Button, Modal, Container } from 'react-bootstrap';
 import { useState } from "react";
@@ -21,8 +22,13 @@ const PropertyUpdater = () => {
 
     
     <>
+   
       <NavbarSO />
       <PropertyUpdateFormfrom property_id={id} />
+      <div className='text-center'>
+      <DeleteProp property_id={id} />
+      </div>
+      
    
     </>
     )
