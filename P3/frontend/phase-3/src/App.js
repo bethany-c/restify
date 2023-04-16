@@ -13,6 +13,7 @@ import PropertyInfo from './pages/properties/PropertyInfo';
 // import AuthContext from './context';
 import { AuthProvider } from './context';
 import PropertyRegister from './pages/property-register';
+import PropertyUpdater from './pages/PropertyUpdate';
 import Property_extra from './pages/property_extra_page';
 import { useContext, useState } from 'react';
 import Profile from './components/dashboard-Content/profile';
@@ -44,6 +45,7 @@ function App() {
               <Route path="signup" element={<SignUpPage/>}/>
               <Route path="logout" element={<LogOut />}/>
               <Route path="property_extra_page" element={<Property_extra/>} />
+              <Route path="property_update" element={<PropertyUpdater/>} />
               <Route path="property-info" element={<PropertyInfo />} />
               <Route path="property_register" element={<PropertyRegister />}>
   

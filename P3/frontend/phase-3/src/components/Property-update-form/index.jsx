@@ -1,4 +1,4 @@
-import { React, useState, useContext} from 'react'
+import { React, useState, useEffect, useContext} from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context';
@@ -10,7 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import AvailableDatePicker from '../date-range';
 
 
-const PropertyRegisterForm = () => {
+function PropertyUpdateForm(props){
+
     let navigate = useNavigate();
     const { setIsHost, token} = useContext(AuthContext);
     const [guestNum, setGuestNum] = useState(0);
@@ -107,9 +108,36 @@ const PropertyRegisterForm = () => {
         features: features,
         safety_features: safetyFeatures, 
         location: location, 
-        slider_images: [],
+        property_owner: null
 
     })
+    const [isLoaded, setIsLoaded] = useState(false);
+    const loadData = () => {
+        fetch('http://localhost:8000/webpages/property/'+props.property_id +'/detail/', {
+            method: "GET",
+            headers: {
+              "Authorization": "Bearer " + token['token'],
+              "Content-Type": "application/json"
+            }
+      
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            setPropertyFormData(data)
+            console.log(data);
+    
+    
+      
+          })
+      };
+      if (!isLoaded) {
+        loadData();
+        setIsLoaded(true);
+      }
+
+      
+
+    
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -133,6 +161,8 @@ const PropertyRegisterForm = () => {
         }
 
       };
+
+    
 
   
     function incrementGuest() {
@@ -179,10 +209,11 @@ const PropertyRegisterForm = () => {
     }
 
     const handleSubmit = (event) => {
+        console.log( JSON.stringify(propertyFormData))
         event.preventDefault();
         // Send formData to backend API via POST request
-        fetch("http://localhost:8000/webpages/property/add/", {
-          method: "POST",
+        fetch("http://localhost:8000/webpages/property/"+props.property_id+"/edit/", {
+          method: "PATCH",
           body: JSON.stringify(propertyFormData),
           headers: {
             "Content-Type": "application/json",
@@ -197,7 +228,7 @@ const PropertyRegisterForm = () => {
             console.log(data.id);
             console.log("dasdasdasdsad");
             
-            navigate('/property_extra_page?property_id=' + data.id) // after creating the property, navigate to the home page 
+
             // once a host always a host 
 
 
@@ -208,14 +239,14 @@ const PropertyRegisterForm = () => {
   return (
 <div id='propertyregister' className='prop'>
 
-    <h2>REGISTER YOUR PROPERTY!</h2>
+    <h2>Update YOUR PROPERTY!</h2>
     <hr />
     <Form onSubmit={handleSubmit} className="p-5">
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
 
-            <Form.Label>Location :</Form.Label>
+            <Form.Label>Address :</Form.Label>
             <Form.Control
-            placeholder="Please enter your property's location here"
+            value={propertyFormData.address}
             aria-label="Location"
             aria-describedby="basic-addon1"
             name='address'
@@ -281,6 +312,7 @@ const PropertyRegisterForm = () => {
                         id="essential1"
                         label="Wifi"
                         name='wifi'
+                        checked={propertyFormData.essentials.includes("wifi")}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -290,6 +322,7 @@ const PropertyRegisterForm = () => {
                         type="checkbox"
                         id="essential2"
                         label="TV"
+                        checked={propertyFormData.essentials.includes("tv")}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                         name="tv"
                     />
@@ -302,6 +335,7 @@ const PropertyRegisterForm = () => {
                         type="checkbox"
                         id="essential3"
                         label="Kitchen"
+                        checked={propertyFormData.essentials.includes("kitchen")}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                         name="kitchen"
                     />
@@ -313,6 +347,7 @@ const PropertyRegisterForm = () => {
                         id="essential4"
                         label="Workspace"
                         name='workspace'
+                        checked={propertyFormData.essentials.includes("workspace")}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -325,6 +360,7 @@ const PropertyRegisterForm = () => {
                         id="essential5"
                         label="Air Conditioning"
                         name='air_conditioning'
+                        checked={propertyFormData.essentials.includes('air_conditioning')}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -335,6 +371,7 @@ const PropertyRegisterForm = () => {
                         id="essential6"
                         label="Heating"
                         name='heating'
+                        checked={propertyFormData.essentials.includes('heating')}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -347,6 +384,7 @@ const PropertyRegisterForm = () => {
                         id="essential6"
                         label="Washer"
                         name='washer'
+                        checked={propertyFormData.essentials.includes('washer')}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -356,6 +394,7 @@ const PropertyRegisterForm = () => {
                         type="checkbox"
                         id="essential7"
                         label="Dryer"
+                        checked={propertyFormData.essentials.includes('dryer')}
                         onChange={(e) => handleEssentialsChange(e.target.name, e.target.checked)}
                         name="dryer"
                     />
@@ -377,6 +416,7 @@ const PropertyRegisterForm = () => {
                         id="essential1"
                         label="Pool"
                         name='pool'
+                        checked={propertyFormData.features.includes('pool')}
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -388,6 +428,7 @@ const PropertyRegisterForm = () => {
                         label="Hot Tub"
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
                         name="hot_tub"
+                        checked={propertyFormData.features.includes('hot_tub')}
                     />
                 </Col>
             </Row>
@@ -400,6 +441,7 @@ const PropertyRegisterForm = () => {
                         label="Patio"
                         name='patio'
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
+                        checked={propertyFormData.features.includes('patio')}
                     />
                 </Col>
                 <Col md={{ span: 4, offset: 2 }}>
@@ -409,6 +451,7 @@ const PropertyRegisterForm = () => {
                         id="essential4"
                         label="Grill"
                         name='grill'
+                        checked={propertyFormData.features.includes('grill')}
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -421,6 +464,7 @@ const PropertyRegisterForm = () => {
                         id="essential5"
                         label="Gym"
                         name='gym'
+                        checked={propertyFormData.features.includes('gym')}
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -430,6 +474,7 @@ const PropertyRegisterForm = () => {
                         type="checkbox"
                         id="essential6"
                         label="Piano"
+                        checked={propertyFormData.features.includes('piano')}
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
                         name="piano"
                     />
@@ -444,6 +489,7 @@ const PropertyRegisterForm = () => {
                         label="Fire Pit"
                         name='fire_pit'
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
+                        checked={propertyFormData.features.includes('fire_pit')}
                     />
                 </Col>
                 <Col md={{ span: 4, offset: 2 }}>
@@ -453,6 +499,7 @@ const PropertyRegisterForm = () => {
                         id="essential7"
                         label="Outdoor Shower"
                         name='outdoor_shower'
+                        checked={propertyFormData.features.includes('outdoor_shower')}
                         onChange={(e) => handleFeaturesChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -472,6 +519,7 @@ const PropertyRegisterForm = () => {
                         id="essential6"
                         label="Lake Access"
                         name='lake_access'
+                        checked={propertyFormData.location.includes('lake_access')}
                         onChange={(e) => handleLocationChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -482,6 +530,7 @@ const PropertyRegisterForm = () => {
                         id="essential7"
                         label="Beach Access"
                         name="beach_access"
+                        checked={propertyFormData.location.includes('beach_access')}
                         onChange={(e) => handleLocationChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -494,6 +543,7 @@ const PropertyRegisterForm = () => {
                         id="essential6"
                         label="Ski-in/Ski-out"
                         name='skiin_skiout'
+                        checked={propertyFormData.location.includes('skiin_skiout')}
                         onChange={(e) => handleLocationChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -513,6 +563,7 @@ const PropertyRegisterForm = () => {
                         id="essential6"
                         label="Smoke detector"
                         name='smoke_detector'
+                        checked={propertyFormData.safety_features.includes('smoke_detector')}
                         onChange={(e) => handleSafetyFeaturesChange(e.target.name, e.target.checked)}
                     />
                 </Col>
@@ -524,6 +575,7 @@ const PropertyRegisterForm = () => {
                         label="First Aid Kit"
                         onChange={(e) => handleSafetyFeaturesChange(e.target.name, e.target.checked)}
                         name="first_aid_kit"
+                        checked={propertyFormData.safety_features.includes('first_aid_kit')}
 
                     />
                 </Col>
@@ -537,6 +589,7 @@ const PropertyRegisterForm = () => {
                         label="Fire Extinguisher"
                         onChange={(e) => handleSafetyFeaturesChange(e.target.name, e.target.checked)}
                         name="fire_extinguisher"
+                        checked={propertyFormData.safety_features.includes("fire_extinguisher")}
                     />
                 </Col>
             </Row>
@@ -549,7 +602,7 @@ const PropertyRegisterForm = () => {
             <Form.Label>Description about the property :</Form.Label>
             <Form.Control
             as="textarea"
-            placeholder="Please enter a description of your property here"
+            value={propertyFormData.description}
             aria-label="Location"
             aria-describedby="basic-addon1"
             name='description'
@@ -559,7 +612,7 @@ const PropertyRegisterForm = () => {
         </Form.Group>
         
 
-        <Button type='submit'> Register Your Property!</Button>
+        <Button type='submit'> Update Your Property!</Button>
     </Form>
 </div> 
       
@@ -567,7 +620,7 @@ const PropertyRegisterForm = () => {
   )
 }
 
-export default PropertyRegisterForm
+export default PropertyUpdateForm
 
 
 
