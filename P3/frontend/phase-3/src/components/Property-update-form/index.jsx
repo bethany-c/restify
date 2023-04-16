@@ -1,8 +1,12 @@
 import { React, useState, useEffect, useContext} from 'react'
+import { Modal, Container} from 'react-bootstrap';
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context';
-
+import Add_pic from '../PhotoAdd'
+import Display_pic from '../PhotoDisplay'
+import Add_Ava from '../Add_available'
+import Display_Ava from '../Display_Available'
 import './prop_register.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { BsTextarea } from 'react-icons/bs';
@@ -11,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function PropertyUpdateForm(props){
+    
 
     let navigate = useNavigate();
     const { setIsHost, token} = useContext(AuthContext);
@@ -18,6 +23,34 @@ function PropertyUpdateForm(props){
     const [bedroomNum, setBedroomNum] = useState(0);
     const [bathroomNum, setBathroomNum] = useState(0);
     const [bedNum, setBedNum] = useState(0);
+
+
+    const [showModal, setShowModal] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);
+    const [showModal3, setShowModal3] = useState(false);
+
+  
+    function handleShowModal() {
+      setShowModal(true);
+    }
+  
+    function handleCloseModal() {
+      setShowModal(false);
+    }
+    function handleShowModal2() {
+        setShowModal2(true);
+      }
+    
+      function handleCloseModal2() {
+        setShowModal2(false);
+      }
+      function handleShowModal3() {
+        setShowModal3(true);
+      }
+    
+      function handleCloseModal3() {
+        setShowModal3(false);
+      }
 
     // Amenities
     const [essentials, setEssentials] = useState([]);
@@ -610,9 +643,72 @@ function PropertyUpdateForm(props){
             rows={5}
             />
         </Form.Group>
+
+        <div>
+        <hr className="divider" />
+        <h2 className='m-3'>Pictures of Property</h2>
+        
+        <div className="form-group row m-3">
+          <div className="col-md-4">
+            <button className="btn btn-outline-primary mt-3" onClick={handleShowModal2}>Add Picture</button>
+          </div>
+          <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>View Uploaded Picture(s)</button>
+        </div>
+
+        <hr className="divider" />
+
+        <Display_Ava property_id={props.property_id}/>
+        <Container className="d-flex justify-content-center">
+          <button className="btn btn-outline-primary mt-3 mb-3" onClick={handleShowModal3}>Add Available Dates & Price</button>
+        </Container>
+
+   
+      
         
 
-        <Button type='submit'> Update Your Property!</Button>
+        <Modal show={showModal2} onHide={handleCloseModal2}>
+          <Modal.Header closeButton>
+            <Modal.Title className="fw-bold mb-2 text-uppercase">Upload photo!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Add_pic property_id={props.property_id} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal2}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+  
+        
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title className="fw-bold mb-2 text-uppercase">Your Uploaded Photos</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Display_pic property_id={props.property_id}/>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={showModal3} onHide={handleCloseModal3}>
+          <Modal.Header closeButton>
+            <Modal.Title className="fw-bold mb-2 text-uppercase">Add Available Dates!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Add_Ava  property_id={props.property_id}/>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal3}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+      <hr className='divider'/>
+        
+        <div className="text-center">
+        <Button type='submit' className='mt-3 btn btn-light btn-outline-primary text-center'> <h3>Save Your Property Information!</h3></Button>
+</div>
+       
     </Form>
 </div> 
       
