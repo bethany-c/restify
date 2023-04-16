@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
 from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView
-from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView
+from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView, ListRatingAPIView, AddRatingAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
 from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications
 from .views.propertiesapi import *
@@ -43,6 +43,8 @@ urlpatterns = [
     path('available_date/<int:pk>/list/', ListAllAvailableDatesAPIView.as_view(), name='list_avaiable'), # works11 --> pk is property_id
     path('picture/<int:pk>/list/', ListAllImageAPIView.as_view(), name='list_images'), # works11 --> pk is property_id
 
+    path('rating/<int:pk>/list/', ListRatingAPIView.as_view(), name='list_rating'), # works11 --> pk is property_id
+    path('rating/<int:pk>/add/', AddRatingAPIView.as_view(), name='add_rating'), # works11 --> pk is property_id
     
     # MUSTAFAS CODE 
     path('admin/', admin.site.urls), #works11

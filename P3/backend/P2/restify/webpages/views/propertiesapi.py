@@ -33,7 +33,7 @@ from django.shortcuts import get_object_or_404
 
 from webpages.serializers.serializer_user import UserSerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer
-from webpages.serializers.serializers_property import PropertySerializer, PropertyImageSerializer, PropertyTimeRangePriceHostOfferSerializer
+from webpages.serializers.serializers_property import PropertySerializer, PropertyImageSerializer, PropertyTimeRangePriceHostOfferSerializer, PropertyRatingSerializer
 from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSerializer
 
 #HOST VIEW
@@ -423,3 +423,27 @@ class ListAllImageAPIView(ListAPIView):
     def get_queryset(self):
 
         return PropertyImage.objects.filter(property=self.kwargs['pk'])
+    
+
+
+
+class AddRatingAPIView(CreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = PropertyRatingSerializer
+    
+    def perform_create(self, serializer):
+     
+        
+
+        # set the property_owner field of serializer to the current user
+        serializer.validated_data['property'] = get_object_or_404(Property, id=self.kwargs['pk'])
+
+        # call the super perform_create method to save the reservation instance
+        super().perform_create(serializer)
+class ListRatingAPIView(ListAPIView):
+    serializer_class = PropertyRatingSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+
+        return PropertyRating.objects.filter(property=self.kwargs['pk'])

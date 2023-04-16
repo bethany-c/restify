@@ -51,6 +51,7 @@ class PropertyRatingSerializer(ModelSerializer):
     
     class Meta:
         model = PropertyRating
+        exclude = ("property", )
 
         # property_owner does not have to be sent 
 
