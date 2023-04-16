@@ -81,9 +81,11 @@ class CreateAvailableDateAPIView(CreateAPIView):
         start_date = serializer.validated_data['start_date']
         end_date = serializer.validated_data['end_date']
 
-        overlap1 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=start_date, end_date__lte=end_date)
-        overlap2 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__lte=start_date, end_date__lte=start_date)
-        overlap3 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=end_date, end_date__gte=end_date)
+        overlap1 = RangePriceHostOffer.objects.filter(property=self.kwargs['pk'],start_date__lte=start_date, end_date__gte=end_date)
+        overlap2 = RangePriceHostOffer.objects.filter(property=self.kwargs['pk'],start_date__gte=start_date, start_date__lte=end_date)
+        overlap3 = RangePriceHostOffer.objects.filter(property=self.kwargs['pk'],end_date__gte=start_date, end_date__lte=end_date)
+        overlap4 = RangePriceHostOffer.objects.filter(property=self.kwargs['pk'],start_date__gte=start_date, end_date__lte=end_date)
+
         # overlap3 = RangePriceHostOffer.objects.filter(start_date__gte=end_date, end_date__lte=end_date,
         #                                    start_date__gte=start_date, end_date__lte=start_date) # causing an error 
 
@@ -93,6 +95,8 @@ class CreateAvailableDateAPIView(CreateAPIView):
         if overlap2:
             raise ValidationError('This time range overlaps with an existing range')
         if overlap3:
+            raise ValidationError('This time range overlaps with an existing range')
+        if overlap4:
             raise ValidationError('This time range overlaps with an existing range')
         else: 
             return super().perform_create(serializer)
