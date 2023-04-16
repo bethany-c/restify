@@ -20,7 +20,7 @@ const HomePage = () => {
 
 
   const [FilterformData, setFormData] = useState({
-    price_per_night: 0,
+    price_per_night: 100,
     number_of_bed: 0,
     number_of_rooms: 0,
     baths: 0,
@@ -88,7 +88,7 @@ const HomePage = () => {
   }
 
   const handleSearch = (event) => {
-    console.log('http://localhost:8000/webpages/property/search/?location='+address+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest);
+    console.log('http://localhost:8000/webpages/property/search/?location='+address+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest)
     fetch('http://localhost:8000/webpages/property/search/?location='+address+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest, {
       method: 'GET',
       headers: {
@@ -107,20 +107,34 @@ const HomePage = () => {
 
 
   const handleFilter = (event) => {
-    console.log('http://localhost:8000/webpages/property/filter/?price_per_night='+FilterformData.price_per_night+'&number_of_rooms='+FilterformData.number_of_rooms+'&number_of_bed='+FilterformData.number_of_bed+'&baths='+FilterformData.baths+'&essentials='+FilterformData.essentials+'&features='+FilterformData.features+'&safety_features='+FilterformData.safety_features+'&location='+FilterformData.location);
+    setShowModal(false);
+
     //price_per_night, number_of_rooms, number_of_bed, baths, essentials, features, safety_features, location
   // For filter
-  fetch('http://localhost:8000/webpages/property/filter/?price_per_night='+FilterformData.price_per_night+'&number_of_rooms='+FilterformData.number_of_rooms+'&number_of_bed='+FilterformData.number_of_bed+'&baths='+FilterformData.baths+'&essentials='+FilterformData.essentials+'&features='+FilterformData.features+'&safety_features='+FilterformData.safety_features+'&location='+FilterformData.location, {
+  console.log(result);
+    console.log('http://localhost:8000/webpages/property/filter/?price_per_night='+FilterformData.price_per_night+'&number_of_rooms='+FilterformData.number_of_rooms+'&number_of_bed='+FilterformData.number_of_bed+'&baths='+FilterformData.baths+'&essentials='+FilterformData.essentials+'&features='+FilterformData.features+'&safety_features='+FilterformData.safety_features+'&location='+FilterformData.location +'&address='+address+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest);
+  fetch('http://localhost:8000/webpages/property/filter/?price_per_night='+FilterformData.price_per_night+'&number_of_rooms='+FilterformData.number_of_rooms+'&number_of_bed='+FilterformData.number_of_bed+'&baths='+FilterformData.baths+'&essentials='+FilterformData.essentials+'&features='+FilterformData.features+'&safety_features='+FilterformData.safety_features+'&location='+FilterformData.location +'&address='+address+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest,{
       method: 'GET',
-      body: JSON.stringify(result),
       headers: {
         "Content-Type": "application/json",
       },
+
     })
     .then((response) => response.json())
     .then((data) => {
       setResult(data);
       console.log( result);
+      setFormData({
+        price_per_night: 100,
+        number_of_bed: 0,
+        number_of_rooms: 0,
+        baths: 0,
+        essentials: "",
+        features: "",
+        location: "",
+        safety_features: "",
+      });
+
     })
     .catch(error => {
       console.log(error);
@@ -197,8 +211,8 @@ if (type === 'checkbox' ) {
       <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>Filter</button>
       <div className='row   m-4'>
       {result.map(r => (
-        <div key={r.id} >
-          <p> property_id is {r.property}</p>
+        <div key={r.id} className="col-md-4">
+          <CardComponentD property_id={r.property} />
 
         </div>
       ))}
@@ -220,6 +234,7 @@ if (type === 'checkbox' ) {
                 value={FilterformData.price_per_night}
                 onChange={handleChange}
                 name="price_per_night"
+
                 />
             </Form.Group>
 
@@ -257,14 +272,14 @@ if (type === 'checkbox' ) {
             <Form.Group controlId="formEssentials">
               <Form.Label>Essentials</Form.Label>
               <div>
-                <Form.Check name="essentials" type="checkbox" label="Pool" value="pool" onChange={handleChange} />
-                <Form.Check name="essentials" type="checkbox" label="Hot Tub" value="hot_tub" onChange={handleChange} />
-                <Form.Check name="essentials" type="checkbox" label="Patio" value="patio" onChange={handleChange} />
-                <Form.Check name="essentials" type="checkbox" label="Grill" value="grill" onChange={handleChange} />
-                <Form.Check name="essentials" type="checkbox" label="Gym" value="gym" onChange={handleChange} />
-                <Form.Check name="essentials" type="checkbox" label="Piano" value="fire_pit" onChange={handleChange} />
-                <Form.Check name="essentials" type="checkbox" label="Fire Pit" value="washer" onChange={handleChange} />
-                <Form.Check name="essentials" type="checkbox" label="Outdoor Shower" value="outdoor_shower" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Pool" value="pool" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Hot Tub" value="hot_tub" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Patio" value="patio" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Grill" value="grill" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Gym" value="gym" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Piano" value="fire_pit" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Fire Pit" value="washer" onChange={handleChange} />
+                <Form.Check name="features" type="checkbox" label="Outdoor Shower" value="outdoor_shower" onChange={handleChange} />
 
 
                 
@@ -274,14 +289,14 @@ if (type === 'checkbox' ) {
             <Form.Group controlId="formFeatures">
               <Form.Label>Features</Form.Label>
               <div>
-                <Form.Check type="checkbox" name="features" label="WiFi" value="wifi" onChange={handleChange} />
-                <Form.Check type="checkbox" name="features" label="TV" value="tv" onChange={handleChange} />
-                <Form.Check type="checkbox" name="features" label="Kitchen" value="kitchen" onChange={handleChange} />
-                <Form.Check type="checkbox" name="features" label="Workspace" value="workspace" onChange={handleChange} />
-                <Form.Check type="checkbox" name="features" label="Air Conditioning" value="air_conditioning" onChange={handleChange} />
-                <Form.Check type="checkbox" name="features" label="Heating" value="heating" onChange={handleChange} />
-                <Form.Check type="checkbox" name="features" label="Washer" value="washer" onChange={handleChange} />
-                <Form.Check type="checkbox" name="features" label="Dryer" value="dryer" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials" label="WiFi" value="wifi" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials"  label="TV" value="tv" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials" label="Kitchen" value="kitchen" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials" label="Workspace" value="workspace" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials" label="Air Conditioning" value="air_conditioning" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials" label="Heating" value="heating" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials" label="Washer" value="washer" onChange={handleChange} />
+                <Form.Check type="checkbox" name="essentials"  label="Dryer" value="dryer" onChange={handleChange} />
                 
               </div>
             </Form.Group>
@@ -330,3 +345,4 @@ if (type === 'checkbox' ) {
 }
 
 export default HomePage
+

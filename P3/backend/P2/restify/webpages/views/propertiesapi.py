@@ -1,3 +1,8 @@
+
+
+
+
+
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 
@@ -22,6 +27,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from ..models.reservation import Reservation
 from ..models.property import *
 from django.shortcuts import get_object_or_404
+
 
 
 
@@ -233,16 +239,26 @@ class SearchPropertyView(ListAPIView):
 
 class FilterPropertyView(ListAPIView):
     queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+    serializer_class = RangePriceOfferSerializer
     pagination_class = PageNumberPagination
     page_size = 10
     # filter_backends = [SearchFilter]
     # search_fields = ['=address', "number_of_guest"]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         # data = self.request.data
 
         # get all query parameters
+        start_date = self.request.query_params.get('start_date')
+        end_date = self.request.query_params.get('end_date')
+        address = self.request.query_params.get('address')
+        number_of_guest = self.request.query_params.get('number_of_guest')
+        properties = Property.objects.filter(property_for_available_date__start_date__lte=start_date,
+                                           property_for_available_date__end_date__gte=end_date,
+                                           address__icontains=address,
+                                           number_of_guest__gte=number_of_guest)
+        properties = RangePriceHostOffer.objects.filter(property__in=properties, start_date__lte=start_date, end_date__gte=end_date)
         price_per_night = self.request.query_params.get('price_per_night')
         number_of_rooms = self.request.query_params.get('number_of_rooms')
         number_of_bed = self.request.query_params.get('number_of_bed')
@@ -252,20 +268,23 @@ class FilterPropertyView(ListAPIView):
         safety_features = self.request.query_params.get('safety_features')
         location = self.request.query_params.get('location')
 
-
-        # get access to all the properties that satisfy the search button criteria
-        properties = json.loads(self.request.body)
-
+        from django.core import serializers
+        properties = serializers.serialize('json', properties)
+        properties = json.loads(properties)
+        print(type(properties))
         # get the ids of all the properties 
         props_ids = []
         if price_per_night:
             for i in range(len(properties)):
-                if properties[i]['price_per_night'] <= int(price_per_night):
-                    props_ids.append(properties[i]['property'])
+                if properties[i]['fields']['price_per_night'] <= int(price_per_night):
+                    props_ids.append(properties[i]['fields']['property'])
+
         else:
             for i in range(len(properties)):
-                props_ids.append(properties[i]['property'])
-
+                props_ids.append(properties[i]['fields']['property'])
+        
+        print(props_ids)
+  
  
 
         # get all the relevant properties through which I need to filter using the query params
@@ -294,9 +313,16 @@ class FilterPropertyView(ListAPIView):
                 relevant_properties = relevant_properties.filter(location__contains=e)
 
 
+        
 
-        return relevant_properties
-    
+        # print(query_set2, 'this is the queryset of rangepricehostoffer')
+        # query_set3 = query_set2.filter(start_date__gte=start_date, end_date__lte=end_date)
+        
+        query_set2 = RangePriceHostOffer.objects.filter(property__in=relevant_properties, start_date__lte=start_date, end_date__gte=end_date)
+        # print(query_set2, 'this is the queryset of rangepricehostoffer')
+        # query_set3 = query_set2.filter(start_date__gte=start_date, end_date__lte=end_date)
+        
+        return query_set2.distinct()
 
 
 
