@@ -1,7 +1,7 @@
 import {React, useEffect, useState, useContext} from 'react'
 import '../../dashboard-Content/contentstyle.css';
 import CardComponent from '../../Card/CardComponent';
-import CardComponentD from '../../Card/CardDashboard/Card';
+import CardComponentD from '../../Card/CardDashboardApproved/Card';
 import AuthContext from '../../../context';
 import { Button } from 'react-bootstrap';
 
@@ -37,7 +37,7 @@ const Approved = () => {
     
 
 
-    const handleRequestToCancel = (reservationId) => {
+    const handleC = (reservationId) => {
         fetch("http://localhost:8000/webpages/" + reservationId + "/terminate_request/", {
             method: "PATCH",
             headers: {
@@ -55,12 +55,12 @@ const Approved = () => {
 
 
         }
-    const text = "Cancel Your Reservation"
+    const text = "Request to Cancel"
 
   return (
-    <div id='cards' className='cards2'>
+    <div id='card' className='card2'>
         {formDataApproved.map((propertyInfo) => (
-            <CardComponentD value={propertyInfo} button={{handleRequestToCancel, text}}/>
+            <CardComponentD value={propertyInfo} button={{handleC, text}}/>
         ))}
     </div>
   )

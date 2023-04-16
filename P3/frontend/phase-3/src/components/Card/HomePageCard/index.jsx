@@ -1,6 +1,7 @@
 import '../cardstyles.css'
 import { React, useEffect, useState, useContext} from 'react';
-import Img  from '../../../components/Display_one_pic'
+// import Img from '../../../components/Display_one_pic'
+import DisplayOne from '../../../components/Display_one_pic';
 import { Card, Button } from 'react-bootstrap';
 import AuthContext from '../../../context';
 import { useNavigate } from 'react-router-dom';
@@ -66,7 +67,7 @@ return (
         <Card style={{ width: "30vh"}}>
             <Card.Body>
                 <br />
-                <Img property_id={props.property_id}/>
+                <DisplayOne property_id={props.property_id}/>
                 <Card.Title>{ property.address }</Card.Title>
                 <hr className='divider'/>
                 <p>description:</p>

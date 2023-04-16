@@ -114,7 +114,7 @@ const HomePage = () => {
   }
   const handlePriceAsc = (event) => {
     setActiveItem('Price: Ascending');
-    
+
     
     setResult(result.sort((a, b) => (a.price_per_night > b.price_per_night) ? 1 : -1))
 
@@ -353,7 +353,7 @@ if (type === 'checkbox' ) {
 
 
                 
-              </div>
+    </div>
             </Form.Group>
             <br />
             <Form.Group controlId="formFeatures">
