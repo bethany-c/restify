@@ -18,13 +18,39 @@ const PropertyInfo = (props) => {
   const {state} = useLocation();
   const host = state.property_owner
   const { token } = useContext(AuthContext);
+  const { isloggedIn } = useContext(AuthContext);
 
+  const [username, setUsername] = useState(null)
   const [allComments, setAllComments] = useState([])
+
+
 
   useEffect(() => {
     console.log('state is ', state)
+    getLoggedInUser()
     getComments()
   }, [])
+
+  const getLoggedInUser = () => {
+    fetch('http://localhost:8000/webpages/profile/view/', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('tis is login data', data)
+      if(!data.username) {
+        // console.log('no username')
+        setUsername(null)
+      } else {
+        // console.log('i am logged in')
+        setUsername(data.username)
+      }
+    })
+  }
 
   const getComments = () => {
     fetch('http://localhost:8000/webpages/reservations/property/' + state.id + '/property-comments/view/', {
@@ -36,7 +62,7 @@ const PropertyInfo = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      console.log('this is the data ', data)
+      // console.log('this is the data ', data)
       setAllComments(data)
     })
   }
@@ -162,7 +188,7 @@ const PropertyInfo = (props) => {
         {/* <p className="mb-2 rating-right-align purple-color"><BsStarFill/>{ propertyInfo.rating }</p> */}
       </h4>
       <div className='comment-container row'>
-      {allComments.filter(comment => comment.reply === 'Original Property Comment').map((comment, index) => {
+      { allComments.filter(comment => comment.reply === 'Original Property Comment').map((comment, index) => {
 
         const twoSentences = comment.text_content.split('.').slice(0, 2).join('. ') + (comment.text_content.split('.').length > 2 ? 
        '... see more': '')
@@ -233,7 +259,12 @@ const PropertyInfo = (props) => {
         {/* Commented out reviews */}
         { renderReviews() }
         
-        <CommentsModal allComments={ allComments }/>
+        <CommentsModal 
+          allComments={ allComments }
+          username={ username }
+          hostUsername={ host.username }
+          getComments={ getComments }
+        />
       </div>
     </>
   )
