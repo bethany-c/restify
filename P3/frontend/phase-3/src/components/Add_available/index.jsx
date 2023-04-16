@@ -40,8 +40,13 @@ function Add_Ava(props) {
       },
     })
       .then((response) => {
+        console.log(response.status);
+        if (response.status === 400) {
 
-        if (response.status === 201) {
+          $("#result").text("overlapped available days").css('color', 'red');
+        }
+
+        else if (response.status === 201) {
 
           $("#result").text("congrats! You added available dates successfully").css('color', 'red');
         }

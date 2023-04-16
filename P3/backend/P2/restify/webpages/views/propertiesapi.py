@@ -2,10 +2,10 @@
 
 
 
-
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
-
+from django.http import HttpResponseNotAllowed
 from rest_framework.generics import RetrieveAPIView, ListAPIView, UpdateAPIView, CreateAPIView, DestroyAPIView
 # from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -81,16 +81,19 @@ class CreateAvailableDateAPIView(CreateAPIView):
         start_date = serializer.validated_data['start_date']
         end_date = serializer.validated_data['end_date']
 
-        overlap1 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=end_date, end_date__lte=end_date)
-        overlap2 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=start_date, end_date__lte=start_date)
+        overlap1 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=start_date, end_date__lte=end_date)
+        overlap2 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__lte=start_date, end_date__lte=start_date)
+        overlap3 = RangePriceHostOffer.objects.filter(id=self.kwargs['pk'],start_date__gte=end_date, end_date__gte=end_date)
         # overlap3 = RangePriceHostOffer.objects.filter(start_date__gte=end_date, end_date__lte=end_date,
         #                                    start_date__gte=start_date, end_date__lte=start_date) # causing an error 
 
         # call the super perform_create method to save the reservation instance
         if overlap1: 
-            return HttpResponse(status=405)
+            raise ValidationError('This time range overlaps with an existing range')
         if overlap2:
-            return HttpResponse(status=405)
+            raise ValidationError('This time range overlaps with an existing range')
+        if overlap3:
+            raise ValidationError('This time range overlaps with an existing range')
         else: 
             return super().perform_create(serializer)
     
