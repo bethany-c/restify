@@ -8,7 +8,7 @@ import './style.css'
 import SearchBar from '../../components/Inputs/SearchBar'
 import AuthContext from '../../context'
 import { useNavigate } from 'react-router-dom';
-
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 const HomePage = () => {
   let navigate = useNavigate();
   const {setIsloggedin, token} = useContext(AuthContext)
@@ -17,6 +17,9 @@ const HomePage = () => {
   const [min, setMin] = useState()
   const [max, setMax] = useState()
   const [result, setResult] = useState([])
+
+  const [activeItem, setActiveItem] = useState("Post time: from earliest");
+
 
 
   const [FilterformData, setFormData] = useState({
@@ -31,6 +34,8 @@ const HomePage = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [renderFlag, setRenderFlag] = useState(true);
+
   
 
 
@@ -46,6 +51,8 @@ const HomePage = () => {
   function handleCloseModal() {
     setShowModal(false);
   }
+  
+
 
   // this is an authenticated view I am calling 
   useEffect(() => {
@@ -88,6 +95,7 @@ const HomePage = () => {
   }
 
   const handleSearch = (event) => {
+    setActiveItem('Post time: from earliest');
     console.log('http://localhost:8000/webpages/property/search/?location='+address+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest)
     fetch('http://localhost:8000/webpages/property/search/?location='+address+'&start_date='+start+'&end_date='+end+'&number_of_guest='+numGuest, {
       method: 'GET',
@@ -104,10 +112,47 @@ const HomePage = () => {
       console.log(error);
     });
   }
+  const handlePriceAsc = (event) => {
+    setActiveItem('Price: Ascending');
+    
+    
+    setResult(result.sort((a, b) => (a.price_per_night > b.price_per_night) ? 1 : -1))
+
+    setRenderFlag(!renderFlag);
+    
+  }
+
+  const handlePriceDes = (event) => {
+    setActiveItem('Price:  Descending');
+    
+    setResult(result.sort((a, b) => (a.price_per_night < b.price_per_night) ? 1 : -1));
+    setRenderFlag(!renderFlag);
+
+    
+  }
+
+  const handlePostAsc = (event) => {
+    
+    setActiveItem('Post time: from most recent');
+    setResult(result.sort((a, b) => (a.id< b.id) ? 1 : -1))
+
+    setRenderFlag(!renderFlag);
+    
+  }
+
+  const handlePostDes = (event) => {
+    setActiveItem('Post time: from earliest');
+    
+    setResult(result.sort((a, b) => (a.id> b.id) ? 1 : -1));
+    setRenderFlag(!renderFlag);
+
+    
+  }
 
 
   const handleFilter = (event) => {
     setShowModal(false);
+    setActiveItem('Post time: from earliest');
 
     //price_per_night, number_of_rooms, number_of_bed, baths, essentials, features, safety_features, location
   // For filter
@@ -209,10 +254,35 @@ if (type === 'checkbox' ) {
         
       </div>
       <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>Filter</button>
+      <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(40vh )" , transform: "translateY(-30px)",}}
+  >
+     <DropdownButton id="dropdown-basic-button" title={"Sort"}>
+      <Dropdown.Item onClick={handlePostAsc} active={activeItem === 'Post time: from most recent'}>
+        <i className="bi bi-star-fill" id="sort-option1" ></i> Post time: from most recent
+      </Dropdown.Item>
+      <Dropdown.Item onClick={handlePostDes} active={activeItem === 'Post time: from earliest'}>
+        <i className="bi bi-star-fill" id="sort-option2"></i> Post time: from earliest 
+      </Dropdown.Item>
+      <Dropdown.Item onClick={handlePriceAsc} active={activeItem === 'Price: Ascending'}>
+
+          <i className="bi bi-currency-dollar" id="sort-option3"></i> Price: Ascending
+
+      </Dropdown.Item>
+      <Dropdown.Item onClick={handlePriceDes} active={activeItem === 'Price: Descending'}>
+
+          <i className="bi bi-currency-dollar" id="sort-option4"></i> Price: Descending
+
+      </Dropdown.Item>
+    </DropdownButton>
+    </div>
+    <br />
+
+    <br />
       <div className='row   m-4'>
       {result.map(r => (
         <div key={r.id} className="col-md-4">
           <CardComponentD property_id={r.property} />
+          <p> {r.id} </p>
 
         </div>
       ))}
