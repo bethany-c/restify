@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const CardComponentD = (props) => {
     const { id, available_date, property} = props.value;
-    const {handleRequestToCancel, text} = props.button;
+    const {handleC, text} = props.button;
     const [price, setPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const { token } = useContext(AuthContext);
@@ -68,7 +68,7 @@ return (
     <div className='col-sm-12 col-md-6 col-lg-4 results-card'>
         <Card>
             <Card.Body>
-                <Button onClick={() => handleRequestToCancel(id)}>{text}</Button>
+                <Button onClick={() => handleC(id)}>{text}</Button>
                 <br />
                 <br />
                 <Card.Img alt='Listing image'></Card.Img>

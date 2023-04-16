@@ -62,23 +62,40 @@ const Profile = () => {
         }
 
     const putImageIn = (e) => {
-        const file = e.target.file
-        $('#wizardPicturePreview').attr('src', file)
+        
+        fetch("http://localhost:8000/webpages/profile/edit/", {
+            method: "PATCH",
+            body: JSON.stringify({
+                avatar:e.target.value
+            }),
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization" : "Bearer " + token['token']
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+            console.log(data);
+            $('#notification').text('Profile edited succesfully!')
+    
+    
+            })
+            .catch((error) => console.error(error));
+
+
     }
-
-
-
-
-
 
 
   return (
     <Form className='form234'>
         <Container>
-            <Row className="picture-container">
-                <Col className="picture">
-                    <Image fluid rounded className="picture-src" id="wizardPicturePreview" title="" />
-                    <input onChange={putImageIn} name="avatar" type="file" id="wizard-picture" className="picture w-100 h-100" />
+            <Row>
+                <Col className='picture-col'>
+                    <div className='picture-frame'>
+                        <Image fluid roundedCircle src={formDataProfile.avatar} id="wizardPicturePreview" title="" />
+                        <h6 className="">Choose Picture</h6>
+                        <input onChange={putImageIn} name="avatar" type="file"/>
+                    </div>
                 </Col>
                 <Col xs={12}>
                 <h6 className="">Choose Picture</h6>
