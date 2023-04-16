@@ -141,7 +141,7 @@ const PropertyRegisterForm = () => {
     }
   
     function decrementGuest() {
-        if (guestNum > 0) {
+        if (propertyFormData.number_of_guest  > 0) {
             setPropertyFormData({...propertyFormData,  number_of_guest: propertyFormData.number_of_guest - 1})
             
         }
@@ -153,7 +153,7 @@ const PropertyRegisterForm = () => {
     }
   
     function decrementBedroom() {
-        if (bedroomNum > 0) {
+        if (propertyFormData.number_of_rooms > 0) {
             setPropertyFormData({...propertyFormData,  number_of_rooms: propertyFormData.number_of_rooms - 1})
         }
     }
@@ -163,7 +163,7 @@ const PropertyRegisterForm = () => {
     }
   
     function decrementBathroom() {
-        if (bathroomNum > 0) {
+        if (propertyFormData.baths> 0) {
             setPropertyFormData({...propertyFormData,  baths: propertyFormData.baths - 1})
         }
     }
@@ -173,7 +173,7 @@ const PropertyRegisterForm = () => {
     }
   
     function decrementBed() {
-        if (bedNum > 0) {
+        if (propertyFormData.number_of_bed  > 0) {
             setPropertyFormData({...propertyFormData,  number_of_bed: propertyFormData.number_of_bed - 1})
         }
     }
@@ -186,7 +186,7 @@ const PropertyRegisterForm = () => {
           body: JSON.stringify(propertyFormData),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token['token']
+            "Authorization": "Bearer " + localStorage.getItem('token')
           },
         })
           .then((response) => response.json()
@@ -197,7 +197,7 @@ const PropertyRegisterForm = () => {
             console.log(data.id);
             console.log("dasdasdasdsad");
             
-            navigate('/property_extra_page?property_id=' + data.id) 
+            navigate('/property_extra_page?property_id=' + data.id) // after creating the property, navigate to the home page 
             // once a host always a host 
 
 
