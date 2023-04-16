@@ -386,6 +386,7 @@ class DeletePictureAPIView(DestroyAPIView):
 
 class DetailImageAPIView(RetrieveAPIView, UpdateAPIView):
     serializer_class = PropertyImageSerializer
+    permission_classes = [AllowAny]
 
 
     def get_object(self):
@@ -404,7 +405,7 @@ class DetailRangePriceHostOfferAPIView(RetrieveAPIView, UpdateAPIView):
 
 class ListAllAvailableDatesAPIView(ListAPIView):
     serializer_class = PropertyTimeRangePriceHostOfferSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
 
@@ -413,7 +414,7 @@ class ListAllAvailableDatesAPIView(ListAPIView):
     
 class ListAllImageAPIView(ListAPIView):
     serializer_class = PropertyImageSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
 

@@ -3,7 +3,7 @@ import { InputGroup, Form, Button } from 'react-bootstrap'
 // import FilterForm from "../../components/Filter-input"
 import { Modal, Container } from 'react-bootstrap';
 import NavbarSO from '../../components/Navbar/'
-import CardComponentD from '../../components/Card/CardComponent'
+import CardComponentH from '../../components/Card/HomePageCard/'
 import './style.css'
 import SearchBar from '../../components/Inputs/SearchBar'
 import AuthContext from '../../context'
@@ -281,8 +281,8 @@ if (type === 'checkbox' ) {
       <div className='row   m-4'>
       {result.map(r => (
         <div key={r.id} className="col-md-4">
-          <CardComponentD property_id={r.property} />
-          <p> {r.id} </p>
+          <CardComponentH property_id={r.property} price={r.price_per_night}/>
+
 
         </div>
       ))}
