@@ -15,7 +15,6 @@ const CommentsModal = (props) => {
   const { token } = useContext(AuthContext);
 
   const [showModal, setShowModal] = useState(false)
-  const [total, setTotal] = useState()
   const [allReviews, setAllReviews] = useState([])
   const replyOrder = ['Original Property Comment', 'Host Property Reply', 'User Property Reply']
   const [page, setPage] = useState(1)
@@ -234,7 +233,7 @@ const CommentsModal = (props) => {
       });
       return acc;
     }, [])
-    // console.log('sorted to ', sorted)
+    console.log('sorted to ', sorted)
     setAllReviews(sorted)
   }
 
@@ -284,9 +283,18 @@ const CommentsModal = (props) => {
           <p className='error'>{ showAddError }</p>
         )}
       </>
-      
-
     )
+  }
+
+  const getActualDate = (dateStr) => {
+    const dateObj = new Date(dateStr)
+    const options = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }
+    const formattedDate = dateObj.toLocaleString('en-US', options)
+    return formattedDate
   }
 
   const renderAllComments = () => {
@@ -301,10 +309,11 @@ const CommentsModal = (props) => {
               return (
                 <>
                   <p className="line-left-align">
-                    <h5><BsFillFilePersonFill/> {replyObj.author }</h5>
+                    <h4><BsFillFilePersonFill/> {replyObj.author }</h4>
+                    <div className='line-right-align'>{ getActualDate(replyObj.posted_on) }</div>
                   </p>
+                  
                   <span>{ replyObj.text_content }</span>
-                  <p>hostusername: { hostUsername } username: { username}</p>
                   { hostUsername === username && hostCanReply.includes(reservation) && (
                       <>
                         <Form.Group className="m-0">
@@ -338,8 +347,15 @@ const CommentsModal = (props) => {
             } else if (replyObj && reply === replyOrder[1]) {
               return (
                 <>
-                  <div className="comment-reply">
+                  {/* <div className="comment-reply">
                     <h6><BsFillFilePersonFill/>{ replyObj.author }</h6>
+                    <span>{ replyObj.text_content }</span>
+                  </div> */}
+                  <div className="comment-reply">
+                    <div>
+                      <h5><BsFillFilePersonFill className='reacticon'/>{ replyObj.author }</h5>
+                      <div className='line-right-align'>{ getActualDate(replyObj.posted_on) }</div>
+                    </div>
                     <span>{ replyObj.text_content }</span>
                   </div>
                   { findUserReplyID(reservation) !== undefined && findUserReplyID(reservation).reservation === reservation && findUserReplyID(reservation).user === username &&(
@@ -374,7 +390,10 @@ const CommentsModal = (props) => {
               return (
                 <>
                   <div className="comment-reply">
-                    <h6><BsFillFilePersonFill/>{ replyObj.author }</h6>
+                    <div>
+                      <h5><BsFillFilePersonFill className='reacticon'/>{ replyObj.author }</h5>
+                      <div className='line-right-align'>{ getActualDate(replyObj.posted_on) }</div>
+                    </div>
                     <span>{ replyObj.text_content }</span>
                   </div>
                 </>
