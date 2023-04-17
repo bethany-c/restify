@@ -101,22 +101,11 @@
 
 
 
+/* Only for cardCompleted */
 
+.makeitwork {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-/* .fixit {
-  position: relative; To make the child elements' position relative to this parent element
-  width: 100%;
-  height: 300px;
 }
-
-.fixit-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; To make sure the image fills the entire space of its container
-}
-
-.fixit-button {
-  position: absolute; To position the button in relation to the parent div
-  top: 0;
-  left: 0;
-} */

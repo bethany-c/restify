@@ -78,7 +78,7 @@ const NavbarSO = () => {
                     <Nav className="me-auto">
                         
                     {isHost ? (
-                        <Nav.Link className="navbar-background" as={Link} to="/dashboard">My Listings</Nav.Link>
+                        <Nav.Link className="navbar-background" as={Link} to="/dashboard/host_all_listings">My Listings</Nav.Link>
                     ) : 
                     ( isloggedin ? (
                         <Nav.Link as={Link} className="navbar-background" to="/property_register">Become a Host!</Nav.Link>
@@ -117,9 +117,8 @@ const NavbarSO = () => {
                             <NavDropdown bg="primary" title="username" id="navbarDropdownMenuLink" className="navbar-background">
                                 <NavDropdown.Item as={Link} to='/dashboard/profile' >View Profile</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/property_register">Create Listing</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/dashboard/approved" >View Reservations</NavDropdown.Item>
+                                {/* <NavDropdown.Item as={Link} to="/dashboard/approved" >View Reservations</NavDropdown.Item> */}
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="../Profile_pageBoth/ProfilePageDashboard.html">Help</NavDropdown.Item>
                                 <NavDropdown.Item onClick={LogOut}>Log Out</NavDropdown.Item>
                             </NavDropdown>
                             ) : 

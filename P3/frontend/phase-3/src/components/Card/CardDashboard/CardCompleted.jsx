@@ -16,7 +16,7 @@ export const CardComponentC = (props) => {
     const [totalPrice, setTotalPrice] = useState(0);
     const { token } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
 
 
 
@@ -36,20 +36,20 @@ export const CardComponentC = (props) => {
 
         })
     }
-    function handleShowModal() {
-        setShowModal(true);
-      }
+    // function handleShowModal() {
+    //     setShowModal(true);
+    //   }
     
-      function handleCloseModal() {
-        setShowModal(false);
-      }
+    //   function handleCloseModal() {
+    //     setShowModal(false);
+    //   }
 
 
 return (
     <div className='col-sm-12 col-md-6 col-lg-4 results-card'>
         <Card>
             <div className='fixit w-100'>
-                <Button className='fixit-button' size='sm' onClick={handleShowModal}>{text}</Button>
+                {/* <Button className='fixit-button' size='sm' onClick={handleShowModal}>{text}</Button> */}
                 {/* the className for img=fixit-img --> its in the displayOne component but we can use it in cardstyles.css */}
                 <DisplayOne property_id={id} />
             </div>
@@ -67,23 +67,29 @@ return (
                 <Button onClick={onViewListing} className="btn btn-primary" size='sm'>View Listing</Button>
             </Card.Body>
         </Card>
-        <Modal show={handleShowModal} onHide={handleCloseModal}>
+        {/* <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
-                <Modal.Title className="fw-bold mb-2 text-uppercase">Filter</Modal.Title>
+                <Modal.Title className="fw-bold mb-2">Review For The Host</Modal.Title>
             </Modal.Header>
-
             <Modal.Body>
                 <Form>
-                    <Form.Control>
+                    <Form.Group>
+                        <Form.Label> Your Comment </Form.Label>
+                        <Form.Control 
+                        type='text'
+                        as="textarea" 
+                        rows={5}/>
 
-                    </Form.Control>
+                    </Form.Group>
+                    <br />
+                    <div className='makeitwork'>
+                        <Button variant='primary'> Submit </Button>
+                        <Button variant='dark' onClick={handleCloseModal}> Close </Button>
+                    </div>
                 </Form>
             </Modal.Body>
 
-
-            <Button onClick={handleCloseModal}> Close </Button>
-
-        </Modal>
+        </Modal> */}
     </div>
   
 

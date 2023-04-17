@@ -45,7 +45,7 @@ export const CardComponentD = (props) => {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log('available date data' ,data);
+            // console.log('available date data' ,data);
             setPrice(data.price_per_night)
 
 

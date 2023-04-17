@@ -23,12 +23,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Route, BrowserRouter as Router, Routes} from 'react-router-dom'
 
-
+// User
 import Approved from './components/dashboard-Content/User/user-approved';
 import Requested from './components/dashboard-Content/User/user-requested';
 import Cancellations from './components/dashboard-Content/User/user-cancelled';
 import Completed from './components/dashboard-Content/User/user-completed';
 import Terminated from './components/dashboard-Content/User/user-terminated';
+
+
+// Host
+import HostApproved from './components/dashboard-Content/Host/host-approved'; 
+import HostTerminated from './components/dashboard-Content/Host/host-terminated';
+import HostCancellations from './components/dashboard-Content/Host/host-cancellations';
+import HostCompleted from './components/dashboard-Content/Host/host-completed';
+import HostRequested from './components/dashboard-Content/Host/host-requested';
+import AllListings from './components/dashboard-Content/Host/host-all-listings';
+
+// notifications 
+import Notifications from './components/dashboard-Content/Notifications';
 import 'react-bootstrap'
 
 
@@ -58,6 +70,13 @@ function App() {
                 <Route path='cancellations/' element={<Cancellations />}/>
                 <Route path='completed/' element={<Completed />}/>
                 <Route path='terminated/' element={<Terminated />}/>
+                <Route path='notifications/' element={<Notifications />}/>
+                <Route path='host_approved/' element={<HostApproved />}/>
+                <Route path='host_requested/' element={<HostRequested />}/>
+                <Route path='host_cancellations/' element={<HostCancellations />}/>
+                <Route path='host_completed/' element={<HostCompleted />}/>
+                <Route path='host_terminated/' element={<HostTerminated />}/>
+                <Route path='host_all_listings/' element={<AllListings />}/>
               </Route>
             </Route>
           </Routes>

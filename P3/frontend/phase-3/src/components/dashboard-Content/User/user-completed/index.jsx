@@ -15,7 +15,7 @@ const Completed = () => {
     const [nextURL, setNextUrl] =useState('')
     const [prevURL, setPrevURL] = useState('')
     const [pagination, setPagination] = useState(false)
-    const [showModal, setShowModal] = useState(false);
+    
 
 
     useEffect(() => {
@@ -80,9 +80,6 @@ const Completed = () => {
     
 
 
-    const handleC = () => {
-        setShowModal(true)
-        }
     const text = "Leave A Review For The Host"
 
   // Fetch cancellations data for next page
@@ -107,7 +104,7 @@ const Completed = () => {
     </div>
     <div id='card' className='card2'>
         {formDataCompleted.map((propertyInfo) => (
-            <CardComponentC value={propertyInfo} button={{handleC, text}}/>
+            <CardComponentC value={propertyInfo} button={{text}}/>
         ))}
     </div>
     

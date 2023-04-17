@@ -86,18 +86,17 @@ const CustomSidebar = (props) => {
                     {isHost ? (      
                               <> <h4> Host Dashboard </h4>
                             <SubMenu label="Your Listings" className='hoverit'>
-                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_requests'> Requests </MenuItem>
-                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_approved'> Approved </MenuItem>
-                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_cancellations'> Cancellations </MenuItem>
-                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_completed'> Completed </MenuItem>
-                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_terminated'> Terminated </MenuItem>
-                                <MenuItem className='hoverit' as={Link} to='/dashboard/host_alllistings'> All listings </MenuItem>
+                                <MenuItem ><Link className='cheetah' to="/dashboard/host_approved" > Approved </Link></MenuItem> 
+                                <MenuItem > <Link className='cheetah' to="/dashboard/host_requested" > Requested </Link></MenuItem>
+                                <MenuItem > <Link className='cheetah' to="/dashboard/host_cancellations" > Cancellations </Link></MenuItem>
+                                <MenuItem > <Link className='cheetah' to="/dashboard/host_completed" > Completed </Link> </MenuItem>
+                                <MenuItem > <Link className='cheetah' to="/dashboard/host_terminated" > Terminated </Link> </MenuItem>
+                                <MenuItem > <Link className='cheetah' to="/dashboard/host_all_listings" > All Listings </Link> </MenuItem>
                             </SubMenu> </>
 
                     ) : (
                         <div></div>
                     )}
-
                 </Menu>
             </Sidebar>
 
