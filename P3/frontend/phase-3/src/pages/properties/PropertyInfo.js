@@ -184,6 +184,7 @@ const PropertyInfo = (props) => {
 
   return (
     <>
+      <NavbarSO />
       <div className="property-info-container">
         {/* { renderImagePreview() } */}
 

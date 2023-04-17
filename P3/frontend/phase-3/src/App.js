@@ -24,11 +24,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, BrowserRouter as Router, Routes} from 'react-router-dom'
 
 
-import Approved from './components/dashboard-Content/user-approved';
-import Requested from './components/dashboard-Content/user-requested';
-import Cancellations from './components/dashboard-Content/user-cancelled';
-import Completed from './components/dashboard-Content/user-completed';
-import Terminated from './components/dashboard-Content/user-terminated';
+import Approved from './components/dashboard-Content/User/user-approved';
+import Requested from './components/dashboard-Content/User/user-requested';
+import Cancellations from './components/dashboard-Content/User/user-cancelled';
+import Completed from './components/dashboard-Content/User/user-completed';
+import Terminated from './components/dashboard-Content/User/user-terminated';
 import 'react-bootstrap'
 
 

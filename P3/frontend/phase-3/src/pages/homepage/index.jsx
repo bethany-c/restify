@@ -239,175 +239,173 @@ if (type === 'checkbox' ) {
     });
   } }
   return (
-    <div>
-      <NavbarSO />
+        <div>
+          <NavbarSO />
 
-      <div className='wrapper2'>
-        <SearchBar
-          setLocation={ setLocation }
-          setStart={ setStart }
-          setEnd={ setEnd }
-          setNumGuest={ setNumGuest }
-          onSearch={ onSearch }
-          invalid={ invalid }
-        />
-        
-      </div>
-      <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>Filter</button>
-      <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(40vh )" , transform: "translateY(-30px)",}}
-  >
-     <DropdownButton id="dropdown-basic-button" title={"Sort"}>
-      <Dropdown.Item onClick={handlePostAsc} active={activeItem === 'Post time: from most recent'}>
-        <i className="bi bi-star-fill" id="sort-option1" ></i> Post time: from most recent
-      </Dropdown.Item>
-      <Dropdown.Item onClick={handlePostDes} active={activeItem === 'Post time: from earliest'}>
-        <i className="bi bi-star-fill" id="sort-option2"></i> Post time: from earliest 
-      </Dropdown.Item>
-      <Dropdown.Item onClick={handlePriceAsc} active={activeItem === 'Price: Ascending'}>
-
-          <i className="bi bi-currency-dollar" id="sort-option3"></i> Price: Ascending
-
-      </Dropdown.Item>
-      <Dropdown.Item onClick={handlePriceDes} active={activeItem === 'Price: Descending'}>
-
-          <i className="bi bi-currency-dollar" id="sort-option4"></i> Price: Descending
-
-      </Dropdown.Item>
-    </DropdownButton>
-    </div>
-    <br />
-
-    <br />
-      <div className='row   m-4'>
-      {result.map(r => (
-        <div key={r.id} className="col-md-4">
-          <CardComponentH property_id={r.property} price={r.price_per_night}/>
-
-
-        </div>
-      ))}
-      </div>
-
-
-      <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title className="fw-bold mb-2 text-uppercase">Filter</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-          <div className="myform">
-        <h4>Happy Filtering</h4>
-        <Form  className="p-5 form2" >
-            <Form.Group controlId="formPrice">
-                <Form.Label>Price</Form.Label>
-                <Form.Control
-                type="number"
-                value={FilterformData.price_per_night}
-                onChange={handleChange}
-                name="price_per_night"
-
-                />
-            </Form.Group>
-
-            <br />
-            <Form.Group controlId="formNum_room">
-                <Form.Label>Bed Room Number</Form.Label>
-                <Form.Control
-                type="number"
-                value={FilterformData.number_of_rooms }
-                onChange={handleChange}
-                name="number_of_rooms"
-                />
-            </Form.Group>
-            <br />
-            <Form.Group controlId="formBed">
-                <Form.Label>Bed Number</Form.Label>
-                <Form.Control
-                type="number"
-                value={FilterformData.number_of_bed}
-                onChange={handleChange}
-                name="number_of_bed"
-                />
-            </Form.Group>
-            <br />
-            <Form.Group controlId="formBaths">
-                <Form.Label>Bath Room Number</Form.Label>
-                <Form.Control
-                type="number"
-                value={FilterformData.baths}
-                onChange={handleChange}
-                name="baths"
-                />
-            </Form.Group>
-            <br />
-            <Form.Group controlId="formEssentials">
-              <Form.Label>Essentials</Form.Label>
-              <div>
-                <Form.Check name="features" type="checkbox" label="Pool" value="pool" onChange={handleChange} />
-                <Form.Check name="features" type="checkbox" label="Hot Tub" value="hot_tub" onChange={handleChange} />
-                <Form.Check name="features" type="checkbox" label="Patio" value="patio" onChange={handleChange} />
-                <Form.Check name="features" type="checkbox" label="Grill" value="grill" onChange={handleChange} />
-                <Form.Check name="features" type="checkbox" label="Gym" value="gym" onChange={handleChange} />
-                <Form.Check name="features" type="checkbox" label="Piano" value="fire_pit" onChange={handleChange} />
-                <Form.Check name="features" type="checkbox" label="Fire Pit" value="washer" onChange={handleChange} />
-                <Form.Check name="features" type="checkbox" label="Outdoor Shower" value="outdoor_shower" onChange={handleChange} />
-
-
-                
-    </div>
-            </Form.Group>
-            <br />
-            <Form.Group controlId="formFeatures">
-              <Form.Label>Features</Form.Label>
-              <div>
-                <Form.Check type="checkbox" name="essentials" label="WiFi" value="wifi" onChange={handleChange} />
-                <Form.Check type="checkbox" name="essentials"  label="TV" value="tv" onChange={handleChange} />
-                <Form.Check type="checkbox" name="essentials" label="Kitchen" value="kitchen" onChange={handleChange} />
-                <Form.Check type="checkbox" name="essentials" label="Workspace" value="workspace" onChange={handleChange} />
-                <Form.Check type="checkbox" name="essentials" label="Air Conditioning" value="air_conditioning" onChange={handleChange} />
-                <Form.Check type="checkbox" name="essentials" label="Heating" value="heating" onChange={handleChange} />
-                <Form.Check type="checkbox" name="essentials" label="Washer" value="washer" onChange={handleChange} />
-                <Form.Check type="checkbox" name="essentials"  label="Dryer" value="dryer" onChange={handleChange} />
-                
-              </div>
-            </Form.Group>
-
-            <br />
-            <Form.Group controlId="formLocation">
-              <Form.Label>Location</Form.Label>
-              <div>
-                <Form.Check type="checkbox" name="location" label="Lake Access" value="lake_access" onChange={handleChange} />
-                <Form.Check type="checkbox" name="location" label="Beach Access" value="beach_access" onChange={handleChange} />
-                <Form.Check type="checkbox" name="location" label="Ski-in/Ski-out" value="skiin_skiout'" onChange={handleChange} />
-              </div>
-            </Form.Group>
-            <br />
-
-            <Form.Group controlId="formSafety_features">
-              <Form.Label>Safety Features</Form.Label>
-              <div>
-                <Form.Check type="checkbox" name="safety_features" label="Smoke Detector" value="smoke_detector" onChange={handleChange} />
-                <Form.Check type="checkbox" name="safety_features" label="First Aid Kit" value="first_aid_kit" onChange={handleChange} />
-                <Form.Check type="checkbox" name="safety_features" label="Fire Extinguisher" value="fire_extinguisher" onChange={handleChange} />
-              </div>
-
-            </Form.Group>
-            <br />
-
-
+          <div className='wrapper2'>
+            <SearchBar
+              setLocation={ setLocation }
+              setStart={ setStart }
+              setEnd={ setEnd }
+              setNumGuest={ setNumGuest }
+              onSearch={ onSearch }
+              invalid={ invalid }
+            />
             
-            <Button variant="primary"  onClick={handleFilter}>
-                Go Filter!
-            </Button>
-        </Form>
-        <div></div>
-    </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      
-    </div>
+          </div>
+
+          <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>Filter</button>
+          <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(40vh )" , transform: "translateY(-30px)",}}>
+            <DropdownButton id="dropdown-basic-button" title={"Sort"}>
+              <Dropdown.Item onClick={handlePostAsc} active={activeItem === 'Post time: from most recent'}>
+                <i className="bi bi-star-fill" id="sort-option1" ></i> Post time: from most recent
+              </Dropdown.Item>
+              <Dropdown.Item onClick={handlePostDes} active={activeItem === 'Post time: from earliest'}>
+                <i className="bi bi-star-fill" id="sort-option2"></i> Post time: from earliest 
+              </Dropdown.Item>
+              <Dropdown.Item onClick={handlePriceAsc} active={activeItem === 'Price: Ascending'}>
+
+                  <i className="bi bi-currency-dollar" id="sort-option3"></i> Price: Ascending
+
+              </Dropdown.Item>
+              <Dropdown.Item onClick={handlePriceDes} active={activeItem === 'Price: Descending'}>
+
+                  <i className="bi bi-currency-dollar" id="sort-option4"></i> Price: Descending
+
+              </Dropdown.Item>
+            </DropdownButton>
+          </div>
+          <br />
+          <br />
+
+          <div className='row m-4'>
+          {result.map(r => (
+            <div key={r.id} className="col-md-4">
+              <CardComponentH property_id={r.property} price={r.price_per_night}/>
+            </div>
+          ))}
+          </div>
+
+
+          <Modal show={showModal} onHide={handleCloseModal}>
+              <Modal.Header closeButton>
+                <Modal.Title className="fw-bold mb-2 text-uppercase">Filter</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+              <div className="myform">
+            <h4>Happy Filtering</h4>
+            <Form  className="p-5 form2" >
+                <Form.Group controlId="formPrice">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control
+                    type="number"
+                    value={FilterformData.price_per_night}
+                    onChange={handleChange}
+                    name="price_per_night"
+
+                    />
+                </Form.Group>
+
+                <br />
+                <Form.Group controlId="formNum_room">
+                    <Form.Label>Bed Room Number</Form.Label>
+                    <Form.Control
+                    type="number"
+                    value={FilterformData.number_of_rooms }
+                    onChange={handleChange}
+                    name="number_of_rooms"
+                    />
+                </Form.Group>
+                <br />
+                <Form.Group controlId="formBed">
+                    <Form.Label>Bed Number</Form.Label>
+                    <Form.Control
+                    type="number"
+                    value={FilterformData.number_of_bed}
+                    onChange={handleChange}
+                    name="number_of_bed"
+                    />
+                </Form.Group>
+                <br />
+                <Form.Group controlId="formBaths">
+                    <Form.Label>Bath Room Number</Form.Label>
+                    <Form.Control
+                    type="number"
+                    value={FilterformData.baths}
+                    onChange={handleChange}
+                    name="baths"
+                    />
+                </Form.Group>
+                <br />
+                <Form.Group controlId="formEssentials">
+                  <Form.Label>Essentials</Form.Label>
+                  <div>
+                    <Form.Check name="features" type="checkbox" label="Pool" value="pool" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Hot Tub" value="hot_tub" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Patio" value="patio" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Grill" value="grill" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Gym" value="gym" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Piano" value="fire_pit" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Fire Pit" value="washer" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Outdoor Shower" value="outdoor_shower" onChange={handleChange} />
+
+
+                    
+        </div>
+                </Form.Group>
+                <br />
+                <Form.Group controlId="formFeatures">
+                  <Form.Label>Features</Form.Label>
+                  <div>
+                    <Form.Check type="checkbox" name="essentials" label="WiFi" value="wifi" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="essentials"  label="TV" value="tv" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="essentials" label="Kitchen" value="kitchen" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="essentials" label="Workspace" value="workspace" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="essentials" label="Air Conditioning" value="air_conditioning" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="essentials" label="Heating" value="heating" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="essentials" label="Washer" value="washer" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="essentials"  label="Dryer" value="dryer" onChange={handleChange} />
+                    
+                  </div>
+                </Form.Group>
+
+                <br />
+                <Form.Group controlId="formLocation">
+                  <Form.Label>Location</Form.Label>
+                  <div>
+                    <Form.Check type="checkbox" name="location" label="Lake Access" value="lake_access" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="location" label="Beach Access" value="beach_access" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="location" label="Ski-in/Ski-out" value="skiin_skiout'" onChange={handleChange} />
+                  </div>
+                </Form.Group>
+                <br />
+
+                <Form.Group controlId="formSafety_features">
+                  <Form.Label>Safety Features</Form.Label>
+                  <div>
+                    <Form.Check type="checkbox" name="safety_features" label="Smoke Detector" value="smoke_detector" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="safety_features" label="First Aid Kit" value="first_aid_kit" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="safety_features" label="Fire Extinguisher" value="fire_extinguisher" onChange={handleChange} />
+                  </div>
+
+                </Form.Group>
+                <br />
+
+
+                
+                <Button variant="primary"  onClick={handleFilter}>
+                    Go Filter!
+                </Button>
+            </Form>
+            <div></div>
+        </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+          
+        </div>
 
     
 

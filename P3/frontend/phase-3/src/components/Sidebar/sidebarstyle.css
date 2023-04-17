@@ -154,6 +154,9 @@ a.article:hover {
     color: white !important;
     text-align: center;
     width: 100% !important;
+    height: 100% !important;
+    /* flex: 0 0 auto !important; */
+
 
 }
 
