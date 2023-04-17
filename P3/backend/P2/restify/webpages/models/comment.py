@@ -17,20 +17,23 @@ class CommentBaseClass(models.Model):
     text_content = models.TextField()
     content_object = ('content_type', 'object_id')
     reply = models.TextField(null=True, blank=True)
-    
     class Meta:
         abstract = True
 
 class PropertyComment(CommentBaseClass):
-    author = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='property_comment_author')
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='property_comments')
+    host = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='host_reservation_property', null=True)
+    user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='user_reservation_property', null=True)
 
 
 
 class GuestComment(CommentBaseClass):
-    author = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='guest_comment_author')
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='reservation_guest_comments')
     guest = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='guest_comments', null=True, blank=True)
+    host = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='host_reservation_guest', null=True)
+    user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='user_reservation_guest', null=True)
 
 
 

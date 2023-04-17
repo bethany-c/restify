@@ -27,6 +27,14 @@ const CommentsModal = (props) => {
   const [userCanReply, setUserCanReply] = useState([])
   const [userReply, setUserReply] = useState('')
 
+  const [allCompleted, setAllCompleted] = useState([])
+  const [allTerminated, setAllTerminated] = useState([])
+  const [userCanComment, setUserCanComment] = useState([])
+
+  const [userComment, setUserComment] = useState('')
+  const [userCommentReso, setUserCommentReso] = useState()
+  const [showAddError, setShowAddError] = useState('')
+
 
   const totalPages = Math.ceil(allReviews.length / pagination);
 
@@ -38,16 +46,10 @@ const CommentsModal = (props) => {
   const handleNextPage = () => { setPage(page + 1) }
   const handlePrevPage = () => { setPage(page - 1) }
 
-  // useEffect(() => {
-  //   console.log('changed commet ', hostComment)
-  // }, [hostComment])
-
 
   useEffect(() => {
     if(allComments) {
       formatComments()
-      // setTimeout(findHostReplies(), 3000)
-      // setTimeout(findUserReplies(), 3000)
     }
   }, [allComments])
 
@@ -57,6 +59,100 @@ const CommentsModal = (props) => {
       findUserReplies()
     }
   }, [allReviews])
+
+  useEffect(() => {
+    getTerminated()
+    getCompleted()
+  }, [])
+
+  useEffect(() => {
+    findUserAddComment()
+  }, [allTerminated, allCompleted])
+
+  const getTerminated = () => {
+    fetch('http://localhost:8000/webpages/reservations/terminated/', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log('tis is data for terminated', data)
+      let all = []
+      for(let i = 0; i < data.length; i++) {
+        all.push(data[i].id)
+      }
+      setAllTerminated(all)
+    })
+  }
+
+  const getCompleted = () => {
+    fetch('http://localhost:8000/webpages/reservations/completed/', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log('tis is data for completed', data)
+      let all = []
+      for(let i = 0; i < data.length; i++) {
+        all.push(data[i].id)
+      }
+      setAllCompleted(all)
+    })
+  }
+
+  const onCommentAdd = () => {
+    fetch('http://localhost:8000/webpages/reservations/' + userCommentReso + '/property-comments/add/', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+      body: JSON.stringify({ "text_content": userComment })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log('this is response data ', data)
+      getComments()
+      setUserComment('')
+      findUserAddComment()
+      setShowAddError('')
+    })
+    .catch((error) => {
+      console.log('this is the error ', error)
+      setShowAddError(error)
+    })
+  }
+
+  // useEffect(() => {
+  //   console.log('changed to ', allCompleted, allTerminated)
+  // }, [allCompleted, allTerminated])
+
+  const findUserAddComment = () => {
+    const noComments = []
+    const resos = allReviews.map(item => {
+      return item[0].reservation
+    })
+
+    allTerminated.forEach(item => {
+      if(!resos.includes(item)) {
+        noComments.push(item)
+      }
+    })
+
+    allCompleted.forEach(item => {
+      if(!resos.includes(item)) {
+        noComments.push(item)
+      }
+    })
+    setUserCanComment(noComments)
+  }
 
 
   const findHostReplies = () => {
@@ -91,7 +187,7 @@ const CommentsModal = (props) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('this is response data ', data)
+      // console.log('this is response data ', data)
       getComments()
       setHostComment('')
       setUserReply('')
@@ -142,40 +238,56 @@ const CommentsModal = (props) => {
     setAllReviews(sorted)
   }
 
-  // const renderAllComments = () => {
-  //   return allReviews.slice(start, end).map((reserveArr) => (
-  //     <>
-  //       <div className='col-12'>
-          
-  //         { replyOrder.map((reply) => {
-  //           const replyObj = reserveArr.find((o) => o.reply === reply)
-  //           if(replyObj && reply === replyOrder[0]) {
-  //             return (
-  //               <>
-  //               <p className="line-left-align">
-  //                 <h5><BsFillFilePersonFill/>{ replyObj.author }</h5>
-  //               </p>
-  //               <span>{ replyObj.text_content }</span>
-  //               </>
-  //             )
-  //           } else if(replyObj) {
-  //             return (
-  //               <>
-  //                 <div className="comment-reply">
-  //                   <h6><BsFillFilePersonFill/>{ replyObj.author }</h6>
-  //                     <span>{ replyObj.text_content }</span>
-  //                   </div>
-  //               </>
-  //             )
-  //           } else {
-  //             return null;
-  //           }
-  //         })}
-  //       </div>  
-  //       <hr/>
-  //     </>
-  //   ));
-  // };
+  const renderAddComment = () => {
+    if(userCanComment.length === 0) {
+      return null;
+    }
+    return (
+      <>
+        <div className='row'>
+          <div className='col-md-9'>
+            Add new comment
+          </div>
+          <div className='col-md-3'>
+            <Form.Select onChange={ (e) => setUserCommentReso(e.target.value) } className='pagination-bar'>
+              <option value='-'>-</option>
+              { userCanComment.map(val => {
+                return (
+                  <option value={ val } key={ val }>{ val }</option>
+                )
+              })}
+            </Form.Select>
+          </div>
+        </div>
+        <Form.Group className="m-0">
+          <Form.Control
+            className="addComment"
+            as="textarea"
+            rows="3"
+            placeholder="Add user comment"
+            value={ userComment }
+            onChange={ e => setUserComment(e.target.value) }
+            type="text"
+          />
+          <div>
+          <Button
+            className="addCommentBtn"
+            variant="outline-primary"
+            size='sm'
+            onClick={ () => onCommentAdd() }
+          >
+            Add comment
+          </Button>
+          </div>
+        </Form.Group>
+        { showAddError.length > 0 && (
+          <p className='error'>{ showAddError }</p>
+        )}
+      </>
+      
+
+    )
+  }
 
   const renderAllComments = () => {
     return allReviews.slice(start, end).map((reserveArr) => (
@@ -292,9 +404,9 @@ const CommentsModal = (props) => {
           <Modal.Title>All Reviews</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          { renderAddComment() }
           { renderAllComments() }
           <div className='row'>
-
             <div className='col-auto'>
               <Button 
                 variant='outline-secondary'
