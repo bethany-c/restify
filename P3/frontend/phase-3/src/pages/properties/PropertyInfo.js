@@ -297,6 +297,7 @@ const PropertyInfo = (props) => {
           getComments={ getComments }
           getRatings={ getRatings }
           allRatings={ allRatings }
+          propertyID={ state.id }
         />
       </div>
     </>

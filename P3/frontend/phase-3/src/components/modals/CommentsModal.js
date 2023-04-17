@@ -11,7 +11,8 @@ const CommentsModal = (props) => {
     hostUsername,
     getComments,
     getRatings,
-    allRatings
+    allRatings,
+    propertyID
   } = props;
 
   const { token } = useContext(AuthContext);
@@ -20,7 +21,7 @@ const CommentsModal = (props) => {
   const [allReviews, setAllReviews] = useState([])
   const replyOrder = ['Original Property Comment', 'Host Property Reply', 'User Property Reply']
   const [page, setPage] = useState(1)
-  const [pagination, setPagination] = useState(5)
+  const [pagination, setPagination] = useState(3)
 
   const [hostCanReply, setHostCanReply] = useState([])
   const [hostComment, setHostComment] = useState('')
@@ -35,6 +36,7 @@ const CommentsModal = (props) => {
   const [userComment, setUserComment] = useState('')
   const [userCommentReso, setUserCommentReso] = useState()
   const [showAddError, setShowAddError] = useState('')
+  const [userRating, setUserRating] = useState()
 
 
   const totalPages = Math.ceil(allReviews.length / pagination);
@@ -67,8 +69,10 @@ const CommentsModal = (props) => {
   }, [])
 
   useEffect(() => {
-    findUserAddComment()
-  }, [allTerminated, allCompleted])
+    if(allReviews.length > 0) {
+      findUserAddComment()
+    }
+  }, [allTerminated, allCompleted, allReviews])
 
   const getTerminated = () => {
     fetch('http://localhost:8000/webpages/reservations/terminated/', {
@@ -109,6 +113,7 @@ const CommentsModal = (props) => {
   }
 
   const onCommentAdd = () => {
+
     fetch('http://localhost:8000/webpages/reservations/' + userCommentReso + '/property-comments/add/', {
       method: 'POST',
       headers: {
@@ -119,11 +124,35 @@ const CommentsModal = (props) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      // console.log('this is response data ', data)
+      console.log('this is response data ', data)
       getComments()
       setUserComment('')
       findUserAddComment()
       setShowAddError('')
+    })
+    .catch((error) => {
+      console.log('this is the error ', error)
+      setShowAddError(error)
+    })
+  }
+
+  const onRatingAdd = () => {
+    fetch('http://localhost:8000/webpages/rating/' + propertyID + '/' + userCommentReso + '/add/', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+      body: JSON.stringify({ "rating": userRating })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('this is response data ', data)
+      getComments()
+      setUserComment('')
+      findUserAddComment()
+      setShowAddError('')
+      setUserRating()
     })
     .catch((error) => {
       console.log('this is the error ', error)
@@ -140,18 +169,32 @@ const CommentsModal = (props) => {
     const resos = allReviews.map(item => {
       return item[0].reservation
     })
-
+    console.log('resos is ', resos)
+    console.log('alltermianted is ', allTerminated, allCompleted)
+    
     allTerminated.forEach(item => {
-      if(!resos.includes(item)) {
+      if(!resos.includes(item)){
         noComments.push(item)
-      }
+      } 
     })
 
     allCompleted.forEach(item => {
-      if(!resos.includes(item)) {
+      if(!resos.includes(item)){
         noComments.push(item)
-      }
+      } 
     })
+    // allTerminated.forEach(item => {
+    //   if(!resos.includes(item)) {
+    //     noComments.push(item)
+    //   }
+    // })
+
+    // allCompleted.forEach(item => {
+    //   if(!resos.includes(item)) {
+    //     noComments.push(item)
+    //   }
+    // })
+    console.log('no comments is ', noComments)
     setUserCanComment(noComments)
   }
 
@@ -194,6 +237,19 @@ const CommentsModal = (props) => {
       setUserReply('')
     })
     .catch((error) => console.log('this is the error ', error))
+  }
+
+  const onAddComment = () => {
+    if(!userCommentReso) {
+      setShowAddError('Invalid reservation ID')
+      return
+    }
+    if(!userRating || userComment === '') {
+      setShowAddError('Required field missing')
+      return
+    }
+    onCommentAdd()
+    onRatingAdd()
   }
 
   const findUserReplies = () => {
@@ -241,15 +297,12 @@ const CommentsModal = (props) => {
 
   const renderAddComment = () => {
     if(userCanComment.length === 0) {
-      return null;
+      return null
     }
     return (
       <>
         <div className='row'>
-          <div className='col-md-9'>
-            Add new comment
-          </div>
-          <div className='col-md-3'>
+          <div className='col-md-6'>
             <Form.Select onChange={ (e) => setUserCommentReso(e.target.value) } className='pagination-bar'>
               <option value='-'>-</option>
               { userCanComment.map(val => {
@@ -259,8 +312,14 @@ const CommentsModal = (props) => {
               })}
             </Form.Select>
           </div>
+          <div className='col-md-6'>
+            <Form.Group className="mb-3">
+              <Form.Control type="number" max="5" min="0" placeholder="Enter rating" onChange={ e => setUserRating(e.target.value) }/>
+            </Form.Group>
+          </div>
         </div>
-        <Form.Group className="m-0">
+
+        <Form.Group className='pb-4'>
           <Form.Control
             className="addComment"
             as="textarea"
@@ -275,9 +334,9 @@ const CommentsModal = (props) => {
             className="addCommentBtn"
             variant="outline-primary"
             size='sm'
-            onClick={ () => onCommentAdd() }
+            onClick={ () => onAddComment() }
           >
-            Add comment
+            Add new review
           </Button>
           </div>
         </Form.Group>
