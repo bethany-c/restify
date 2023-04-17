@@ -44,7 +44,7 @@ urlpatterns = [
     path('picture/<int:pk>/list/', ListAllImageAPIView.as_view(), name='list_images'), # works11 --> pk is property_id
 
     path('rating/<int:pk>/list/', ListRatingAPIView.as_view(), name='list_rating'), # works11 --> pk is property_id
-    path('rating/<int:pk>/add/', AddRatingAPIView.as_view(), name='add_rating'), # works11 --> pk is property_id
+    path('rating/<int:pk>/<int:res>/add/', AddRatingAPIView.as_view(), name='add_rating'), # works11 --> pk is property_id
     
     # MUSTAFAS CODE 
     path('admin/', admin.site.urls), #works11

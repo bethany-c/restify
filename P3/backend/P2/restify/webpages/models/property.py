@@ -15,6 +15,8 @@ from django.contrib.contenttypes.models import ContentType
 
 from .user import RestifyUser
 
+
+
 # For Property
 
 class Property(models.Model):
@@ -127,6 +129,4 @@ class RangePriceHostOffer(models.Model):
         verbose_name_plural = 'Available Ranges + Prices'
 
 
-class PropertyRating(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_rating')
-    rating = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
+

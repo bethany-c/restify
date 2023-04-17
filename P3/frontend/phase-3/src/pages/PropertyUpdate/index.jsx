@@ -4,6 +4,7 @@ import Add_Ava from '../../components/Add_available'
 import Display_Ava from '../../components/Display_Available'
 import DeleteProp from '../../components/PropertyDeleteButton'
 import NavbarSO from '../../components/Navbar'
+import Rate from '../../components/AddRating'
 import { Button, Modal, Container } from 'react-bootstrap';
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,6 +29,7 @@ const PropertyUpdater = () => {
       <div className='text-center'>
       <DeleteProp property_id={id} />
       </div>
+      {/* <Rate property_id={id} reservation_id={1}/> */}
       
    
     </>

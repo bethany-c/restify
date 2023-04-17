@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, CharField, PrimaryKeyRelatedField
 from ..models.user import RestifyUser
-from webpages.models.reservation import Reservation 
+from webpages.models.reservation import Reservation , PropertyRating
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSerializer
@@ -45,3 +45,14 @@ class ReservationSerializer(ModelSerializer): # onyl used for reading and not fo
         # fields = '__all__'
 
 
+class PropertyRatingSerializer(ModelSerializer):
+    
+    class Meta:
+        model = PropertyRating
+        exclude = ("property", "reservation")
+
+        # property_owner does not have to be sent 
+
+    def create(self, validated_data):
+        # print(self.context['request'].user)
+        return super().create(validated_data)    
