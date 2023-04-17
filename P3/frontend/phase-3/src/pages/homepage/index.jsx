@@ -159,6 +159,7 @@ const HomePage = () => {
   const handleFilter = (event) => {
     setShowModal(false);
     setActiveItem('Post time: from earliest');
+    setPage(1)
 
     //price_per_night, number_of_rooms, number_of_bed, baths, essentials, features, safety_features, location
   // For filter
