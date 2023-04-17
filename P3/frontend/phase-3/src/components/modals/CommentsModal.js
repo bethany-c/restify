@@ -9,7 +9,9 @@ const CommentsModal = (props) => {
     allComments,
     username,
     hostUsername,
-    getComments
+    getComments,
+    getRatings,
+    allRatings
   } = props;
 
   const { token } = useContext(AuthContext);
@@ -297,6 +299,15 @@ const CommentsModal = (props) => {
     return formattedDate
   }
 
+  const getReservationRating = (reso) => {
+    if(!allRatings) {
+      return
+    }
+    // console.log('rservation handed in is ', reso)
+    const rating = allRatings.find((obj) => obj.reservation === reso);
+    return rating.rating
+  }
+
   const renderAllComments = () => {
     return allReviews.slice(start, end).map((reserveArr) => (
       <>
@@ -309,10 +320,11 @@ const CommentsModal = (props) => {
               return (
                 <>
                   <p className="line-left-align">
-                    <h4><BsFillFilePersonFill/> {replyObj.author }</h4>
+                    <h4><BsFillFilePersonFill/> { replyObj.author }</h4>
                     <div className='line-right-align'>{ getActualDate(replyObj.posted_on) }</div>
+                    <p class="mb-2 purple-color"><BsStarFill className='reacticon'/>{ getReservationRating(reservation) }</p>
                   </p>
-                  
+
                   <span>{ replyObj.text_content }</span>
                   { hostUsername === username && hostCanReply.includes(reservation) && (
                       <>
