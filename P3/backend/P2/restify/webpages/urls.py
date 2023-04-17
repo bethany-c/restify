@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
 from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView, CancelReservationAPIView
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView
-from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView, ListRatingAPIView, AddRatingAPIView, ListRatingByResAPIView
+from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView, ListRatingAPIView, AddRatingAPIView, ListRatingByResAPIView, GetAllGuestRatings, AddGuestRatingAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
 from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications
 from .views.propertiesapi import *
@@ -143,4 +143,9 @@ urlpatterns = [
     
     # this gets all the user's specific position related notifications
     path('notifications/<str:position>/view/', GetPositionNotifications.as_view(), name='list_position_notifications'),
+
+
+    path('rating/guest/<int:guest_id>/list/', GetAllGuestRatings.as_view(), name='list_guest_ratings'),
+
+    path('rating/guest/<int:reservation_id>/add/', AddGuestRatingAPIView.as_view(), name='add_guest_rating'), 
 ]

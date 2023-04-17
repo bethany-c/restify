@@ -24,7 +24,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import Response
 from rest_framework_simplejwt.authentication import api_settings, JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
-from ..models.reservation import Reservation, PropertyRating
+from ..models.reservation import Reservation, PropertyRating, GuestRating
 from ..models.property import *
 from django.shortcuts import get_object_or_404
 
@@ -32,7 +32,7 @@ from django.shortcuts import get_object_or_404
 
 
 from webpages.serializers.serializer_user import UserSerializer
-from webpages.serializers.serializers_reservation import ReservationSerializer, PropertyRatingSerializer
+from webpages.serializers.serializers_reservation import ReservationSerializer, PropertyRatingSerializer, CreateGuestRatingSerializer, GuestRatingSerializer
 from webpages.serializers.serializers_property import PropertySerializer, PropertyImageSerializer, PropertyTimeRangePriceHostOfferSerializer
 from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSerializer
 
@@ -424,7 +424,7 @@ class ListAllImageAPIView(ListAPIView):
 
 
 class AddRatingAPIView(CreateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     serializer_class = PropertyRatingSerializer
     
     def perform_create(self, serializer):
@@ -461,3 +461,64 @@ class ListRatingByResAPIView(ListAPIView):
     def get_queryset(self):
 
         return PropertyRating.objects.filter(reservation=self.kwargs['res'])
+    
+
+
+class AddGuestRatingAPIView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CreateGuestRatingSerializer
+    
+    def perform_create(self, serializer):
+        reservation_id = self.kwargs['reservation_id']
+        try:
+            reservation = Reservation.objects.get(id=reservation_id)
+        except Reservation.DoesNotExist:
+            raise ValidationError('404 NOT FOUND: Reservation not found')
+        
+        if reservation.status != 'CO':
+            raise ValidationError('HTTP 401 UNAUTHORIZED: Reservation not complete')
+
+        reservation_host = reservation.property.property_owner
+        reservation_user = reservation.user
+
+        if reservation_host != self.request.user:
+            raise ValidationError('HTTP 403 FORBIDDEN: Not the host of the reservation')
+        
+        serializer.validated_data['reservation'] = reservation
+        serializer.validated_data['host_rater'] = self.request.user
+        serializer.validated_data['user'] = reservation_user
+
+        super().perform_create(serializer)
+
+class GetAllGuestRatings(ListAPIView):
+    serializer_class = GuestRatingSerializer
+    pagination_class = PageNumberPagination
+    default_page_size = 5
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        try:
+            user = RestifyUser.objects.get(id=user_id)
+        except RestifyUser.DoesNotExist:
+            raise ValidationError('You are not a person')
+    
+        guest_id = self.kwargs['guest_id']
+        guest = get_object_or_404(RestifyUser, id=guest_id)
+        return GuestRating.objects.filter(user=guest)
+    
+    # this gets the data with pagination 
+    def get(self, request, *args, **kwargs):
+        page_size = request.query_params.get('page_size', None)
+        if page_size:
+            self.pagination_class.page_size = int(page_size)
+        else:
+            self.pagination_class.page_size = self.default_page_size
+        self.pagination_class.page_size_query_param = 'page_size'
+        return self.list(request, *args, **kwargs)
+
+    # this function will list just the data, not the whole object from pagination
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+        return Response(serializer.data)
