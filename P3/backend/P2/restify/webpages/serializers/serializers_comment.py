@@ -30,7 +30,7 @@ class PropertyCommentSerializer(ModelSerializer):
   author = serializers.StringRelatedField(source='author.username')
   class Meta:
     model = PropertyComment
-    fields = ['content_type', 'reservation', 'author', 'reply', 'text_content', 'host', 'user']
+    fields = ['content_type', 'reservation', 'author', 'reply', 'text_content', 'host', 'user', 'posted_on']
     
   def create(self, validated_data):
     return super().create(validated_data)

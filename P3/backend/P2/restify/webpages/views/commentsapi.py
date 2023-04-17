@@ -12,6 +12,7 @@ from rest_framework.response import Response
 
 from ..models import Reservation, PropertyComment, GuestComment, RestifyUser
 from ..serializers.serializers_comment import PropertyCommentSerializer, CreatePropertyCommentSerializer, CreateGuestCommentSerializer, GuestCommentSerializer
+from datetime import datetime
 
 
 ## THIS IS THE PROPERTY COMMENT PART
@@ -48,6 +49,7 @@ class CreatePropertyCommentAPIView(CreateAPIView):
         serializer.validated_data['reply'] = 'Original Property Comment'
         serializer.validated_data['host'] = reservation_host
         serializer.validated_data['user'] = reservation_user
+        serializer.validated_data['posted_on'] = datetime.now()
         return super().perform_create(serializer)
       else:
         raise ValidationError("Host cannot add the first comment on property.")
@@ -60,6 +62,7 @@ class CreatePropertyCommentAPIView(CreateAPIView):
         serializer.validated_data['reply'] = 'Host Property Reply'
         serializer.validated_data['host'] = reservation_host
         serializer.validated_data['user'] = reservation_user
+        serializer.validated_data['posted_on'] = datetime.now()
         return super().perform_create(serializer)
       else:
         raise ValidationError("User cannot talk about property without a host reply.")
@@ -73,6 +76,7 @@ class CreatePropertyCommentAPIView(CreateAPIView):
         serializer.validated_data['reply'] = 'User Property Reply'
         serializer.validated_data['host'] = reservation_host
         serializer.validated_data['user'] = reservation_user
+        serializer.validated_data['posted_on'] = datetime.now()
         return super().perform_create(serializer)
       else:
         raise ValidationError('Host cannot add third comment on property')
