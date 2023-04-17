@@ -170,7 +170,7 @@ const HomePage = () => {
       setResult(data);
       console.log( result);
       setFormData({
-        price_per_night: 100,
+        price_per_night: 1000,
         number_of_bed: 0,
         number_of_rooms: 0,
         baths: 0,
@@ -255,7 +255,7 @@ if (type === 'checkbox' ) {
           </div>
           
           <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>Filter</button>
-          <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(40vh )" , transform: "translateY(-30px)",}}>
+          <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(20vh )" , transform: "translateY(-30px)",}}>
         <DropdownButton id="dropdown-basic-button" title={"Sort"}>
           <Dropdown.Item onClick={handlePostAsc} active={activeItem === 'Post time: from most recent'}>
             <i className="bi bi-star-fill" id="sort-option1" ></i> Post time: from most recent
