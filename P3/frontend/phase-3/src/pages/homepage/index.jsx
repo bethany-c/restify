@@ -9,6 +9,7 @@ import SearchBar from '../../components/Inputs/SearchBar'
 import AuthContext from '../../context'
 import { useNavigate } from 'react-router-dom';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 const HomePage = () => {
   let navigate = useNavigate();
   const {setIsloggedin, token} = useContext(AuthContext)
@@ -17,9 +18,12 @@ const HomePage = () => {
   const [min, setMin] = useState()
   const [max, setMax] = useState()
   const [result, setResult] = useState([])
+  const [page, setPage] = useState(1)
+  const [pagination, setPagination] = useState(6)
 
   const [activeItem, setActiveItem] = useState("Post time: from earliest");
-
+  const handleNextPage = () => { setPage(page + 1) }
+  const handlePrevPage = () => { setPage(page - 1) }
 
 
   const [FilterformData, setFormData] = useState({
@@ -112,6 +116,8 @@ const HomePage = () => {
       console.log(error);
     });
   }
+
+
   const handlePriceAsc = (event) => {
     setActiveItem('Price: Ascending');
 
@@ -238,8 +244,12 @@ if (type === 'checkbox' ) {
       [name]: parseFloat(value)
     });
   } }
+  const totalPages = Math.max(Math.ceil(result.length / pagination), 1) ;
+  console.log(result.length)
+  console.log(totalPages)
   return (
-        <div>
+    <div  className='page-container'>
+        <div className='content-wrap'>
           <NavbarSO />
 
           <div className='wrapper2'>
@@ -255,7 +265,7 @@ if (type === 'checkbox' ) {
           </div>
           
           <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>Filter</button>
-          <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(20vh )" , transform: "translateY(-30px)",}}>
+          <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(20vh )" , transform: "translateY(-30px)", zIndex: 999}}>
         <DropdownButton id="dropdown-basic-button" title={"Sort"}>
           <Dropdown.Item onClick={handlePostAsc} active={activeItem === 'Post time: from most recent'}>
             <i className="bi bi-star-fill" id="sort-option1" ></i> Post time: from most recent
@@ -279,14 +289,18 @@ if (type === 'checkbox' ) {
 
         <br />
           <div className='row   m-4'>
-          {result.map(r => (
+          {(result.slice((page-1)*pagination, page*pagination)).map(r => (
             <div key={r.id} className="col-md-4">
               <CardComponentH property_id={r.property} price={r.price_per_night}/>
 
-
+            
             </div>
           ))}
           </div>
+          
+
+          
+
 
 
           <Modal show={showModal} onHide={handleCloseModal}>
@@ -409,6 +423,32 @@ if (type === 'checkbox' ) {
           
         </div>
 
+      <div className='row footer'>
+      <div className='col-auto offset-5'>
+          <Button 
+            variant='outline-secondary'
+            size='sm'
+            className='rounded-circle'
+            onClick={ () => handlePrevPage() }
+            disabled={ page === 1 ? true : false }
+          >
+            <BsArrowLeft/>
+          </Button>
+        </div>
+        <div className='col-auto offset-1'>
+          <Button 
+            variant='outline-secondary'
+            size='sm'
+            className='rounded-circle'
+            onClick={ () => handleNextPage() }
+            disabled={ page === totalPages ? true : false }
+          >
+            <BsArrowRight/>
+          </Button>
+        </div>
+
+      </div>
+      </div>
     
 
   )

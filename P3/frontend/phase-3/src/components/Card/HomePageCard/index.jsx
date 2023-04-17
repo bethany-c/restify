@@ -64,10 +64,10 @@ export const CardComponentH = (props) => {
 
 return (
     <div className='col-sm-12 col-md-6 col-lg-4 results-card'>
-        <Card style={{ width: "30vh"}}>
+        <Card style={{ width: "20vw"}}>
             <Card.Body>
                 <br />
-                <DisplayOne property_id={props.property_id}/>
+                <DisplayOne property_id={props.property_id} />
                 <Card.Title>{ property.address }</Card.Title>
                 <hr className='divider'/>
                 <p>description:</p>
