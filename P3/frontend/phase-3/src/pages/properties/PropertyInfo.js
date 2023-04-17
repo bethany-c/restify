@@ -22,14 +22,19 @@ const PropertyInfo = (props) => {
 
   const [username, setUsername] = useState(null)
   const [allComments, setAllComments] = useState([])
-
+  const [allRatings, setAllRatings] = useState([])
 
 
   useEffect(() => {
-    console.log('state is ', state)
+    // console.log('state is ', state)
     getLoggedInUser()
     getComments()
+    getRatings()
   }, [])
+
+  useEffect(() => {
+    console.log('all ratings i s', allRatings)
+  }, [allRatings])
 
   const getLoggedInUser = () => {
     fetch('http://localhost:8000/webpages/profile/view/', {
@@ -65,6 +70,31 @@ const PropertyInfo = (props) => {
       // console.log('this is the data ', data)
       setAllComments(data)
     })
+  }
+
+  const getRatings = () => {
+    fetch('http://localhost:8000/webpages/rating/' + state.id + '/list/', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log('this is the ratings ', data)
+      setAllRatings(data)
+    })
+  }
+
+  const getAverage = () => {
+    if(!allRatings) {
+      return
+    }
+    const ratings = allRatings.map(rating => {return rating.rating})
+    var total = ratings.reduce((a, b) => a + b, 0)
+    var ave = total/ratings.length
+    return ave.toFixed(2)
   }
 
 
@@ -185,7 +215,7 @@ const PropertyInfo = (props) => {
     <>
       <h4 className="line-left-align" id="all-property-reviews">
         Reviews
-        {/* <p className="mb-2 rating-right-align purple-color"><BsStarFill/>{ propertyInfo.rating }</p> */}
+        <p className="mb-2 rating-right-align purple-color"><BsStarFill/>{ getAverage() }</p>
       </h4>
       <div className='comment-container row'>
       { allComments.filter(comment => comment.reply === 'Original Property Comment').map((comment, index) => {
@@ -264,6 +294,8 @@ const PropertyInfo = (props) => {
           username={ username }
           hostUsername={ host.username }
           getComments={ getComments }
+          getRatings={ getRatings }
+          allRatings={ allRatings }
         />
       </div>
     </>
