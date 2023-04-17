@@ -42,6 +42,7 @@ function App() {
             <Route path='/'>
               <Route path="login" element={<LogInPage/>} />
               <Route index element={<HomePage />}/>
+              <Route path="home" element={<HomePage />}/>
               <Route path="signup" element={<SignUpPage/>}/>
               <Route path="logout" element={<LogOut />}/>
               <Route path="property_extra_page" element={<Property_extra/>} />

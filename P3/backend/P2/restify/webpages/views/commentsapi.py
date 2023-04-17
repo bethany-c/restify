@@ -12,6 +12,7 @@ from rest_framework.response import Response
 
 from ..models import Reservation, PropertyComment, GuestComment, RestifyUser
 from ..serializers.serializers_comment import PropertyCommentSerializer, CreatePropertyCommentSerializer, CreateGuestCommentSerializer, GuestCommentSerializer
+from datetime import datetime
 
 
 ## THIS IS THE PROPERTY COMMENT PART
@@ -32,9 +33,9 @@ class CreatePropertyCommentAPIView(CreateAPIView):
     if reservation.status != 'CO' and reservation.status != 'TE':
       raise ValidationError('HTTP 401 UNAUTHORIZED: Reservation not complete/terminated')
     # get the host
+    # print('i am here now ', reservation.property.property_owner.username, self.request.user)
     reservation_host = reservation.property.property_owner
     reservation_user = reservation.user
-    
     if self.request.user != reservation_host and self.request.user != reservation_user:
       raise ValidationError('HTTP 403 FORBIDDEN: Not the host/user of the reservation')
     
@@ -46,6 +47,9 @@ class CreatePropertyCommentAPIView(CreateAPIView):
         serializer.validated_data['reservation'] = reservation
         serializer.validated_data['author'] = self.request.user
         serializer.validated_data['reply'] = 'Original Property Comment'
+        serializer.validated_data['host'] = reservation_host
+        serializer.validated_data['user'] = reservation_user
+        serializer.validated_data['posted_on'] = datetime.now()
         return super().perform_create(serializer)
       else:
         raise ValidationError("Host cannot add the first comment on property.")
@@ -56,6 +60,9 @@ class CreatePropertyCommentAPIView(CreateAPIView):
         serializer.validated_data['reservation'] = reservation
         serializer.validated_data['author'] = self.request.user
         serializer.validated_data['reply'] = 'Host Property Reply'
+        serializer.validated_data['host'] = reservation_host
+        serializer.validated_data['user'] = reservation_user
+        serializer.validated_data['posted_on'] = datetime.now()
         return super().perform_create(serializer)
       else:
         raise ValidationError("User cannot talk about property without a host reply.")
@@ -67,6 +74,9 @@ class CreatePropertyCommentAPIView(CreateAPIView):
         serializer.validated_data['reservation'] = reservation
         serializer.validated_data['author'] = self.request.user
         serializer.validated_data['reply'] = 'User Property Reply'
+        serializer.validated_data['host'] = reservation_host
+        serializer.validated_data['user'] = reservation_user
+        serializer.validated_data['posted_on'] = datetime.now()
         return super().perform_create(serializer)
       else:
         raise ValidationError('Host cannot add third comment on property')
@@ -101,22 +111,22 @@ class GetAllPropertyComments(ListAPIView):
         property_id = self.kwargs['property_id']
         return PropertyComment.objects.filter(reservation__property_id=property_id)
     
-    # this gets the data with pagination 
-    def get(self, request, *args, **kwargs):
-      page_size = request.query_params.get('page_size', None)
-      if page_size:
-        self.pagination_class.page_size = int(page_size)
-      else:
-        self.pagination_class.page_size = self.default_page_size
-      self.pagination_class.page_size_query_param = 'page_size'
-      return self.list(request, *args, **kwargs)
+    # # this gets the data with pagination 
+    # def get(self, request, *args, **kwargs):
+    #   page_size = request.query_params.get('page_size', None)
+    #   if page_size:
+    #     self.pagination_class.page_size = int(page_size)
+    #   else:
+    #     self.pagination_class.page_size = self.default_page_size
+    #   self.pagination_class.page_size_query_param = 'page_size'
+    #   return self.list(request, *args, **kwargs)
 
-    # this function will list just the data, not the whole object from pagination
-    def list(self, request, *args, **kwargs):
-      queryset = self.filter_queryset(self.get_queryset())
-      page = self.paginate_queryset(queryset)
-      serializer = self.get_serializer(page, many=True)
-      return Response(serializer.data)
+    # # this function will list just the data, not the whole object from pagination
+    # def list(self, request, *args, **kwargs):
+    #   queryset = self.filter_queryset(self.get_queryset())
+    #   page = self.paginate_queryset(queryset)
+    #   serializer = self.get_serializer(page, many=True)
+    #   return Response(serializer.data)
 
 
 ## THIS IS THE GUEST COMMENT PART

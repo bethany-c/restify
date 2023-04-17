@@ -253,35 +253,37 @@ if (type === 'checkbox' ) {
             />
             
           </div>
-
+          
           <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>Filter</button>
           <div className="row sort-btn-container" style={{ position: "absolute",  right: "calc(40vh )" , transform: "translateY(-30px)",}}>
-            <DropdownButton id="dropdown-basic-button" title={"Sort"}>
-              <Dropdown.Item onClick={handlePostAsc} active={activeItem === 'Post time: from most recent'}>
-                <i className="bi bi-star-fill" id="sort-option1" ></i> Post time: from most recent
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handlePostDes} active={activeItem === 'Post time: from earliest'}>
-                <i className="bi bi-star-fill" id="sort-option2"></i> Post time: from earliest 
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handlePriceAsc} active={activeItem === 'Price: Ascending'}>
+        <DropdownButton id="dropdown-basic-button" title={"Sort"}>
+          <Dropdown.Item onClick={handlePostAsc} active={activeItem === 'Post time: from most recent'}>
+            <i className="bi bi-star-fill" id="sort-option1" ></i> Post time: from most recent
+          </Dropdown.Item>
+          <Dropdown.Item onClick={handlePostDes} active={activeItem === 'Post time: from earliest'}>
+            <i className="bi bi-star-fill" id="sort-option2"></i> Post time: from earliest 
+          </Dropdown.Item>
+          <Dropdown.Item onClick={handlePriceAsc} active={activeItem === 'Price: Ascending'}>
 
-                  <i className="bi bi-currency-dollar" id="sort-option3"></i> Price: Ascending
+              <i className="bi bi-currency-dollar" id="sort-option3"></i> Price: Ascending
 
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handlePriceDes} active={activeItem === 'Price: Descending'}>
+          </Dropdown.Item>
+          <Dropdown.Item onClick={handlePriceDes} active={activeItem === 'Price: Descending'}>
 
-                  <i className="bi bi-currency-dollar" id="sort-option4"></i> Price: Descending
+              <i className="bi bi-currency-dollar" id="sort-option4"></i> Price: Descending
 
-              </Dropdown.Item>
-            </DropdownButton>
-          </div>
-          <br />
-          <br />
+          </Dropdown.Item>
+        </DropdownButton>
+        </div>
+        <br />
 
-          <div className='row m-4'>
+        <br />
+          <div className='row   m-4'>
           {result.map(r => (
             <div key={r.id} className="col-md-4">
               <CardComponentH property_id={r.property} price={r.price_per_night}/>
+
+
             </div>
           ))}
           </div>
