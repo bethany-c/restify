@@ -447,3 +447,11 @@ class ListRatingAPIView(ListAPIView):
     def get_queryset(self):
 
         return PropertyRating.objects.filter(property=self.kwargs['pk'])
+    
+class ListRatingByResAPIView(ListAPIView):
+    serializer_class = PropertyRatingSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+
+        return PropertyRating.objects.filter(reservation=self.kwargs['res'])
