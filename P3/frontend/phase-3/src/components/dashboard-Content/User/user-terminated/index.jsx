@@ -1,4 +1,4 @@
-import '../contentstyle.css'
+import '../../../dashboard-Content/contentstyle.css'
 
 import React from 'react'
 

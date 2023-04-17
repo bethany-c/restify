@@ -86,8 +86,17 @@ class CreateReservationAPIView(CreateAPIView):
 
             # set the property field of serializer to the retrieved property instance
             serializer.validated_data['property'] = property
+
+            # print(valid_available_date)
+
             serializer.validated_data['available_date'] = valid_available_date[0]
-            valid_available_date[0].booked_for = True # nobody can now book this time till 
+            
+            valid_available_date[0].booked_for = True
+            serializer.validated_data['available_date'].booked_for = True # nobody can now book this time till 
+            
+            print(serializer.validated_data['available_date'].booked_for, 'this is the value')
+            print(valid_available_date[0].booked_for, 'this is the best')
+
 
             # set the user field of serializer to the current user
             serializer.validated_data['user'] = self.request.user
@@ -174,6 +183,10 @@ class ListAllRequestedReservationsAPIView(ListAPIView):
 
         # takes out all the reservations that are requested for approval 
         reservations = Reservation.objects.filter(user=self.request.user, status='AR')
+        # reservations2 = Reservation.objects.filter(user=self.request.user, status='CR')
+
+        # reservations = reservations.union(reservations2)
+
         return reservations
         # prop_ids = []
         # for reservation in reservations:
@@ -204,6 +217,24 @@ class TerminateReservationAPIView(UpdateAPIView): # terminated tab done
         reservation.available_date.booked_for = False
         reservation.available_date = None
         serializer.save()
+
+class CancelReservationAPIView(UpdateAPIView): # terminated tab done 
+    
+    serializer_class = ReservationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        reservation = get_object_or_404(Reservation, pk=self.kwargs['reservation_id'])
+        return reservation
+    
+    def perform_update(self, serializer):
+        reservation = serializer.save()
+        reservation.status = "CA"
+        reservation.available_date.booked_for = False
+        reservation.available_date = None
+        serializer.save()
+
+
 
 
 

@@ -4,8 +4,10 @@ import AuthContext from '../../context';
 // import BsFillStarFill from 'react-icons/bs'
 import './cardstyles.css'
 import $ from 'jquery';
+import { useNavigate } from 'react-router-dom';
 
 const ReservationCard = (props) => {
+  const navigate = useNavigate()
   const { propertyInfo } = props;
   const { token } = useContext(AuthContext);
   const [start, setStart] = useState();
@@ -114,14 +116,17 @@ const ReservationCard = (props) => {
           "Authorization" : "Bearer " + token['token']
       },
       body: JSON.stringify({
-        start_date: chosenAvailD.start_date,
-        end_date: chosenAvailD.end_date,
+        start_date: start,
+        end_date: end,
         num_of_guests: numGuests
       })
       })
       .then((response) => response.json())
       .then((data) => {
           console.log(data);
+          navigate('/dashboard/requested')
+
+
       })
       .catch((error) => console.error(error));
 

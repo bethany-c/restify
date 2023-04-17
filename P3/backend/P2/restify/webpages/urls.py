@@ -6,7 +6,7 @@ from django.urls import path, include
 from .views import accountsapi
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
-from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView
+from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView, CancelReservationAPIView
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView
 from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView, ListRatingAPIView, AddRatingAPIView, ListRatingByResAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
@@ -64,7 +64,7 @@ urlpatterns = [
     path('<int:reservation_id>/terminate_request/', RequestToTerminateReservationAPIView.as_view(), name='request_to_terminate_reservation'), # works11 - changing status to CR
 
     path('reservations/requested/', ListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # works11 --> gives all reservations with associated property attached
-    path('<int:reservation_id>/terminate/', TerminateReservationAPIView.as_view(), name='terminate_reservation'), # works11 --> terminates right away and frees available date - can only directly terminate if the reservation has not been approved yet
+    path('<int:reservation_id>/terminate/', CancelReservationAPIView.as_view(), name='terminate_reservation'), # works11 --> terminates right away and frees available date - can only directly terminate if the reservation has not been approved yet
 
     path('reservations/cancellations/', ListAllCancelledReservationsAPIView.as_view() ,name='cancellations'), # works11 --> after host approves cancellation request
     # path('<int:reservation_id>/reason_for_cancelling/', ReasonForCancellingAPIView.as_view(), name='reason_for_cancelling'),
