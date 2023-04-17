@@ -432,12 +432,22 @@ class AddRatingAPIView(CreateAPIView):
     serializer_class = PropertyRatingSerializer
     
     def perform_create(self, serializer):
-     
+        reservation_id = self.kwargs['res']
+        try:
+            reservation = Reservation.objects.get(id=reservation_id)
+        except Reservation.DoesNotExist:
+            raise ValidationError('404 NOT FOUND: Reservation not found')
         
+        if reservation.status != 'CO' and reservation.status != 'TE':
+            raise ValidationError('HTTP 401 UNAUTHORIZED: Reservation not complete/terminated')
 
+        if reservation.user != self.request.user:
+            raise ValidationError('HTTP 403 FORBIDDEN: Not the user of the reservation')
+        
         # set the property_owner field of serializer to the current user
         serializer.validated_data['property'] = get_object_or_404(Property, id=self.kwargs['pk'])
         serializer.validated_data['reservation'] = get_object_or_404(Reservation, id=self.kwargs['res'])
+        serializer.validated_data['user'] = self.request.user
         # call the super perform_create method to save the reservation instance
         super().perform_create(serializer)
 class ListRatingAPIView(ListAPIView):
