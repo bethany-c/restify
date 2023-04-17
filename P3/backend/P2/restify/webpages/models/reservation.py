@@ -87,3 +87,9 @@ class PropertyRating(models.Model):
     rating = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=None)
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='reservation_rating', null=True)
     user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='property_user_rating', null=True)
+
+class GuestRating(models.Model):
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=None)
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='reservation_guest_rating', null=True)
+    host_rater = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='host_guest_rating', null=True)
+    user = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='user_guest_rating', null=True)

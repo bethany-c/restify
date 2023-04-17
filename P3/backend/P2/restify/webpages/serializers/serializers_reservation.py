@@ -1,10 +1,10 @@
 from rest_framework.serializers import ModelSerializer, CharField, PrimaryKeyRelatedField
 from ..models.user import RestifyUser
-from webpages.models.reservation import Reservation , PropertyRating
+from webpages.models.reservation import Reservation , PropertyRating, GuestRating
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSerializer
-
+from django.shortcuts import get_object_or_404
 
 
 
@@ -56,3 +56,26 @@ class PropertyRatingSerializer(ModelSerializer):
     def create(self, validated_data):
         # print(self.context['request'].user)
         return super().create(validated_data)    
+    
+
+class CreateGuestRatingSerializer(ModelSerializer):
+    content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
+  
+    class Meta:
+        model = GuestRating
+        fields = ['rating', 'reservation', 'host_rater', 'user', 'content_type']
+
+    def perform_create(self, serializer):
+        reservation_id = self.kwargs['reservation_id'] # get reservation_id from url
+        reservation = get_object_or_404(Reservation, id=reservation_id)
+        return super().perform_create(serializer)
+    
+
+class GuestRatingSerializer(ModelSerializer):
+  content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
+  class Meta:
+    model = GuestRating
+    fields = ['rating', 'reservation', 'host_rater', 'user', 'content_type']
+    
+  def create(self, validated_data):
+    return super().create(validated_data)
