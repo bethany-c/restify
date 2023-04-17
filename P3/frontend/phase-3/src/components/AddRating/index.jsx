@@ -37,7 +37,7 @@ const handleRatingChange = (event) => {
       headers: {
         "Authorization": "Bearer " + token['token']
       },
-    }) .then((response) => {
+    }).then((response) => {
         console.log('http://localhost:8000/webpages/rating/'+ props.property_id +'/'+props.property_id+'/add/')
         console.log(formData)
 
