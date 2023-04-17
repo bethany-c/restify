@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponse
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from django.http import JsonResponse
 
 from ..models import Notification, Reservation
 from ..serializers.serializers_notification import CreateNotificationSerializer, NotificationSerializer
@@ -20,7 +21,6 @@ class CreateNotificationAPIView(CreateAPIView):
   def perform_create(self, serializer):
     user_id = self.kwargs['user_id']
     reservation_id = self.kwargs['reservation_id']
-    
     try:
       user = RestifyUser.objects.get(id=user_id)
     except RestifyUser.DoesNotExist:
@@ -32,24 +32,23 @@ class CreateNotificationAPIView(CreateAPIView):
       raise ValidationError('404 NOT FOUND: Reservation not found')
     
     # TODO: check for duplicates
-    
+    print('here ', reservation.status)
     reservation_host = reservation.property.property_owner
     reservation_user = reservation.user
-    
-    
-    
 
     serializer.validated_data['user'] = user
     serializer.validated_data['reservation'] = reservation
     if user == reservation_host:
       serializer.validated_data['user_type'] = 'host'
       if reservation.status == 'AR':
-        if Notification.objects.get(reservation=reservation, user=user, notification_message='New reservation'):
+        # if Notification.objects.get(reservation=reservation, user=user, notification_message='New reservation'):
+        if Notification.objects.filter(reservation=reservation, user=user, notification_message='New reservation').exists():
           raise ValidationError('Notification already exists')
         serializer.validated_data['notification_message'] = 'New reservation'
         return super().perform_create(serializer)
       if reservation.status == 'CR':
-        if Notification.objects.get(reservation=reservation, user=user, notification_message='Cancellation request'):
+        # if Notification.objects.get(reservation=reservation, user=user, notification_message='Cancellation request'):
+        if Notification.objects.filter(reservation=reservation, user=user, notification_message='Cancellation request').exists():
           raise ValidationError('Notification already exists')
         serializer.validated_data['notification_message'] = 'Cancellation request'
         return super().perform_create(serializer)
@@ -58,12 +57,15 @@ class CreateNotificationAPIView(CreateAPIView):
     if user == reservation_user:
       serializer.validated_data['user_type'] = 'guest'
       if reservation.status == 'AP':
-        if Notification.objects.get(reservation=reservation, user=user, notification_message='Approved reservation'):
-          raise ValidationError('Notification already exists')
+        # if Notification.objects.get(reservation=reservation, user=user, notification_message='Approved reservation'):
+        #   raise ValidationError('Notification already exists')
+        if Notification.objects.filter(reservation=reservation, user=user, notification_message='Approved reservation').exists():
+          raise ValidationError('Notification already exists.')
         serializer.validated_data['notification_message'] = 'Approved reservation'
         return super().perform_create(serializer)
       if reservation.status == 'CR':
-        if Notification.objects.get(reservation=reservation, user=user, notification_message='Cancellation request'):
+        # if Notification.objects.get(reservation=reservation, user=user, notification_message='Cancellation request'):
+        if Notification.objects.filter(reservation=reservation, user=user, notification_message='Cancellation request').exists():
           raise ValidationError('Notification already exists')
         serializer.validated_data['notification_message'] = 'Cancellation request'
         return super().perform_create(serializer)
@@ -143,7 +145,7 @@ class ClearUserNotification(DestroyAPIView):
     if self.request.user.id != queryset.user.id:
       raise ValidationError('You cannot clear notifications that do not belong to you!')
     queryset.delete()
-    return HttpResponse('Deleted', status=200)
+    return JsonResponse({'message': 'Deleted'}, status=200)
     # return super().destroy(request, *args, **kwargs)
 
 
