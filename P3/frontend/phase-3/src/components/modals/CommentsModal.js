@@ -51,7 +51,7 @@ const CommentsModal = (props) => {
 
 
   useEffect(() => {
-    if(allComments) {
+    if(allComments && Array.isArray(allComments)) {
       formatComments()
     }
   }, [allComments])
