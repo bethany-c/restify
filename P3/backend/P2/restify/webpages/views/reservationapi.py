@@ -92,8 +92,8 @@ class CreateReservationAPIView(CreateAPIView):
 
             serializer.validated_data['available_date'] = valid_available_date[0]
             
-            valid_available_date[0].booked_for = True
             serializer.validated_data['available_date'].booked_for = True # nobody can now book this time till 
+            serializer.validated_data['available_date'].save()
             
             print(serializer.validated_data['available_date'].booked_for, 'this is the value')
             print(valid_available_date[0].booked_for, 'this is the best')
@@ -256,12 +256,7 @@ class ListAllCancelledReservationsAPIView(ListAPIView):
         # takes out all the reservations that are cancelled
         reservations = Reservation.objects.filter(user=self.request.user, status="CA")
         return reservations
-        # prop_ids = []
-        # for reservation in reservations:
-        #     prop_ids.append(reservation.property.pk)
-        
-        # # returns all the properties that have an approved reservation on them 
-        # return Property.objects.filter(id__in=prop_ids)
+    
     
 # user: terminated tab, host: terminated tab 
 class ReasonForCancellingAPIView(UpdateAPIView): # terminated tab done 
