@@ -174,10 +174,14 @@ const Notifications = () => {
     })
   }
 
+  const noNotifs = () => (
+    <h5>No Notifications</h5>
+  )
+
   return (
     <div className='m-5'>
       { renderAllNotifs() }
-      { renderPagination() }
+      { allNotifs.length > 0 ? renderPagination() : noNotifs() }
     </div>
   )
 }

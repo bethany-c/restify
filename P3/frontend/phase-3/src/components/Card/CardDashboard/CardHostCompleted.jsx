@@ -6,155 +6,108 @@ import { useNavigate } from 'react-router-dom';
 import DisplayOne from '../../Display_one_pic';
 import { Modal, Form} from 'react-bootstrap';
 
+import ReviewGuestModal from '../../modals/ReviewGuestModal';
+
 
 export const CardComponentHComp = (props) => {
-    const { id, property} = props.value;
-    const {text} = props.button;
-    // const [price, setPrice] = useState(0);
-    // const [start, setStart] = useState()
-    // const [end, setEnd] = useState()
-    // const [totalPrice, setTotalPrice] = useState(0);
-    const { token } = useContext(AuthContext);
-    const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
-    const [ShowButton, setShowButton] = useState(true)
-    const [UserHistoryModalData, setUserHistoryModalData] = useState({
-        content: ""
+  const { id, property } = props.value;
+  const {text} = props.button;
+  const { allHostReviews, getAllHostReviews } = props
+  const [commentable, showCommentable] = useState([])
+  // const [price, setPrice] = useState(0);
+  // const [start, setStart] = useState()
+  // const [end, setEnd] = useState()
+  // const [totalPrice, setTotalPrice] = useState(0);
+  const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [ShowButton, setShowButton] = useState(true)
+  const [UserHistoryModalData, setUserHistoryModalData] = useState({
+    content: ""
+  })
+
+  // useEffect(() => {
+  //   // console.log('this is all host reviews ', allHostReviews)
+  // }, [allHostReviews])
+
+  
+
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
+
+  const onViewListing = (event) => {
+    event.preventDefault()
+    fetch('http://localhost:8000/webpages/property/' + property.id + '/detail/', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data, 'this is right before the navigate')
+      navigate('/property-info', { state: data });
+    })
+  }
 
-
-    useEffect(() => {
-        
-
-    }, []);
-
-    const onViewListing = (event) => {
-        event.preventDefault()
-        fetch('http://localhost:8000/webpages/property/' + property.id + '/detail/', {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-        },
-
-        })
-        .then((res) => res.json())
-        .then((data) => {
-        console.log(data, 'this is right before the navigate')
-        navigate('/property-info', {state: data});
-
-        })
+  const getCommentable = () => {
+    // console.log('all host reviews is ', allHostReviews, 'and id is ', id)
+    if(allHostReviews !== undefined && Array.isArray(allHostReviews)) {
+      if(allHostReviews.includes(id)) {
+        // console.log('returning true ', id)
+        return false
+      } else {
+        // console.log('returning false ', id)
+        return true
+      }
     }
-
-
-    function handleShowModal() {
-        setShowModal(true);
-    }
-    
-    function handleCloseModal() {
-        setShowModal(false);
-    }
+  }
 
 
 
 
-    const sendUserHistory = () => {
+  // const handleChange = (e) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   setUserHistoryModalData(values => ({ ...values, [name]: value }))
+  //     console.log(UserHistoryModalData, 'THIS IS THE MODAL DATA')
+  // }
 
-        fetch('http://localhost:8000/webpages/' + id + '/review_for_guest/', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization" : "Bearer " + token['token'],
-            },
-            body: JSON.stringify(UserHistoryModalData)
-
-    
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data, 'this is the response from userhistory')
-                setShowButton(false)
-                navigate('/dashboard/host_completed/')
-
-    
-            })
-
-            .catch((error) => console.error(error))
-        
-
-
-    }
-
-    const handleChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        setUserHistoryModalData(values => ({
-            ...values,
-            [name]: value 
-        }))
-
-        console.log(UserHistoryModalData, 'THIS IS THE MODAL DATA')
-
-    }
-
-
-
-
-
-
-
-
-return (
+  return (
     <div className='col-sm-12 col-md-6 col-lg-4 results-card'>
-        <Card>
-            <div className='fixit w-100'>
-                {ShowButton ? (
-                    <Button className='fixit-button' size='sm' onClick={handleShowModal}>{text}</Button>
-                ) : (
-                    <div></div>
-                )}
-                {/* the className for img=fixit-img --> its in the displayOne component but we can use it in cardstyles.css */}
-                <DisplayOne property_id={property.id} />
-            </div>
-            <Card.Body>
-                <Card.Title>{ property.address }</Card.Title>
-                <Card.Text>{ property.description }</Card.Text>
-                {/* <Card.Text>
-                    <p className='card-left-align'>
-                        ${ price }/night
-                    <span className="card-right-align total-price">
-                        ${ totalPrice } total
-                    </span>
-                    </p>
-                </Card.Text> */}
-                <Button onClick={onViewListing} className="btn btn-primary" size='sm'>View Listing</Button>
-            </Card.Body>
-        </Card>
-        <Modal show={showModal} onHide={handleCloseModal}>
-            <Modal.Header closeButton>
-                <Modal.Title className="fw-bold mb-2">Leave a Review for Your Guest!</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group>
-                        <Form.Label> Your Comment </Form.Label>
-                        <Form.Control 
-                        type='text'
-                        as="textarea" 
-                        name='content'
-                        rows={5}
-                        onChange={handleChange}/>
+      <Card>
+        <div className='fixit w-100'>
+          { getCommentable() ? (
+            <Button className='fixit-button' size='sm' onClick={ handleShow }>{ text }</Button>
+          ) : ( <div></div> )}
+          {/* the className for img=fixit-img --> its in the displayOne component but we can use it in cardstyles.css */}
+          <DisplayOne property_id={ property.id } />
+        </div>
+        <Card.Body>
+          <Card.Title>{ property.address }</Card.Title>
+          <Card.Text>{ property.description }</Card.Text>
+          {/* <Card.Text>
+              <p className='card-left-align'>
+                  ${ price }/night
+              <span className="card-right-align total-price">
+                  ${ totalPrice } total
+              </span>
+              </p>
+          </Card.Text> */}
+          <Button onClick={ onViewListing } className="btn btn-primary" size='sm'>View Listing</Button>
+        </Card.Body>
+      </Card>
 
-                    </Form.Group>
-                    <br />
-                    <div className='makeitwork'>
-                        <Button variant='primary' onClick={sendUserHistory} > Submit </Button>
-                        <Button variant='dark' onClick={handleCloseModal}> Close </Button>
-                    </div>
-                </Form>
-            </Modal.Body>
-
-        </Modal>
+      <ReviewGuestModal
+        show={ show }
+        handleClose={ handleClose }
+        reservation_id={ id }
+        // setShowButton={ setShowButton }
+        getAllHostReviews={ getAllHostReviews }
+      />
+      
     </div>
   
 
