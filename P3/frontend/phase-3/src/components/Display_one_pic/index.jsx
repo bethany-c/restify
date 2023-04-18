@@ -36,14 +36,14 @@ function DisplayOne(props) {
   
     if (pictures.length > 0) {
         return (
-          <div>
-            <img className='fixit-img' src={pictures[0].image} alt={pictures[0].name} />
+          <div className='fixit-wrapper'>
+            <img src={pictures[0].image} alt={pictures[0].name} />
           </div>
         );
       } else {
         return (
-          <div>
-            <img className='fixit-img' src="https://newhomelistingservice.com/assets/default_logo/large_emg_default-04cb60da994cb5a009f5f7640a7881a7b035e7bddba555c218b5e084b2a64f93.jpg" />
+          <div className='fixit-wrapper'>
+            <img src="https://newhomelistingservice.com/assets/default_logo/large_emg_default-04cb60da994cb5a009f5f7640a7881a7b035e7bddba555c218b5e084b2a64f93.jpg" />
           </div>
         );
       }}
