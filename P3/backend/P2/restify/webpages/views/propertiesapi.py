@@ -210,8 +210,7 @@ class SearchPropertyView(ListAPIView):
     serializer_class = RangePriceOfferSerializer
     # filter_backends = [SearchFilter]
     # search_fields = ['=address', "number_of_guest"]
-    pagination_class = PageNumberPagination
-    page_size = 10
+
     permission_classes = [AllowAny]
     
 
@@ -243,8 +242,7 @@ class SearchPropertyView(ListAPIView):
 class FilterPropertyView(ListAPIView):
     queryset = Property.objects.all()
     serializer_class = RangePriceOfferSerializer
-    pagination_class = PageNumberPagination
-    page_size = 10
+
     # filter_backends = [SearchFilter]
     # search_fields = ['=address', "number_of_guest"]
     permission_classes = [AllowAny]
