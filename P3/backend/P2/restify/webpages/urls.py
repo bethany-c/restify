@@ -7,7 +7,7 @@ from .views import accountsapi
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
 from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView, CancelReservationAPIView
-from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView
+from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView, GetHostWrittenReviews
 from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView, ListRatingAPIView, AddRatingAPIView, ListRatingByResAPIView, GetAllGuestRatings, AddGuestRatingAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
 from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications
@@ -81,7 +81,7 @@ urlpatterns = [
     path('<int:reservation_id>/approve/', ApproveReservationAPIView.as_view(), name='host_approved'), # works11 # approve button host request page
     path('<int:reservation_id>/deny/', DenyReservationAPIView.as_view(), name='host_denied'), # works11 --> deny button host request page
     path('<int:user_id>/history/', GetUserHistoryAPIView.as_view(), name='add_history'), # works11 --> gives all the history of the user in the host dashboard
-
+    path('history/host/author/', GetHostWrittenReviews.as_view(), name='host_written_history'),
 
     path('listings/approved/', HostListAllOfApprovedReservationsAPIView.as_view(), name='approved_by_host_listings'), # works11 --> all of the reservations he approved and are not active and waiting to be completed
     path('<int:reservation_id>/termination_by_host/', TerminateReservationAPIView.as_view(), name='termination_by_host'), # works11 - terminates right away

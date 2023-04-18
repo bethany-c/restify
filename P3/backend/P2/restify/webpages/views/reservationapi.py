@@ -14,7 +14,7 @@ from django.db.models import Count
 
 
     
-
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import Response
@@ -31,6 +31,7 @@ from ..models.user_history import UserHistory
 from webpages.serializers.serializer_user import UserSerializer, UserHistorySerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
 from webpages.serializers.serializers_property import PropertySerializer
+from ..models.user import RestifyUser
 
 # add a reservation - note: there has to be a property to tie it to 
 class CreateReservationAPIView(CreateAPIView):
@@ -548,20 +549,31 @@ class CreateReviewForGuestAPIView(CreateAPIView):
     #     return reservation
 
     def perform_create(self, serializer):
-        reservation = get_object_or_404(Reservation, pk=self.kwargs['reservation_id'])
+        # reservation = get_object_or_404(Reservation, pk=self.kwargs['reservation_id'])
+        reservation_id = self.kwargs['reservation_id']
+        try:
+            reservation = Reservation.objects.get(id=reservation_id)
+        except Reservation.DoesNotExist:
+            raise ValidationError('404 NOT FOUND: Reservation not found')
+        
+        reservation_host = reservation.property.property_owner
+        reservation_user = reservation.user
 
-        all_reso = UserHistory.objects.filter(comment_for_this_reservation__id=self.kwargs['reservation_id'])
-
+        if self.request.user != reservation_host:
+            raise ValidationError('HTTP 403 FORBIDDEN: Not the host reservation')
+        
+        all_reso = UserHistory.objects.filter(reservation=self.kwargs['reservation_id'])
         if all_reso:
-            HttpResponse(status=404)
+            raise ValidationError('Comment for this guest in the reservation already exists')
+        if reservation.status != 'CO':
+            raise ValidationError('HTTP 401 UNAUTHORIZED: Reservation not complete')
+        
+        serializer.validated_data['user'] = reservation_user
+        serializer.validated_data['host'] = reservation_host
+        serializer.validated_data['reservation'] = reservation
 
-
-
-        # get user for this reservation
-        user1 = reservation.user
-
-        serializer.validated_data['comment_for_this_reservation'] = reservation
-        serializer.validated_data['comment_for_this_user'] = user1
+        # serializer.validated_data['comment_for_this_reservation'] = reservation
+        # serializer.validated_data['comment_for_this_user'] = user1
 
         return super().perform_create(serializer)
 
@@ -571,15 +583,13 @@ class GetUserHistoryAPIView(ListAPIView):
     pk_url_kwarg = 'user_id'
 
     def get_queryset(self):
-
+        try:
+            user = RestifyUser.objects.get(id=self.kwargs['user_id'])
+        except RestifyUser.DoesNotExist:
+            raise ValidationError('This is not a person')
         # histories = get_object_or_404(UserHistory, pk=self.kwargs['user_id'])
-        histories = UserHistory.objects.filter(comment_for_this_user__id=self.kwargs['user_id'])
+        histories = UserHistory.objects.filter(user=self.kwargs['user_id'])
         return histories
-
-
-    
-
-
     
     # def perform_update(self, serializer):
     #     reservation = serializer.save()
@@ -600,6 +610,20 @@ class GetUserHistoryAPIView(ListAPIView):
     #     return response
         # this review for guest goes into history button on hosts requests tab 
 
+class GetHostWrittenReviews(ListAPIView):
+    serializer_class = UserHistorySerializer
+    permission_classes = [IsAuthenticated]
+    pk_url_kwarg = 'user_id'
+
+    def get_queryset(self):
+        try:
+            user = RestifyUser.objects.get(id=self.request.user.id)
+        except RestifyUser.DoesNotExist:
+            raise ValidationError('This is not a person')
+        
+        # histories = get_object_or_404(UserHistory, pk=self.kwargs['user_id'])
+        histories = UserHistory.objects.filter(host=user)
+        return histories
     
 
 # HOST TERMINATIONS 

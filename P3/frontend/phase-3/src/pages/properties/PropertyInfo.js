@@ -91,10 +91,15 @@ const PropertyInfo = (props) => {
     if(!allRatings) {
       return
     }
-    const ratings = allRatings.map(rating => {return rating.rating})
+    // console.log('all ratings is ', allRatings)
+    // const ratings = allRatings.map(rating => {return rating.rating})
+    // var total = ratings.reduce((a, b) => a + b, 0)
+    // var ave = total/ratings.length
+    // return ave.toFixed(2)
+    const ratings = allRatings.map(rating => {return parseFloat(rating.rating)})
     var total = ratings.reduce((a, b) => a + b, 0)
-    var ave = total/ratings.length
-    return ave.toFixed(2)
+    var ave = parseFloat(total)/ratings.length
+    return (parseFloat(ave.toFixed(2)))
   }
 
 
