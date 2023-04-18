@@ -14,9 +14,11 @@ const Approved = () => {
     const [nextURL, setNextUrl] =useState('')
     const [prevURL, setPrevURL] = useState('')
     const [pagination, setPagination] = useState(false)
+    const [allHostReviews, setAllHostReviews] = useState([])
 
     useEffect(() => {
       fetchCompleted()
+      getAllHostReviews()
     }, []);
 
     const fetchCompleted = (url = "http://localhost:8000/webpages/listings/completed/") => {
@@ -41,12 +43,33 @@ const Approved = () => {
             setPrevURL(data.previous)
             setPagination(true)
           }
-
-  
-  
         })
         .catch((error) => console.error(error));
     }
+
+    // gets all userhistory where the host has already talked
+    const getAllHostReviews = () => {
+      fetch('http://localhost:8000/webpages/history/host/author/', {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+        },
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log('tis is data for host', data)
+        let all = []
+        for(let i = 0; i < data.length; i++) {
+          all.push(data[i].reservation)
+        }
+        // console.log('setting all host reviews to be ', all)
+        setAllHostReviews(all)
+      })
+    }
+
+
+
 
     // useEffect(() => {
     //     // Send formDataLogin to backend API via POST request
@@ -101,7 +124,12 @@ const Approved = () => {
     </div>
     <div id='card' className='card2'>
         {FormDataCompleted.map((propertyInfo) => (
-            <CardComponentHComp value={propertyInfo} button={{text}}/>
+            <CardComponentHComp 
+              value={propertyInfo} 
+              button={{text}} 
+              allHostReviews={ allHostReviews }
+              getAllHostReviews={ getAllHostReviews }
+            />
         ))}
     </div>
     

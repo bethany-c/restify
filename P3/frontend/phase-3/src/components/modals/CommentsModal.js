@@ -381,7 +381,7 @@ const CommentsModal = (props) => {
                   <p className="line-left-align">
                     <h4><BsFillFilePersonFill/> { replyObj.author }</h4>
                     <div className='line-right-align'>{ getActualDate(replyObj.posted_on) }</div>
-                    <p class="mb-2 purple-color"><BsStarFill className='reacticon'/>{ getReservationRating(reservation) }</p>
+                    <p className="mb-2 purple-color"><BsStarFill className='reacticon'/>{ getReservationRating(reservation) }</p>
                   </p>
 
                   <span>{ replyObj.text_content }</span>
