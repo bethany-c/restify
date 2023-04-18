@@ -5,6 +5,11 @@ from ..models.user_history import UserHistory
 from webpages.models.property import Property 
 from django.contrib.auth import get_user_model
 
+from ..models.reservation import Reservation
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
+
+
 
 
 class UserSerializer(ModelSerializer):
@@ -20,19 +25,37 @@ class UserSerializer(ModelSerializer):
         user.save()
         return user
 
-class UserHistorySerializer(ModelSerializer):
-    # user = Pri
-    # property = PropertySerializer(read_only=True) # cannot be changed 
-    comment_for_this_user = PrimaryKeyRelatedField(queryset= UserHistory.objects.all() ,required=False)
-    comment_for_this_reservation = PrimaryKeyRelatedField(queryset= UserHistory.objects.all() ,required=False)
+# class CreateUserHistorySerializer(ModelSerializer):
+#     # user = Pri
+#     # property = PropertySerializer(read_only=True) # cannot be changed 
+#     # comment_for_this_user = PrimaryKeyRelatedField(queryset= UserHistory.objects.all() ,required=False)
+#     # comment_for_this_reservation = PrimaryKeyRelatedField(queryset= UserHistory.objects.all() ,required=False)
 
+#     content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
+
+#     class Meta:
+#         model = UserHistory
+#         fields = ['rating', 'text_content', 'content_type']
+
+#     def perform_create(self, serializer):
+#         reservation_id = self.kwargs['reservation_id'] # get reservation_id from url
+#         reservation = get_object_or_404(Reservation, id=reservation_id)
+#         return super().perform_create(serializer)
+
+
+#     # class Meta:
+#     #     model = UserHistory
+#     #     # exclude = ('comment_for_this_user', )
+#     #     fields = "__all__"
     
-
-
+class UserHistorySerializer(ModelSerializer):
+    content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
     class Meta:
         model = UserHistory
-        # exclude = ('comment_for_this_user', )
+        # fields = ['rating', 'reservation', 'host', 'user', 'content_type', 'posted_on', 'text_content']
         fields = "__all__"
     
+    def create(self, validated_data):
+        return super().create(validated_data)
 
 
