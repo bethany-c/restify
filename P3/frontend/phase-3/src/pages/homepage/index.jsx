@@ -355,15 +355,15 @@ if (type === 'checkbox' ) {
                 </Form.Group>
                 <br />
                 <Form.Group controlId="formEssentials">
-                  <Form.Label>Essentials</Form.Label>
+                  <Form.Label>Features</Form.Label>
                   <div>
                     <Form.Check name="features" type="checkbox" label="Pool" value="pool" onChange={handleChange} />
                     <Form.Check name="features" type="checkbox" label="Hot Tub" value="hot_tub" onChange={handleChange} />
                     <Form.Check name="features" type="checkbox" label="Patio" value="patio" onChange={handleChange} />
                     <Form.Check name="features" type="checkbox" label="Grill" value="grill" onChange={handleChange} />
                     <Form.Check name="features" type="checkbox" label="Gym" value="gym" onChange={handleChange} />
-                    <Form.Check name="features" type="checkbox" label="Piano" value="fire_pit" onChange={handleChange} />
-                    <Form.Check name="features" type="checkbox" label="Fire Pit" value="washer" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Piano" value="piano" onChange={handleChange} />
+                    <Form.Check name="features" type="checkbox" label="Fire Pit" value="fire_pit" onChange={handleChange} />
                     <Form.Check name="features" type="checkbox" label="Outdoor Shower" value="outdoor_shower" onChange={handleChange} />
 
 
@@ -372,7 +372,7 @@ if (type === 'checkbox' ) {
                 </Form.Group>
                 <br />
                 <Form.Group controlId="formFeatures">
-                  <Form.Label>Features</Form.Label>
+                  <Form.Label>Essentials</Form.Label>
                   <div>
                     <Form.Check type="checkbox" name="essentials" label="WiFi" value="wifi" onChange={handleChange} />
                     <Form.Check type="checkbox" name="essentials"  label="TV" value="tv" onChange={handleChange} />
@@ -392,7 +392,7 @@ if (type === 'checkbox' ) {
                   <div>
                     <Form.Check type="checkbox" name="location" label="Lake Access" value="lake_access" onChange={handleChange} />
                     <Form.Check type="checkbox" name="location" label="Beach Access" value="beach_access" onChange={handleChange} />
-                    <Form.Check type="checkbox" name="location" label="Ski-in/Ski-out" value="skiin_skiout'" onChange={handleChange} />
+                    <Form.Check type="checkbox" name="location" label="Ski-in/Ski-out" value="skiin_skiout" onChange={handleChange} />
                   </div>
                 </Form.Group>
                 <br />
