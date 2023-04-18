@@ -46,7 +46,7 @@ const PropertyInfo = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      console.log('tis is login data', data)
+      // console.log('tis is login data', data)
       if(!data.username) {
         // console.log('no username')
         setUsername(null)
@@ -67,7 +67,7 @@ const PropertyInfo = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      // console.log('this is the data ', data)
+      // console.log('this is the comment data ', data)
       setAllComments(data)
     })
   }
@@ -88,18 +88,22 @@ const PropertyInfo = (props) => {
   }
 
   const getAverage = () => {
-    if(!allRatings) {
+    if (!allRatings || !Array.isArray(allRatings)) {
+      return;
+    }
+    const ratings = allRatings.map(rating => {
+      return parseFloat(rating.rating)
+    })
+    if (ratings.length === 0) {
       return
     }
-    // console.log('all ratings is ', allRatings)
-    // const ratings = allRatings.map(rating => {return rating.rating})
-    // var total = ratings.reduce((a, b) => a + b, 0)
-    // var ave = total/ratings.length
-    // return ave.toFixed(2)
-    const ratings = allRatings.map(rating => {return parseFloat(rating.rating)})
     var total = ratings.reduce((a, b) => a + b, 0)
-    var ave = parseFloat(total)/ratings.length
-    return (parseFloat(ave.toFixed(2)))
+    var ave = total/ratings.length
+    return ave.toFixed(2)
+    // const ratings = allRatings.map(rating => {return parseFloat(rating.rating)})
+    // var total = ratings.reduce((a, b) => a + b, 0)
+    // var ave = parseFloat(total)/ratings.length
+    // return (parseFloat(ave.toFixed(2)))
   }
 
 
@@ -216,33 +220,39 @@ const PropertyInfo = (props) => {
 
 
 
-  const renderReviews = () => (
-    <>
-      <h4 className="line-left-align" id="all-property-reviews">
-        Reviews
-        <p className="mb-2 rating-right-align purple-color"><BsStarFill/>{ getAverage() }</p>
-      </h4>
-      <div className='comment-container row'>
-      { allComments.filter(comment => comment.reply === 'Original Property Comment').map((comment, index) => {
+  const renderReviews = () => {
+    // console.log('all comments is ', allComments)
+    if(!allComments || !Array.isArray(allComments)) {
+      return
+    }
+    return (
+      <>
+        <h4 className="line-left-align" id="all-property-reviews">
+          Reviews
+          <p className="mb-2 rating-right-align purple-color"><BsStarFill/>{ getAverage() }</p>
+        </h4>
+        <div className='comment-container row'>
+        { allComments.filter(comment => comment.reply === 'Original Property Comment').map((comment, index) => {
 
-        const twoSentences = comment.text_content.split('.').slice(0, 2).join('. ') + (comment.text_content.split('.').length > 2 ? 
-       '... see more': '')
-        return (
-          <div className="col-sm-12 col-md-6 comment-card">
-            <p className="line-left-align">
-              <h5><BsPersonFill/>{ comment.author }</h5>
-              {/* <p className="mb-2 line-right-align purple-color"><BsStarFill/>{ comment.rating }</p> */}
-            </p>
-            <span>{ twoSentences }</span>
-          </div>
-        );
-        }).slice(0, 6)}
+          const twoSentences = comment.text_content.split('.').slice(0, 2).join('. ') + (comment.text_content.split('.').length > 2 ? 
+        '... see more': '')
+          return (
+            <div className="col-sm-12 col-md-6 comment-card">
+              <p className="line-left-align">
+                <h5><BsPersonFill/>{ comment.author }</h5>
+                {/* <p className="mb-2 line-right-align purple-color"><BsStarFill/>{ comment.rating }</p> */}
+              </p>
+              <span>{ twoSentences }</span>
+            </div>
+          );
+          }).slice(0, 6)}
 
 
-      </div>
-    </>
-  )
-
+        </div>
+      </>
+    )
+  }
+  
   return (
     <>
       <NavbarSO />

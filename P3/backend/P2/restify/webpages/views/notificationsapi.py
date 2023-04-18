@@ -77,8 +77,8 @@ class CreateNotificationAPIView(CreateAPIView):
 # gets all notifications for a given user regardless of read status
 class GetAllUserNotifications(ListAPIView):
   serializer_class = NotificationSerializer
-  pagination_class = PageNumberPagination
-  default_page_size = 5
+  # pagination_class = PageNumberPagination
+  # default_page_size = 5
   
   def get_queryset(self):
     user_id = self.request.user.id
@@ -91,21 +91,21 @@ class GetAllUserNotifications(ListAPIView):
     return Notification.objects.filter(user=user)
   
   # this gets the data with pagination 
-  def get(self, request, *args, **kwargs):
-    page_size = request.query_params.get('page_size', None)
-    if page_size:
-      self.pagination_class.page_size = int(page_size)
-    else:
-      self.pagination_class.page_size = self.default_page_size
-    self.pagination_class.page_size_query_param = 'page_size'
-    return self.list(request, *args, **kwargs)
+  # def get(self, request, *args, **kwargs):
+  #   page_size = request.query_params.get('page_size', None)
+  #   if page_size:
+  #     self.pagination_class.page_size = int(page_size)
+  #   else:
+  #     self.pagination_class.page_size = self.default_page_size
+  #   self.pagination_class.page_size_query_param = 'page_size'
+  #   return self.list(request, *args, **kwargs)
 
-  # this function will list just the data, not the whole object from pagination
-  def list(self, request, *args, **kwargs):
-    queryset = self.filter_queryset(self.get_queryset())
-    page = self.paginate_queryset(queryset)
-    serializer = self.get_serializer(page, many=True)
-    return Response(serializer.data)
+  # # this function will list just the data, not the whole object from pagination
+  # def list(self, request, *args, **kwargs):
+  #   queryset = self.filter_queryset(self.get_queryset())
+  #   page = self.paginate_queryset(queryset)
+  #   serializer = self.get_serializer(page, many=True)
+  #   return Response(serializer.data)
   
 
 # this will view a specific notification, ie. user clicks on a specific notification to view message
@@ -152,8 +152,8 @@ class ClearUserNotification(DestroyAPIView):
 # gets all notifications for a given user only unread messages tho
 class GetAllNewNotifications(ListAPIView):
   serializer_class = NotificationSerializer
-  pagination_class = PageNumberPagination
-  default_page_size = 5
+  # pagination_class = PageNumberPagination
+  # default_page_size = 5
   
   def get_queryset(self):
     user_id = self.request.user.id
@@ -166,27 +166,27 @@ class GetAllNewNotifications(ListAPIView):
     return Notification.objects.filter(user=user, read=False)
   
   # this gets the data with pagination 
-  def get(self, request, *args, **kwargs):
-    page_size = request.query_params.get('page_size', None)
-    if page_size:
-      self.pagination_class.page_size = int(page_size)
-    else:
-      self.pagination_class.page_size = self.default_page_size
-    self.pagination_class.page_size_query_param = 'page_size'
-    return self.list(request, *args, **kwargs)
+  # def get(self, request, *args, **kwargs):
+  #   page_size = request.query_params.get('page_size', None)
+  #   if page_size:
+  #     self.pagination_class.page_size = int(page_size)
+  #   else:
+  #     self.pagination_class.page_size = self.default_page_size
+  #   self.pagination_class.page_size_query_param = 'page_size'
+  #   return self.list(request, *args, **kwargs)
 
-  # this function will list just the data, not the whole object from pagination
-  def list(self, request, *args, **kwargs):
-    queryset = self.filter_queryset(self.get_queryset())
-    page = self.paginate_queryset(queryset)
-    serializer = self.get_serializer(page, many=True)
-    return Response(serializer.data)
+  # # this function will list just the data, not the whole object from pagination
+  # def list(self, request, *args, **kwargs):
+  #   queryset = self.filter_queryset(self.get_queryset())
+  #   page = self.paginate_queryset(queryset)
+  #   serializer = self.get_serializer(page, many=True)
+  #   return Response(serializer.data)
   
 # gets all notifications for a given position for the user
 class GetPositionNotifications(ListAPIView):
   serializer_class = NotificationSerializer
-  pagination_class = PageNumberPagination
-  default_page_size = 5
+  # pagination_class = PageNumberPagination
+  # default_page_size = 5
   
   def get_queryset(self):
     user_id = self.request.user.id
@@ -200,19 +200,19 @@ class GetPositionNotifications(ListAPIView):
     # return super().get_queryset()
     return Notification.objects.filter(user=user, read=False, user_type=position)
   
-  # this gets the data with pagination 
-  def get(self, request, *args, **kwargs):
-    page_size = request.query_params.get('page_size', None)
-    if page_size:
-      self.pagination_class.page_size = int(page_size)
-    else:
-      self.pagination_class.page_size = self.default_page_size
-    self.pagination_class.page_size_query_param = 'page_size'
-    return self.list(request, *args, **kwargs)
+  # # this gets the data with pagination 
+  # def get(self, request, *args, **kwargs):
+  #   page_size = request.query_params.get('page_size', None)
+  #   if page_size:
+  #     self.pagination_class.page_size = int(page_size)
+  #   else:
+  #     self.pagination_class.page_size = self.default_page_size
+  #   self.pagination_class.page_size_query_param = 'page_size'
+  #   return self.list(request, *args, **kwargs)
 
-  # this function will list just the data, not the whole object from pagination
-  def list(self, request, *args, **kwargs):
-    queryset = self.filter_queryset(self.get_queryset())
-    page = self.paginate_queryset(queryset)
-    serializer = self.get_serializer(page, many=True)
-    return Response(serializer.data)
+  # # this function will list just the data, not the whole object from pagination
+  # def list(self, request, *args, **kwargs):
+  #   queryset = self.filter_queryset(self.get_queryset())
+  #   page = self.paginate_queryset(queryset)
+  #   serializer = self.get_serializer(page, many=True)
+  #   return Response(serializer.data)
