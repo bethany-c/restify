@@ -14,8 +14,8 @@ import PropertyUpdateFormfrom from '../../components/Property-update-form';
 
 
 const PropertyUpdater = (props) => {
-  
-
+    const searchParams = new URLSearchParams(useLocation().search);
+    const id = searchParams.get("property_id");
 
 
 
@@ -25,7 +25,7 @@ const PropertyUpdater = (props) => {
     <>
    
       <NavbarSO />
-      <PropertyUpdateFormfrom property_id={props.property_id} />
+      <PropertyUpdateFormfrom property_id={id} />
       <div className='text-center'>
       {/* <DeleteProp property_id={id} /> */}
       </div>
