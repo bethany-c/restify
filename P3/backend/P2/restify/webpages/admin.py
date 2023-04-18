@@ -3,7 +3,8 @@ from webpages.models.comment import PropertyComment, GuestComment
 from webpages.models.notification import Notification
 from webpages.models.property import Property, RangePriceHostOffer, PropertyImage
 from webpages.models.reservation import Reservation , PropertyRating
-from webpages.models.user import RestifyUser, UserHistory
+from webpages.models.user import RestifyUser
+from webpages.models.user_history import UserHistory
 
 # Register your models here.
 

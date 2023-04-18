@@ -60,9 +60,7 @@ function App() {
               <Route path="property_extra_page" element={<Property_extra/>} />
               <Route path="property_update" element={<PropertyUpdater/>} />
               <Route path="property-info" element={<PropertyInfo />} />
-              <Route path="property_register" element={<PropertyRegister />}>
-  
-              </Route>
+              <Route path="property_register" element={<PropertyRegister />} />
               <Route path='dashboard/' element={<Dashboard/>}>
                 <Route path='profile/' element={<Profile />}/>
                 <Route path='approved/' element={<Approved />}/>

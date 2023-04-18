@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
 from rest_framework import serializers
-from ..models.user import RestifyUser, UserHistory
+from ..models.user import RestifyUser
+from ..models.user_history import UserHistory
 from webpages.models.property import Property 
 from django.contrib.auth import get_user_model
 
@@ -23,6 +24,8 @@ class UserHistorySerializer(ModelSerializer):
     # user = Pri
     # property = PropertySerializer(read_only=True) # cannot be changed 
     comment_for_this_user = PrimaryKeyRelatedField(queryset= UserHistory.objects.all() ,required=False)
+    comment_for_this_reservation = PrimaryKeyRelatedField(queryset= UserHistory.objects.all() ,required=False)
+
     
 
 

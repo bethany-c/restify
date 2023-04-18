@@ -27,7 +27,7 @@ from django.http import HttpResponse
 
 from ..models.reservation import Reservation
 from ..models.property import Property, RangePriceHostOffer
-from ..models.user import UserHistory
+from ..models.user_history import UserHistory
 from webpages.serializers.serializer_user import UserSerializer, UserHistorySerializer
 from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
 from webpages.serializers.serializers_property import PropertySerializer
@@ -541,12 +541,6 @@ class HostListAllCompletedReservationsAPIView(ListAPIView):
         # takes out all the reservations that are cancelled
         reservations = Reservation.objects.filter(status='CO',  property__property_owner=self.request.user)
         return reservations
-        # prop_ids = []
-        # for reservation in reservations:
-        #     prop_ids.append(reservation.property.pk)
-        
-        # # returns all the properties that have an approved reservation on them 
-        # return Property.objects.filter(id__in=prop_ids, property_owner=self.request.user)
 
 class CreateReviewForGuestAPIView(CreateAPIView):  
     
@@ -561,9 +555,14 @@ class CreateReviewForGuestAPIView(CreateAPIView):
     def perform_create(self, serializer):
         reservation = get_object_or_404(Reservation, pk=self.kwargs['reservation_id'])
 
+        all_reso = UserHistory.objects.filter(comment_for_this_reservation__id=self.kwargs['reservation_id'])
+
+        
+
         # get user for this reservation
         user1 = reservation.user
 
+        serializer.validated_data['comment_for_this_reservation'] = reservation
         serializer.validated_data['comment_for_this_user'] = user1
 
         return super().perform_create(serializer)
