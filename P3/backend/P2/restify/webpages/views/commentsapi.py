@@ -104,8 +104,8 @@ class GetAllReservationPropertyComments(ListAPIView):
   
 class GetAllPropertyComments(ListAPIView):
     serializer_class = PropertyCommentSerializer
-    pagination_class = PageNumberPagination
-    default_page_size = 5
+    # pagination_class = PageNumberPagination
+    # default_page_size = 5
     
     def get_queryset(self):
         property_id = self.kwargs['property_id']
