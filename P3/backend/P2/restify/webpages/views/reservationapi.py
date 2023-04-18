@@ -557,7 +557,10 @@ class CreateReviewForGuestAPIView(CreateAPIView):
 
         all_reso = UserHistory.objects.filter(comment_for_this_reservation__id=self.kwargs['reservation_id'])
 
-        
+        if all_reso:
+            HttpResponse(status=404)
+
+
 
         # get user for this reservation
         user1 = reservation.user
