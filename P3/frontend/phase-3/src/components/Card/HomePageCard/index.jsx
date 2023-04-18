@@ -64,12 +64,13 @@ export const CardComponentH = (props) => {
 
 return (
     <div className='col-sm-12 col-md-6 col-lg-4 results-card'>
-        <Card style={{ width: "20vw"}}>
+        <Card style={{ width: "30vw"}}>
+                <div className='fixit w-100'>
+                    <DisplayOne property_id={props.property_id} />
+                </div>
             <Card.Body>
                 <br />
-                <DisplayOne property_id={props.property_id} />
                 <Card.Title>{ property.address }</Card.Title>
-                <hr className='divider'/>
                 <p>description:</p>
                 <Card.Text>{ property.description }</Card.Text>
                 <Card.Text>
