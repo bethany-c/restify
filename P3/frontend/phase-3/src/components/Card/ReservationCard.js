@@ -27,12 +27,12 @@ const ReservationCard = (props) => {
       method: "GET",
       headers: {
           "Content-Type": "application/json",
-          "Authorization" : "Bearer " + token['token']
+       
       },
       })
       .then((response) => response.json())
       .then((data) => {
-          console.log(data);
+          console.log(data, "this is before");
           let newData = []
           for (let i = 0; i < data.length;i++) {
             var availableDate = data[i]
@@ -40,6 +40,7 @@ const ReservationCard = (props) => {
               newData.push(availableDate)
             }
           }
+          console.log(newData, 'this is after')
           if (newData.length === 0) {
             $('#notification').text('Oops! Looks like there are currently no available slots for this property.').css('color','red')
           }

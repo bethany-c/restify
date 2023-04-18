@@ -64,7 +64,7 @@ export const CardComponentH = (props) => {
 
 return (
     <div className='col-sm-12 col-md-6 col-lg-4 results-card'>
-        <Card style={{ width: "30vw"}}>
+        <Card style={{ width: "28vw"}}>
                 <div className='fixit w-100'>
                     <DisplayOne property_id={props.property_id} />
                 </div>

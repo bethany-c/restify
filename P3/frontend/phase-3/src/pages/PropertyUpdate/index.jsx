@@ -13,9 +13,9 @@ import { useParams } from "react-router-dom";
 import PropertyUpdateFormfrom from '../../components/Property-update-form';
 
 
-const PropertyUpdater = () => {
-    const searchParams = new URLSearchParams(useLocation().search);
-    const id = searchParams.get("property_id");
+const PropertyUpdater = (props) => {
+  
+
 
 
 
@@ -25,9 +25,9 @@ const PropertyUpdater = () => {
     <>
    
       <NavbarSO />
-      <PropertyUpdateFormfrom property_id={id} />
+      <PropertyUpdateFormfrom property_id={props.property_id} />
       <div className='text-center'>
-      <DeleteProp property_id={id} />
+      {/* <DeleteProp property_id={id} /> */}
       </div>
       {/* <ShowRate property_id={id} /> */}
       {/* <Rate property_id={id} reservation_id={1}/> */}
