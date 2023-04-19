@@ -253,19 +253,36 @@ const CommentsModal = (props) => {
   }
 
   const onReply = (reservationID, host) => {
-    var comment = ''
-    if(host) {
-      comment = hostComment
-    } else {
-      comment = userReply
-    }
+
+    // console.log('comment is ', comment)
     fetch('http://localhost:8000/webpages/reservations/' + reservationID + '/property-comments/add/', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
         "Authorization" : "Bearer " + token['token']
       },
-      body: JSON.stringify({ "text_content": comment })
+      body: JSON.stringify({ "text_content": userReply })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('this is response data ', data)
+      getComments()
+      setHostComment('')
+      setUserReply('')
+      handleHide()
+    })
+    .catch((error) => console.log('this is the error ', error))
+  }
+
+  const onReplyHost = (reservationID) => {
+
+    fetch('http://localhost:8000/webpages/reservations/' + reservationID + '/property-comments/add/', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+      body: JSON.stringify({ "text_content": hostComment })
     })
     .then((response) => response.json())
     .then((data) => {
@@ -444,7 +461,7 @@ const CommentsModal = (props) => {
                             className="addCommentBtn"
                             variant="outline-primary"
                             size='sm'
-                            onClick={ () => onReply(reservation) }
+                            onClick={ () => onReplyHost(reservation) }
                           >
                             Add reply
                           </Button>
