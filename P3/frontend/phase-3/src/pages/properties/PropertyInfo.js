@@ -95,7 +95,7 @@ const PropertyInfo = (props) => {
       return parseFloat(rating.rating)
     })
     if (ratings.length === 0) {
-      return
+      return 'No Ratings'
     }
     var total = ratings.reduce((a, b) => a + b, 0)
     var ave = total/ratings.length
