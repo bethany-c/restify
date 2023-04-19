@@ -13,10 +13,17 @@ const HostRequested = () => {
 
     const [FormDataHostRequested, setFormDataHostRequested] = useState([]);
     const { token } = useContext(AuthContext)
-    const [refresh, setRefresh] = useState(0)
+    const [refreshD, setRefreshD] = useState(0)
+    const [refreshA, setRefreshA] = useState(0)
     const [nextURL, setNextUrl] =useState('')
     const [prevURL, setPrevURL] = useState('')
     const [pagination, setPagination] = useState(false)
+    const [ResoDataApproved, setResoDataApproved] = useState({
+    
+    });
+    const [ResoDataDeny, setResoDataDeny] = useState({
+    
+    });
 
     useEffect(() => {
       fetchHostCancellations()
@@ -90,11 +97,12 @@ const HostRequested = () => {
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
-              setRefresh(5)
+              setResoDataApproved(data)
+              setRefreshA(5)
+
 
             })
             .catch((error) => console.error(error));
-
 
         }
     const handleDeny = (reservationId) => {
@@ -108,13 +116,59 @@ const HostRequested = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setRefresh(5)
+                setResoDataDeny(data)
+                setRefreshD(5)
+
 
             })
             .catch((error) => console.error(error));
 
 
         }
+
+      useEffect(() => {
+
+          fetch("http://localhost:8000/webpages/notifications/" + ResoDataDeny.id + "/" + ResoDataDeny.user + "/create/", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization" : "Bearer " + token['token']
+          },
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              console.log(data, 'this is the data Deny bro');
+    
+    
+          })
+          .catch((error) => console.error(error));
+          console.log('getting here')
+          console.log(ResoDataDeny, 'this is the reso Deny data')
+    
+    
+      }, [refreshD]);
+
+      useEffect(() => {
+
+        fetch("http://localhost:8000/webpages/notifications/" + ResoDataApproved.id + "/" + ResoDataApproved.user + "/create/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization" : "Bearer " + token['token']
+        },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data, 'this is the data Approved bro');
+  
+  
+        })
+        .catch((error) => console.error(error));
+        console.log('getting here')
+        console.log(ResoDataApproved, 'this is the reso Approved data')
+  
+  
+    }, [refreshA]);
 
     
 

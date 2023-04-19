@@ -14,6 +14,9 @@ const Approved = () => {
     const [nextURL, setNextUrl] =useState('')
     const [prevURL, setPrevURL] = useState('')
     const [pagination, setPagination] = useState(false)
+    const [resoData, setResoData] = useState({
+    
+    });
 
     useEffect(() => {
       fetchApprovals()
@@ -27,19 +30,16 @@ const Approved = () => {
           "Authorization" : "Bearer " + token['token'],
         },
       })
-        .then((response) => {
-          if (response.status === 401) {
-            console.log('there is an error here', response.status)
-          }
-          response.json()})
+        .then((response) => response.json())
         .then((data) => {
+          console.log(data, 'this is the data before anytihng')
           if (Array.isArray(data)) {
-            console.log('brother in jesus array', data);
+            console.log('brother in hmm array', data);
             setFormDataApproved(data);
 
           }
           else {
-            console.log('brother in jesus dict', data);
+            console.log('brother in hmm dict', data);
             setFormDataApproved(data.results);
             setNextUrl(data.next)
             setPrevURL(data.previous)
@@ -91,7 +91,8 @@ const Approved = () => {
           })
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
+              console.log(data, 'this is the data i have to look at');
+              setResoData(data)
               setRefresh(5)
 
             })
@@ -100,6 +101,28 @@ const Approved = () => {
 
         }
     const text = "Request to Cancel"
+
+    useEffect(() => {
+
+      fetch("http://localhost:8000/webpages/notifications/" + resoData.id + "/" + resoData.user + "/create/", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+      },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data, 'this is the data bro');
+
+
+      })
+      .catch((error) => console.error(error));
+      console.log('getting here')
+      console.log(resoData, 'this is the reso data')
+
+
+  }, [refresh]);
 
   // Fetch cancellations data for next page
   const handleNext = () => {

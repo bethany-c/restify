@@ -37,6 +37,7 @@ class ReservationSerializerAdd(ModelSerializer):
 from .serializers_property import PropertySerializer
 class ReservationSerializer(ModelSerializer): # onyl used for reading and not for any other reason
     property = PropertySerializer(read_only=True) # cannot be changed 
+    # user = PrimaryKeyRelatedField(read_only=True)
 
 
 
@@ -44,6 +45,18 @@ class ReservationSerializer(ModelSerializer): # onyl used for reading and not fo
         model = Reservation
         exclude = ('user',)
         # fields = '__all__'
+
+class ReservationReqSerializer(ModelSerializer): # this is for the reserve button on the reserve page
+    property = PropertySerializer(read_only=True) # cannot be changed 
+    user = PrimaryKeyRelatedField(read_only=True)
+
+
+
+    class Meta:
+        model = Reservation
+        # exclude = ('user',)
+        fields = '__all__'
+
 
 
 class ReservationRequestSerializer(ModelSerializer): # onyl used for reading and not for any other reason

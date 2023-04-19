@@ -15,6 +15,9 @@ const HostApproved = () => {
     const [nextURL, setNextUrl] =useState('')
     const [prevURL, setPrevURL] = useState('')
     const [pagination, setPagination] = useState(false)
+    const [resoData, setResoData] = useState({
+    
+    });
 
     useEffect(() => {
       fetchHostApprovals()
@@ -88,7 +91,8 @@ const HostApproved = () => {
           })
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
+              console.log(data, 'this is the data that comes from host approved');
+              setResoData(data)
               setRefresh(5)
 
             })
@@ -97,6 +101,27 @@ const HostApproved = () => {
 
         }
     const text = "Terminate Reservation"
+    useEffect(() => {
+
+      fetch("http://localhost:8000/webpages/notifications/" + resoData.id + "/" + resoData.user + "/create/", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+      },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data, 'this is the data bro');
+
+
+      })
+      .catch((error) => console.error(error));
+      console.log('getting here')
+      console.log(resoData, 'this is the reso data')
+
+
+  }, [refresh]);
 
   // Fetch cancellations data for next page
   const handleNext = () => {
