@@ -23,7 +23,7 @@ const NavbarSO = () => {
     // }, [isloggedin]);
 
     const LogOut = () => {
-        removeCookie(['token'])
+        removeCookie('token')
         setIsHost(false)
         setIsloggedin(false)
         navigate('/')
