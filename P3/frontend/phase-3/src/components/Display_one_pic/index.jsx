@@ -37,7 +37,7 @@ function DisplayOne(props) {
     if (pictures.length > 0) {
         return (
           <div className='fixit-wrapper'>
-            <img src={pictures[0].image} alt={pictures[0].name} />
+            <img style={{ width: '25vw', height: '25vw' }} src={pictures[0].image} alt={pictures[0].name} />
           </div>
         );
       } else {
