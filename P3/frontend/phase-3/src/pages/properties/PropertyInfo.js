@@ -189,6 +189,15 @@ const PropertyInfo = (props) => {
       </div>
     </>
   )
+  
+  const formattedStr = (amenity2) => {
+    if (amenity2 === 'skiin_skiout') {
+      return 'Ski-in/Ski-out'
+    }
+    return amenity2.replace(/_/g, ' ').replace(/\w\S*/g, function(eachWord) {
+    return eachWord.charAt(0).toUpperCase() + eachWord.substr(1).toLowerCase();
+  }
+  )}
 
   const renderAmenitiesPreview = () => {
     let allAmenities = [...state.essentials, ...state.features, ...state.location, ...state.safety_features]
@@ -202,11 +211,11 @@ const PropertyInfo = (props) => {
               return (
                 <div className='row'>
                   <div className="col-md-6 col-sm-12">
-                    <span>&#8226; </span>{ (amenity.replace('_', ' ')) }
+                    <span>&#8226; </span>{ formattedStr(amenity)}
                   </div>
                   { allAmenities[index + 1] && (
                     <div className="col-md-6 col-sm-12">
-                      <span>&#8226; </span>{ allAmenities[index+1].replace('_', ' ') }
+                      <span>&#8226; </span>{ formattedStr(allAmenities[index+1]) }
                     </div>
                   )}
                 </div>

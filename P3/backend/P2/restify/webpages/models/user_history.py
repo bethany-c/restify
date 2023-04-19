@@ -19,7 +19,7 @@ class UserHistory(models.Model):
     # content = models.CharField(max_length=255)
     posted_on = models.DateTimeField(auto_now=True)
     text_content = models.TextField(default=None)
-    rating = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=None)
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], null=True)
 
     def __str__(self) -> str:
         return "User History for User ID: " + str(self.user.id) + " with History ID: " + str(self.pk)

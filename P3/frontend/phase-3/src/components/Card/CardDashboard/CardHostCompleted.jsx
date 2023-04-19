@@ -9,6 +9,7 @@ import { Modal, Form} from 'react-bootstrap';
 import ReviewGuestModal from '../../modals/ReviewGuestModal';
 
 
+
 export const CardComponentHComp = (props) => {
   const { id, property } = props.value;
   const {text} = props.button;

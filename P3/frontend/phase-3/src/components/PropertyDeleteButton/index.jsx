@@ -51,7 +51,8 @@ function handleCloseModal() {
       });}
       return (
     <div>
-        <button className="btn btn-outline-secondary col-md-4 offset-md-3 m-2" onClick={handleShowModal}>Delete Property</button>
+        <Button variant='danger' onClick={handleShowModal} size='sm'> Delete Property </Button>
+        {/* <button className="btn btn-outline-secondary col-md-4 offset-md-3 m-2" onClick={handleShowModal}>Delete Property</button> */}
 
 
         <Modal show={showModal} onHide={handleCloseModal}>
@@ -62,7 +63,7 @@ function handleCloseModal() {
             <h3>Are you sure you want to delete this property?</h3>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleSubmit}>Yes</Button>
+            <Button variant="danger" onClick={handleSubmit}>Yes</Button>
             <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
           </Modal.Footer>
         </Modal>

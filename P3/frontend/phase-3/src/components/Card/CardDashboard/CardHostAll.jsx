@@ -5,7 +5,7 @@ import AuthContext from '../../../context';
 import { useNavigate } from 'react-router-dom';
 import DisplayOne from '../../Display_one_pic';
 import { Modal, Form} from 'react-bootstrap';
-
+import DeleteProp from '../../PropertyDeleteButton';
 
 export const CardComponentHAllListings = (props) => {
     const { id, address, description} = props.value;
@@ -36,6 +36,12 @@ export const CardComponentHAllListings = (props) => {
         })
     }
 
+    const goToUpdatePage = () => {
+
+        navigate('/property_update?property_id=' + {id})
+
+    }
+
 
 
 return (
@@ -50,7 +56,12 @@ return (
                 <Card.Title>{ address }</Card.Title>
                 <Card.Text>{ description }</Card.Text>
                 <Button onClick={onViewListing} className="btn btn-primary" size='sm'>View Listing</Button>
+                <hr />
+                <DeleteProp> Delete </DeleteProp>
+                <Button onClick={goToUpdatePage} size='sm'> Update Property </Button>
             </Card.Body>
+            
+
         </Card>
     </div>
   

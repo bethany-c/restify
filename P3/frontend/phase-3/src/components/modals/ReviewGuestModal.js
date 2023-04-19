@@ -39,7 +39,7 @@ const ReviewGuestModal = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      // console.log(data, 'this is the response from userhistory')
+      console.log(data, 'this is the response from userhistory')
       // setShowButton(false)
       handleClose()
       getAllHostReviews()
@@ -96,7 +96,7 @@ const ReviewGuestModal = (props) => {
         <Modal.Body>
           <Form>
             <Form.Group>
-              <Form.Label>Your Comment</Form.Label>
+              <Form.Label> </Form.Label>
               {/* <Form.Control 
                 type='text'
                 as="textarea" 

@@ -27,7 +27,11 @@ const Approved = () => {
           "Authorization" : "Bearer " + token['token'],
         },
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 401) {
+            console.log('there is an error here', response.status)
+          }
+          response.json()})
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in jesus array', data);

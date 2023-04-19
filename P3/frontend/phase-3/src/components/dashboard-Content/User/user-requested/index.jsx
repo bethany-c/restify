@@ -28,7 +28,11 @@ const Requested = () => {
           "Authorization" : "Bearer " + token['token'],
         },
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 401) {
+            console.log(response.status, 'this is it ')
+          }
+          response.json()})
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in jesus array', data);
@@ -42,6 +46,7 @@ const Requested = () => {
             setPrevURL(data.previous)
             setPagination(true)
           }
+
 
   
   
