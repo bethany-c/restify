@@ -5,6 +5,7 @@ import CardComponentHAllListings from '../../../Card/CardDashboard/CardHostAll';
 import AuthContext from '../../../../context';
 import { Button } from 'react-bootstrap';
 import '../../../dashboard-Content/contentstyle.css'
+import $ from 'jquery'
 
 const AllListings = () => {
 
@@ -31,15 +32,28 @@ const AllListings = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in table array', data);
-            setFormDataAllListings(data);
+            if (data.length > 0) {
+              setFormDataAllListings(data);
+            }
+            else {
+              $('#notification').text('You currently have no listings listed. Make one!')
+
+            }
 
           }
           else {
             console.log('brother in table dict', data);
-            setFormDataAllListings(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataAllListings(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+
+            }
+            else {
+
+              $('#notification').text('You currently have no listings listed. Make one!')
+            }
           }
 
   
@@ -97,6 +111,8 @@ const AllListings = () => {
     //     }
     // const text = "Request to Cancel"
 
+  
+
   // Fetch cancellations data for next page
   const handleNext = () => {
     fetchTerminations(nextURL);
@@ -116,6 +132,9 @@ const AllListings = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {FormDataAllListings.map((propertyInfo) => (

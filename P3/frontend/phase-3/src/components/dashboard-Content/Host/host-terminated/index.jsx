@@ -5,6 +5,7 @@ import CardComponentHTerminated from '../../../Card/CardDashboard/CardHostTermin
 import AuthContext from '../../../../context';
 import { Button } from 'react-bootstrap';
 import '../../../dashboard-Content/contentstyle.css'
+import $ from 'jquery'
 
 const HostTerminated = () => {
 
@@ -31,15 +32,28 @@ const HostTerminated = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in mustafa array', data);
-            setFormDataTerminations(data);
+            if (data.length > 0) {
+              setFormDataTerminations(data);
+            }
+            else {
+              $('#notification').text('You currently have no Terminated reservations!')
+
+            }
 
           }
           else {
             console.log('brother in mustafa dict', data);
-            setFormDataTerminations(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataTerminations(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+            }
+            else {
+              $('#notification').text('You currently have no Terminated reservations!')
+
+            }
+
           }
 
   
@@ -116,6 +130,9 @@ const HostTerminated = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {FormDataTerminations.map((propertyInfo) => (

@@ -7,6 +7,7 @@ import CardComponentHC from '../../../Card/CardDashboard/CardHostCancellations';
 import AuthContext from '../../../../context';
 import { Button } from 'react-bootstrap';
 import '../../../dashboard-Content/contentstyle.css'
+import $ from 'jquery'
 
 const HostCancellations = () => {
 
@@ -40,15 +41,26 @@ const HostCancellations = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in nah array', data);
-            setFormDataHostCancellations(data);
+            if (data.length > 0) {
+              setFormDataHostCancellations(data);
+            }
+            else {
+              $('#notification').text('You currently have no cancellation requests!')
+            }
+
 
           }
           else {
             console.log('brother in nah dict', data);
-            setFormDataHostCancellations(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataHostCancellations(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)            }
+            else {
+              $('#notification').text('You currently have no cancellation requests!')
+            }
+
           }
 
   
@@ -83,6 +95,12 @@ const HostCancellations = () => {
         
         
     //     }, [refresh]);
+
+    const dealWith = (deleteID) => { 
+
+      return FormDataHostCancellations.filter((item) => item.id !== deleteID)
+        
+      }
     
 
 
@@ -99,6 +117,7 @@ const HostCancellations = () => {
               console.log(data);
               setResoDataApproved(data)
               setRefreshA(5)
+              setFormDataHostCancellations(dealWith(data.id))
 
             })
             .catch((error) => console.error(error));
@@ -118,6 +137,7 @@ const HostCancellations = () => {
                 console.log(data);
                 setResoDataDeny(data)
                 setRefreshD(5)
+                setFormDataHostCancellations(dealWith(data.id))
 
             })
             .catch((error) => console.error(error));
@@ -186,6 +206,9 @@ const HostCancellations = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {FormDataHostCancellations.map((propertyInfo) => (
