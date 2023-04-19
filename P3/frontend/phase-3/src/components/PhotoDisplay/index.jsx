@@ -33,7 +33,7 @@ function DisplayPic(props) {
     <div>
       {pictures.map(picture => (
         <div key={picture.id}>
-          <img src={picture.image} alt={picture.name} style={{ width: '50vh', height: '50vh' }} />
+          <img src={picture.image} alt={picture.name} style={{ width: '25vw', height: '25vw' }} />
           <h3>Description: {picture.name} </h3>
           <hr className="divider" />
         </div>
