@@ -6,6 +6,7 @@ import CardComponentD from '../../../Card/CardDashboard/Card';
 import AuthContext from '../../../../context';
 import { Button } from 'react-bootstrap';
 import '../../../dashboard-Content/contentstyle.css'
+import $ from 'jquery'
 
 const HostApproved = () => {
 
@@ -35,15 +36,28 @@ const HostApproved = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in jesus array', data);
-            setFormDataHostApproved(data);
+            if (data.length > 0) {
+              setFormDataHostApproved(data);
+
+            }
+            else {
+                $('#notification').text('You currently have no approved reservations!')
+            }
 
           }
           else {
             console.log('brother in jesus dict', data);
-            setFormDataHostApproved(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results > 0) {
+              setFormDataHostApproved(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+            }
+            else {
+
+              $('#notification').text('You currently have no reservations that are approved!')
+
+            }
           }
 
   
@@ -113,6 +127,7 @@ const HostApproved = () => {
       .then((response) => response.json())
       .then((data) => {
           console.log(data, 'this is the data bro');
+          setFormDataHostApproved(dealWith(data.id))
 
 
       })
@@ -122,6 +137,12 @@ const HostApproved = () => {
 
 
   }, [refresh]);
+
+  const dealWith = (deleteID) => { 
+
+    return FormDataHostApproved.filter((item) => item.id !== deleteID)
+      
+    }
 
   // Fetch cancellations data for next page
   const handleNext = () => {
@@ -142,6 +163,9 @@ const HostApproved = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {FormDataHostApproved.map((propertyInfo) => (

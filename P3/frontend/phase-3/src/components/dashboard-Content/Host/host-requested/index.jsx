@@ -8,6 +8,7 @@ import CardComponentHRequested from '../../../Card/CardDashboard/CardHostRequest
 import AuthContext from '../../../../context';
 import { Button } from 'react-bootstrap';
 import '../../../dashboard-Content/contentstyle.css'
+import $ from 'jquery'
 
 const HostRequested = () => {
 
@@ -41,15 +42,30 @@ const HostRequested = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in requested array', data);
-            setFormDataHostRequested(data);
+            if (data.length > 0) {
+              setFormDataHostRequested(data);
+            }
+            else {
+
+              $('#notification').text('You have no reservations that need your approval!')
+                
+            }
+            
 
           }
           else {
             console.log('brother in requested dict', data);
-            setFormDataHostRequested(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataHostRequested(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+
+            }
+            else  {
+              $('#notification').text('You have no reservations that need your approval!')
+            }
+
           }
         })
         .catch((error) => console.error(error));
@@ -83,7 +99,12 @@ const HostRequested = () => {
         
         
     //     }, [refresh]);
-    
+
+    const dealWith = (deleteID) => { 
+
+      return FormDataHostRequested.filter((item) => item.id !== deleteID)
+        
+      }
 
 
     const handleApprove = (reservationId) => {
@@ -99,6 +120,7 @@ const HostRequested = () => {
               console.log(data);
               setResoDataApproved(data)
               setRefreshA(5)
+              setFormDataHostRequested(dealWith(data.id))
 
 
             })
@@ -118,6 +140,7 @@ const HostRequested = () => {
                 console.log(data);
                 setResoDataDeny(data)
                 setRefreshD(5)
+                setFormDataHostRequested(dealWith(data.id))
 
 
             })
@@ -191,6 +214,9 @@ const HostRequested = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {FormDataHostRequested.map((propertyInfo) => (

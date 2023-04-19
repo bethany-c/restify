@@ -45,8 +45,8 @@ const NavbarSO = () => {
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  console.log(data);
-                  if (data.length > 0) {
+                  console.log(data, 'this comes from the properties');
+                  if (data.results.length > 0) {
                     setIsHost(true)
                   }
                   else {

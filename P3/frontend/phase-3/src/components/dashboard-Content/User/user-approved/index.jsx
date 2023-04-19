@@ -5,6 +5,8 @@ import CardComponentD from '../../../Card/CardDashboard/Card';
 import AuthContext from '../../../../context';
 import { Button } from 'react-bootstrap';
 import '../../../dashboard-Content/contentstyle.css'
+import { useNavigate } from 'react-router-dom';
+import $ from 'jquery'
 
 const Approved = () => {
 
@@ -17,6 +19,7 @@ const Approved = () => {
     const [resoData, setResoData] = useState({
     
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
       fetchApprovals()
@@ -35,15 +38,27 @@ const Approved = () => {
           console.log(data, 'this is the data before anytihng')
           if (Array.isArray(data)) {
             console.log('brother in hmm array', data);
-            setFormDataApproved(data);
+            if (data.length > 0) {
+              setFormDataApproved(data);
+            }
+            else {
+                $('#notification').text('You currently have no approved reservations!')
+            }
 
           }
           else {
             console.log('brother in hmm dict', data);
-            setFormDataApproved(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataApproved(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+            }
+            else {
+                $('#notification').text('You currently have no approved reservations!')
+            }
+
+
           }
 
   
@@ -92,8 +107,11 @@ const Approved = () => {
             .then((response) => response.json())
             .then((data) => {
               console.log(data, 'this is the data i have to look at');
+    
               setResoData(data)
+              setFormDataApproved(dealWith(data.id));
               setRefresh(5)
+              navigate('/dashboard/approved')
 
             })
             .catch((error) => console.error(error));
@@ -124,6 +142,11 @@ const Approved = () => {
 
   }, [refresh]);
 
+  const dealWith = (deleteID) => { 
+
+    return formDataApproved.filter((item) => item.id !== deleteID)
+      
+    }
   // Fetch cancellations data for next page
   const handleNext = () => {
     fetchApprovals(nextURL);
@@ -143,6 +166,9 @@ const Approved = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {formDataApproved.map((propertyInfo) => (

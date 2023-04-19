@@ -6,7 +6,7 @@ from django.urls import path, include
 from .views import accountsapi
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .views.accountsapi import LoginAPIView, UserProfileEditAPIView, UserProfileAPIView, SignupAPIView, LogoutAPIView
-from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView, CancelReservationAPIView, GetAllRequestedReservations
+from .views.reservationapi import ListAllReservationsAPIView, CreateReservationAPIView, RequestToTerminateReservationAPIView, TerminateReservationAPIView, ListAllRequestedReservationsAPIView, ListAllCancelledReservationsAPIView, ReasonForCancellingAPIView, ListAllCompletedReservationsAPIView, ReviewForHostAPIView, ListAllTerminatedReservationsAPIView, HostListAllRequestedReservationsAPIView, CancelReservationAPIView, GetAllRequestedReservations, ListAllTerminatedReservations2APIView, ListAllCompletedReservations2APIView
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView, GetHostWrittenReviews
 from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView, ListRatingAPIView, AddRatingAPIView, ListRatingByResAPIView, GetAllGuestRatings, AddGuestRatingAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
@@ -70,9 +70,12 @@ urlpatterns = [
     # path('<int:reservation_id>/reason_for_cancelling/', ReasonForCancellingAPIView.as_view(), name='reason_for_cancelling'),
 
     path('reservations/completed/', ListAllCompletedReservationsAPIView.as_view(), name='completed_reservations'), # make some of them completed and test it 
+    path('reservations/completed2/', ListAllCompletedReservations2APIView.as_view(), name='completed_reservations2'), # make some of them completed and test it 
+
     path('<int:reservation_id>/review_for_host/', CreatePropertyCommentAPIView.as_view(), name='review_for_host'), #for both: review for host button on completed page and terminated page 
 
-    path('reservations/terminated/', ListAllTerminatedReservationsAPIView.as_view(), name='completed_reservations'), # works11 --> all the reservations that were terminated by the host (can be done at anytime)
+    path('reservations/terminated/', ListAllTerminatedReservationsAPIView.as_view(), name='terminated_reservations'), # works11 --> all the reservations that were terminated by the host (can be done at anytime)
+    path('reservations/terminated2/', ListAllTerminatedReservations2APIView.as_view(), name='terminated_reservations2'), # works11 --> all the reservations that were terminated by the host (can be done at anytime)
 
     #host - these are only available if there is a host dashboard on the front end 
     path('listings/all/', ListAllPropertiesAPIView.as_view(), name='all_listings'), # works11 - returns the current host's listings - not reservation based

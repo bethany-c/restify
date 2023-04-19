@@ -75,7 +75,7 @@ const CommentsModal = (props) => {
   }, [allTerminated, allCompleted, allReviews])
 
   const getTerminated = () => {
-    fetch('http://localhost:8000/webpages/reservations/terminated/?page_size=100&page=1', {
+    fetch('http://localhost:8000/webpages/reservations/terminated2/?page_size=100&page=1', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -84,6 +84,7 @@ const CommentsModal = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data, 'this is from getallterminated')
       let all = []
       for(let i = 0; i < data.results.length; i++) {
         all.push(data.results[i].id)
@@ -95,7 +96,7 @@ const CommentsModal = (props) => {
   }
 
   const getCompleted = () => {
-    fetch('http://localhost:8000/webpages/reservations/completed/?page_size=100&page=1', {
+    fetch('http://localhost:8000/webpages/reservations/completed2/?page_size=100&page=1', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",

@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import NavbarSO from '../../components/Navbar';
 import { BsStarFill, BsPersonFill } from 'react-icons/bs'
 import AuthContext from '../../context';
+import { Carousel } from 'react-bootstrap';
 
 
 const PropertyInfo = (props) => {
@@ -20,13 +21,15 @@ const PropertyInfo = (props) => {
   const { token } = useContext(AuthContext);
   const { isloggedIn } = useContext(AuthContext);
 
-  const [username, setUsername] = useState(null)
-  const [allComments, setAllComments] = useState([])
-  const [allRatings, setAllRatings] = useState([])
+  const [username, setUsername] = useState(null);
+  const [allComments, setAllComments] = useState([]);
+  const [allRatings, setAllRatings] = useState([]);
+  const [images, setImages] = useState([]);
 
 
   useEffect(() => {
     // console.log('state is ', state)
+    console.log(state, 'this is the state')
     getLoggedInUser()
     getComments()
     getRatings()
@@ -106,22 +109,44 @@ const PropertyInfo = (props) => {
     // return (parseFloat(ave.toFixed(2)))
   }
 
+  useEffect(() => {
 
-  // const renderImagePreview = () => (
-  //   <div className='row property-imgs'>
-  //     <div className="col-sm-12 col-md-6 left-img">
-  //       <div className="img-container">
-  //         <img className="img-fluid w-100 center-img" src={ propertyInfo.imgs[0]} alt="image1"/>
-  //       </div> 
-  //     </div>
-  //     <div className='col-sm-12 col-md-6 right-img'>
-  //       <div className='relative-position'>
-  //         <img src={ propertyInfo.imgs[1] } alt='image2' className="img-fluid w-100 center-img"/>
-  //         <ImageDisplay images={ propertyInfo.imgs }/>
-  //       </div>
-  //     </div>
-  //   </div>
-  // )
+    fetch('http://localhost:8000/webpages/picture/' + state.id +  '/list/', {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+        },
+      })
+      .then((res) => res.json())
+      .then((data) => { 
+        console.log(data, 'this is the data for images')
+        setImages(data)})
+
+  }, []);
+
+  const renderImagePreview = () => {
+
+    
+    return (
+      <Carousel>
+        {images.map((img) => (
+          // <div className="col-sm-12 col-md-6 left-img">
+            <Carousel.Item>
+            <img className="img-fluid w-100 center-img" src={ img.image } alt="image1"/>
+            </Carousel.Item>
+            // <div className="img-container">
+            //   <img className="img-fluid w-100 center-img" src={ img.image } alt="image1"/>
+            // </div> 
+          // </div>
+
+        ))}
+
+      </Carousel>
+
+  )
+}
+
 
   const renderPropertyDetails = () => (
     <>
@@ -266,7 +291,9 @@ const PropertyInfo = (props) => {
     <>
       <NavbarSO />
       <div className="property-info-container">
-        {/* { renderImagePreview() } */}
+        { renderImagePreview() }
+        <br />
+        <br />
 
         {/* <div className="property-details">
           <h3>{ state.address }</h3>
@@ -278,7 +305,9 @@ const PropertyInfo = (props) => {
           <p>Accomodates up to { state.number_of_guest } guests</p>
         </div>
         <hr/> */}
+        
         { renderPropertyDetails() }
+        {/* <Button> yo there are things</Button> */}
 
         <div className='row'>
           <div className="col-md-7 col-sm-12">

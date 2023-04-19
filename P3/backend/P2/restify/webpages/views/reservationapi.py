@@ -326,6 +326,23 @@ class ListAllCompletedReservationsAPIView(ListAPIView):
         # returns all the properties that have an approved reservation on them 
         return Property.objects.filter(id__in=prop_ids)
     
+class ListAllCompletedReservations2APIView(ListAPIView):
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticated]
+
+    # need to get all properties with status="CO"
+    def get_queryset(self):
+
+        # takes out all the reservations that are cancelled
+        reservations = Reservation.objects.filter(user=self.request.user, status='CO')
+        prop_ids = []
+        for reservation in reservations:
+            prop_ids.append(reservation.property.pk)
+        
+        # returns all the properties that have an approved reservation on them 
+        return Property.objects.filter(id__in=prop_ids)
+
+    
 
     
 # for the "leave review for host" button when the reservation is completed or terminated
@@ -367,6 +384,17 @@ class ListAllTerminatedReservationsAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
     default_page_size = 5
+
+    # need to get all properties with status="CO"
+    def get_queryset(self):
+
+        # takes out all the reservations that are cancelled
+        reservations = Reservation.objects.filter(user=self.request.user, status='TE')
+        return reservations
+    
+class ListAllTerminatedReservations2APIView(ListAPIView):
+    serializer_class = ReservationSerializer
+    permission_classes = [IsAuthenticated]
 
     # need to get all properties with status="CO"
     def get_queryset(self):

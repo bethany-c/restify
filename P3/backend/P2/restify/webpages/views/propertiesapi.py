@@ -43,6 +43,7 @@ from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSeria
 class ListAllPropertiesAPIView(ListAPIView):
     serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
 

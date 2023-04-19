@@ -4,6 +4,8 @@ import CardComponentD from '../../../Card/CardDashboard/Card';
 import AuthContext from '../../../../context';
 import '../user-approved/approvedstyle.css'
 import {Button} from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom';
+import $ from 'jquery'
 
 
 
@@ -18,7 +20,7 @@ const Requested = () => {
     const [resoData, setResoData] = useState({
     
     });
-
+    const navigate = useNavigate();
     useEffect(() => {
       fetchRequested()
     }, []);
@@ -35,15 +37,27 @@ const Requested = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in hooyah array', data);
-            setFormDataRequested(data);
+            if (data.length > 0) {
+              setFormDataRequested(data);
+            }
+            else {
+                $('#notification').text('You currently have no reservations waiting on approval')
+            }
+            
 
           }
           else {
             console.log('brother in hooyah dict', data);
-            setFormDataRequested(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataRequested(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+            }
+            else {
+                $('#notification').text('You currently have no reservations waiting on approval')
+            }
+
           }
 
 
@@ -96,14 +110,21 @@ const Requested = () => {
             console.log(data, 'this is the data we need to get to');
             // this is to refresh the page and show the change immidietely 
             setResoData(data)
-            setRefresh(5)
+            setFormDataRequested(dealWith(data.id));
 
           })
           .catch((error) => console.error(error));
 
-
       }
+
       const text = "Cancel Your Reservation"
+
+      const dealWith = (deleteID) => { 
+
+      return formDataRequested.filter((item) => item.id !== deleteID)
+        
+      }
+
       useEffect(() => {
 
         fetch("http://localhost:8000/webpages/notifications/" + resoData.id + "/" + resoData.user + "/create/", {
@@ -144,6 +165,9 @@ const Requested = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {formDataRequested.map((propertyInfo) => (
