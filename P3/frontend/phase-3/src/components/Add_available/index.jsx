@@ -7,9 +7,12 @@ import AuthContext from '../../context';
 
 function Add_Ava(props) {
   const { token } = useContext(AuthContext);
+  const { checker, setChecker } = props.checker
   const [start_date, setSd] = useState(new Date().toLocaleDateString());
   const [end_date, setEd] = useState(new Date().toLocaleDateString());
   const [price_per_night, setPpn] = useState(0);
+
+  
 
   const handleSd = (event) => {
     setSd(event.target.value);
@@ -29,9 +32,9 @@ function Add_Ava(props) {
     formData.append('start_date', start_date);
     formData.append('end_date', end_date);
     formData.append('price_per_night', price_per_night)
-    console.log('http://localhost:8000/webpages/'+props.property_id+'/create_timerange_price/');
+    console.log('http://localhost:8000/webpages/'+ props.property_id +'/create_timerange_price/');
 
-    fetch('http://localhost:8000/webpages/'+props.property_id+'/create_timerange_price/', {
+    fetch('http://localhost:8000/webpages/'+ props.property_id +'/create_timerange_price/', {
       method: 'POST',
       body: formData,
       headers: {
@@ -48,12 +51,19 @@ function Add_Ava(props) {
         else if (response.status === 201) {
 
           $("#result").text("congrats! You added available dates successfully").css('color', 'red');
+          if (checker) {
+            setChecker(false)
+          }
+          else {
+            setChecker(true)
+          }
         }
         else{
           $("#result").text("available date not added successfully").css('color', 'red');
+          
         }
       })
-      .catch((error) => {
+      .catch((error) => {console.error(error)
         // Handle error
       });
   };

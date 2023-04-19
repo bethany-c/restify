@@ -22,7 +22,7 @@ function Display_Ava(props) {
         const Data = data.map(availableDate=> ({ id: availableDate.id, start_date: availableDate.start_date.substring(0, 10), end_date: availableDate.end_date.substring(0, 10), price_per_night: availableDate.price_per_night, booked_for: availableDate.booked_for }));
         setAvailableDates(Data);
   
-      })}, [])
+      })}, [availableDates])
 
   return (
     

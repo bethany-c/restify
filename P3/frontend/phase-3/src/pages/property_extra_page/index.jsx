@@ -4,7 +4,7 @@ import Add_Ava from '../../components/Add_available'
 import Display_Ava from '../../components/Display_Available'
 import NavbarSO from '../../components/Navbar'
 import { Button, Modal, Container } from 'react-bootstrap';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -16,7 +16,14 @@ function Property_extra(props) {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
     const [showModal3, setShowModal3] = useState(false);
+    const [checker, setChecker] = useState(false)
 
+    useEffect(() => {
+
+    }, [checker]);
+
+
+    
   
     function handleShowModal() {
       setShowModal(true);
@@ -43,6 +50,7 @@ function Property_extra(props) {
     return (
       <>
       <NavbarSO />
+      <p> {checker.toString()} </p>
       <div>
         <hr className="divider" />
         <h2 className='m-3'>Pictures of Property</h2>
@@ -93,7 +101,7 @@ function Property_extra(props) {
             <Modal.Title className="fw-bold mb-2 text-uppercase">Add Available Dates!</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Add_Ava  property_id={id}/>
+            <Add_Ava  property_id={id} checker={{checker, setChecker}}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal3}>Close</Button>

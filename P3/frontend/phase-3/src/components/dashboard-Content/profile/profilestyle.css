@@ -61,6 +61,7 @@
     text-align: center;
     overflow: hidden;
     position: relative;
+    
 
 }
 
@@ -72,7 +73,11 @@
 
 }
 
-
+.textdat {
+    display: flex;
+    /* align-items: center !important; */
+    justify-content: center;
+}
 
 
 
@@ -80,4 +85,10 @@
 #notification {
     color: #007bff;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+
+#wizardPicturePreview {
+    border: solid;
+    border-color: #007bff;
 }
