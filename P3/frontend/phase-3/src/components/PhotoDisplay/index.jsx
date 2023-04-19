@@ -13,7 +13,7 @@ function DisplayPic(props) {
 
 
   useEffect(() => {
-    fetch('http://localhost:8000/webpages/picture/'+props.property_id +'/list/', {
+    fetch('http://localhost:8000/webpages/picture/'+ props.property_id +'/list/', {
       method: "GET",
       headers: {
         "Authorization": "Bearer " + token['token'],
@@ -27,7 +27,7 @@ function DisplayPic(props) {
       setPictures(pictureData);
 
     })
-  })
+  }, [])
 
   return (
     <div>

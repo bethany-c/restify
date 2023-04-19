@@ -146,7 +146,7 @@ function PropertyUpdateForm(props){
     })
     const [isLoaded, setIsLoaded] = useState(false);
     const loadData = () => {
-        fetch('http://localhost:8000/webpages/property/'+props.property_id +'/detail/', {
+        fetch('http://localhost:8000/webpages/property/'+ props.property_id +'/detail/', {
             method: "GET",
             headers: {
               "Authorization": "Bearer " + token['token'],
