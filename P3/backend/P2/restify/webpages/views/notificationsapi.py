@@ -73,6 +73,36 @@ class CreateNotificationAPIView(CreateAPIView):
     
     raise ValidationError('User is not a user/host for this reservation')
         
+class CreateHostCommentNotificationAPIView(CreateAPIView):
+  serializer_class = CreateNotificationSerializer
+  
+  def perform_create(self, serializer):
+    reservation_id = self.kwargs['reservation_id']
+    # try:
+    #   user = RestifyUser.objects.get(id=self.request.user.id)
+    # except RestifyUser.DoesNotExist:
+    #   raise ValidationError('404 NOT FOUND: You are not a person')
+    
+    try:
+      reservation = Reservation.objects.get(id=reservation_id)
+    except Reservation.DoesNotExist:
+      raise ValidationError('404 NOT FOUND: Reservation not found')
+    
+    reservation_host = reservation.property.property_owner
+
+    serializer.validated_data['user'] = reservation_host
+    serializer.validated_data['reservation'] = reservation
+
+    if Notification.objects.filter(reservation=reservation, user=reservation_host, notification_message='New Property Comment').exists():
+      raise ValidationError('Notification already exists.')
+    
+    if reservation.status != 'CO' and reservation.status != 'TE':
+      raise ValidationError('Cannot add comment if it didnt finish')
+
+    serializer.validated_data['user_type'] = 'host'
+    serializer.validated_data['notification_message'] = 'New Property Comment'
+    return super().perform_create(serializer)
+    
 
 # gets all notifications for a given user regardless of read status
 class GetAllUserNotifications(ListAPIView):

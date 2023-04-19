@@ -10,7 +10,7 @@ from .views.reservationapi import ListAllReservationsAPIView, CreateReservationA
 from .views.reservationapi import ApproveReservationAPIView, HostListAllOfApprovedReservationsAPIView, HostListAllCancelledReservationsAPIView, HostDenyCancellationRequestAPIView, HostApproveCancellationRequestAPIView, HostListAllCompletedReservationsAPIView, CreateReviewForGuestAPIView, HostListAllTerminatedReservationsAPIView, ReasonForTerminatingAPIView, DenyReservationAPIView, GetUserHistoryAPIView, GetHostWrittenReviews
 from .views.propertiesapi import ListAllPropertiesAPIView, DetailPropertiesAPIView, EditPropertiesAPIView, DeletePropertiesAPIView, CreatePropertiesAPIView, ListRatingAPIView, AddRatingAPIView, ListRatingByResAPIView, GetAllGuestRatings, AddGuestRatingAPIView
 from .views.commentsapi import GetAllReservationPropertyComments, CreatePropertyCommentAPIView, GetAllPropertyComments, CreateGuestCommentAPIView, GetAllReservationGuestComments, GetAllGuestComments
-from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications
+from .views.notificationsapi import CreateNotificationAPIView, GetAllUserNotifications, ViewUserNotification, ClearUserNotification, GetAllNewNotifications, GetPositionNotifications, CreateHostCommentNotificationAPIView
 from .views.propertiesapi import *
 from .views.commentsapi import GetAllPropertyComments, CreatePropertyCommentAPIView
 
@@ -129,6 +129,9 @@ urlpatterns = [
     
     # this will create a notification for a user given the reservation_id and user_id
     path('notifications/<int:reservation_id>/<int:user_id>/create/', CreateNotificationAPIView.as_view(), name='create_user_notification'),
+
+    # this will create a notification for a user given the reservation_id when a comment is made on their property
+    path('notifications/<int:reservation_id>/new-comment/create/', CreateHostCommentNotificationAPIView.as_view(), name='create_user_notification'),
     
     # this will list all the user's notifications - pagination
     path('notifications/list/', GetAllUserNotifications.as_view(), name='list_all_user_notifications'),

@@ -74,7 +74,7 @@ const CommentsModal = (props) => {
   }, [allTerminated, allCompleted, allReviews])
 
   const getTerminated = () => {
-    fetch('http://localhost:8000/webpages/reservations/terminated/', {
+    fetch('http://localhost:8000/webpages/reservations/terminated/?page_size=100', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -85,15 +85,15 @@ const CommentsModal = (props) => {
     .then((data) => {
       // console.log('tis is data for terminated', data)
       let all = []
-      for(let i = 0; i < data.length; i++) {
-        all.push(data[i].id)
+      for(let i = 0; i < data.results.length; i++) {
+        all.push(data.results[i].id)
       }
       setAllTerminated(all)
     })
   }
 
   const getCompleted = () => {
-    fetch('http://localhost:8000/webpages/reservations/completed/', {
+    fetch('http://localhost:8000/webpages/reservations/completed/?page_size=100', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -102,14 +102,34 @@ const CommentsModal = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      // console.log('tis is data for completed', data)
+      // console.log('tis is data for completed', data.results)
       let all = []
-      for(let i = 0; i < data.length; i++) {
-        all.push(data[i].id)
+      for(let i = 0; i < data.results.length; i++) {
+        all.push(data.results[i].id)
       }
       setAllCompleted(all)
     })
   }
+
+  const createHostNotif = () => {
+    fetch('notifications/' + userCommentReso + '/new-comment/create/', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+      // body: JSON.stringify({ "text_content": userComment })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('this is response data after adding host notif', data)
+    })
+    .catch((error) => {
+      console.log('this is the error ', error)
+      // setShowAddError(error)
+    })
+  }
+  
 
   const onCommentAdd = () => {
 
@@ -128,6 +148,8 @@ const CommentsModal = (props) => {
       setUserComment('')
       findUserAddComment()
       setShowAddError('')
+      handleHide()
+      createHostNotif()
     })
     .catch((error) => {
       console.log('this is the error ', error)
@@ -169,30 +191,21 @@ const CommentsModal = (props) => {
       return item[0].reservation
     })
     console.log('resos is ', resos)
-    console.log('alltermianted is ', allTerminated, allCompleted)
+    // console.log('alltermianted is ', allTerminated, allCompleted)
     
     allTerminated.forEach(item => {
+      console.log('item ', item)
       if(!resos.includes(item)){
         noComments.push(item)
       } 
     })
 
     allCompleted.forEach(item => {
+      console.log('item ', item)
       if(!resos.includes(item)){
         noComments.push(item)
       } 
     })
-    // allTerminated.forEach(item => {
-    //   if(!resos.includes(item)) {
-    //     noComments.push(item)
-    //   }
-    // })
-
-    // allCompleted.forEach(item => {
-    //   if(!resos.includes(item)) {
-    //     noComments.push(item)
-    //   }
-    // })
     console.log('no comments is ', noComments)
     setUserCanComment(noComments)
   }
@@ -230,10 +243,11 @@ const CommentsModal = (props) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      // console.log('this is response data ', data)
+      console.log('this is response data ', data)
       getComments()
       setHostComment('')
       setUserReply('')
+      handleHide()
     })
     .catch((error) => console.log('this is the error ', error))
   }
