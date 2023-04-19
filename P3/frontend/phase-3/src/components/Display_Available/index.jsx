@@ -8,6 +8,7 @@ import AuthContext from '../../context';
 
 function Display_Ava(props) {
   const [availableDates, setAvailableDates] = useState([]);
+  const {refresh, setRefresh} = props.refresh
   const { token } = useContext(AuthContext)
 
   useEffect(() => {
@@ -19,10 +20,17 @@ function Display_Ava(props) {
     })
     .then((response) => response.json())
       .then((data) => {
+        console.log(data, 'this is it')
         const Data = data.map(availableDate=> ({ id: availableDate.id, start_date: availableDate.start_date.substring(0, 10), end_date: availableDate.end_date.substring(0, 10), price_per_night: availableDate.price_per_night, booked_for: availableDate.booked_for }));
         setAvailableDates(Data);
   
-      })}, [availableDates])
+      })}, [refresh])
+
+    // useEffect(() => {
+
+    //   console.log('point is that')
+
+    // }, [availableDates]);
 
   return (
     
