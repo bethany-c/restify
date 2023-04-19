@@ -275,7 +275,7 @@ function PropertyUpdateForm(props){
 
     <h2>Update YOUR PROPERTY!</h2>
     <hr />
-    <Form onSubmit={handleSubmit} className="p-5">
+    <Form  className="p-5">
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
 
             <Form.Label>Address :</Form.Label>
@@ -707,7 +707,7 @@ function PropertyUpdateForm(props){
       <hr className='divider'/>
         
         <div className="text-center">
-        <Button type='submit' className='mt-3 btn btn-light btn-outline-primary text-center'> <h3>Save Your Property Information!</h3></Button>
+        <Button onClick={handleSubmit}  className='mt-3 btn btn-light btn-outline-primary text-center'> <h3>Save Your Property Information!</h3></Button>
 </div>
        
     </Form>

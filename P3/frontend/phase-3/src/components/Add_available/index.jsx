@@ -3,7 +3,6 @@ import { Form, Button } from 'react-bootstrap';
 import API from '../API/apiservice';
 import $ from 'jquery';
 
-import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context';
 
 function Add_Ava(props) {
@@ -23,7 +22,7 @@ function Add_Ava(props) {
     setPpn(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleAvaSubmit = (event) => {
     event.preventDefault();
 
     const formData = new FormData();
@@ -60,7 +59,7 @@ function Add_Ava(props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleAvaSubmit}>
       <div className="input-group">
         <label className="m-3"> From</label>
         <input type="date" className="border-secondary" id="start" name="start" value={start_date} onChange={handleSd} required />
