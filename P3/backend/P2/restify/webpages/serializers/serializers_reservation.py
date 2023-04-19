@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from webpages.serializers.serializer_rangepriceoffer import RangePriceOfferSerializer
 from django.shortcuts import get_object_or_404
+from webpages.serializers.serializer_user import UserSerializer
 
 
 
@@ -44,6 +45,13 @@ class ReservationSerializer(ModelSerializer): # onyl used for reading and not fo
         exclude = ('user',)
         # fields = '__all__'
 
+
+class ReservationRequestSerializer(ModelSerializer): # onyl used for reading and not for any other reason
+    # property = PropertySerializer(read_only=True) # cannot be changed 
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Reservation
+        fields = '__all__'
 
 class PropertyRatingSerializer(ModelSerializer):
     

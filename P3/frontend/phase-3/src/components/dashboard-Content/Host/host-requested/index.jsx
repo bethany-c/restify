@@ -44,12 +44,11 @@ const HostRequested = () => {
             setPrevURL(data.previous)
             setPagination(true)
           }
-
-  
-  
         })
         .catch((error) => console.error(error));
     }
+
+
 
     // useEffect(() => {
     //     // Send formDataLogin to backend API via POST request

@@ -29,7 +29,7 @@ from ..models.reservation import Reservation
 from ..models.property import Property, RangePriceHostOffer
 from ..models.user_history import UserHistory
 from webpages.serializers.serializer_user import UserSerializer, UserHistorySerializer
-from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd
+from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd, ReservationRequestSerializer
 from webpages.serializers.serializers_property import PropertySerializer
 from ..models.user import RestifyUser
 
@@ -386,9 +386,19 @@ class HostListAllRequestedReservationsAPIView(ListAPIView):
 
     def get_queryset(self):
         # get all reservations that have status="AR"
-        reservations = Reservation.objects.filter(status="AR", property__property_owner=self.request.user)
+        reservations = Reservation.objects.filter(status="AR", property__property_owner=self.request.user).order_by('-id')
         return reservations
     
+
+class GetAllRequestedReservations(ListAPIView):
+    serializer_class = ReservationRequestSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        # get all reservations that have status="AR"
+        # reservations = Reservation.objects.filter(status="AR", property__property_owner=self.request.user).order_by('-id')
+        reservation = Reservation.objects.filter(id=self.kwargs['reservation_id'])
+        return reservation
 
 
 class ApproveReservationAPIView(UpdateAPIView): # attach to green approve button
