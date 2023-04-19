@@ -119,3 +119,12 @@
   justify-content: space-between;
 
 }
+
+
+.rowchampion {
+
+  display: flex;
+  flex-direction: row;
+
+  
+}

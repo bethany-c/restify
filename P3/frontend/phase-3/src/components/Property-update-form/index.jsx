@@ -260,7 +260,7 @@ function PropertyUpdateForm(props){
             
             console.log(data.id);
             console.log("dasdasdasdsad");
-            navigate('/home')
+            navigate('/')
             
 
             // once a host always a host 
