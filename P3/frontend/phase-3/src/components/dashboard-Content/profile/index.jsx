@@ -7,10 +7,12 @@ import AuthContext from '../../../context';
 const Profile = () => {
     const [formDataProfile, setFormDataProfile] = useState({});
     const { token } = useContext(AuthContext);
+    const formData = new FormData();
+    const [refresh, setRefresh] = useState(0);
 
 
     useEffect(() => {
-    // Send formDataLogin to backend API via POST request
+        
     fetch("http://localhost:8000/webpages/profile/edit/", {
       method: "GET",
       headers: {
@@ -28,6 +30,10 @@ const Profile = () => {
       .catch((error) => console.error(error));
     
     
+    }, []);
+
+    useEffect(() => {
+
     }, []);
 
 
@@ -54,6 +60,7 @@ const Profile = () => {
             .then((data) => {
             console.log(data);
             $('#notification').text('Profile edited succesfully!')
+            setRefresh(5)
     
     
             })
@@ -62,21 +69,32 @@ const Profile = () => {
         }
 
     const putImageIn = (e) => {
+        console.log(e.target.files, 'this is the image whole')
+        console.log(e.target.files[0], 'this is the image')
+
+
         
+        formData.append('avatar', e.target.files[0]);
+
+
         fetch("http://localhost:8000/webpages/profile/edit/", {
             method: "PATCH",
-            body: JSON.stringify({
-                avatar:e.target.value
-            }),
+            body: formData,
             headers: {
-            "Content-Type": "application/json",
             "Authorization" : "Bearer " + token['token']
             },
         })
             .then((response) => response.json())
             .then((data) => {
-            console.log(data);
+            console.log(data, 'bro bro');
             $('#notification').text('Profile edited succesfully!')
+            setRefresh(3)
+            setFormDataProfile(prevState => ({
+                ...prevState,
+                avatar: data.avatar
+              }));
+
+        
     
     
             })
@@ -93,12 +111,15 @@ const Profile = () => {
                 <Col className='picture-col'>
                     <div className='picture-frame'>
                         <Image fluid roundedCircle src={formDataProfile.avatar} id="wizardPicturePreview" title="" />
-                        <h6 className="">Choose Picture</h6>
                         <input onChange={putImageIn} name="avatar" type="file"/>
+                        {/* <h6 className="">Choose Picture1</h6> */}
                     </div>
                 </Col>
                 <Col xs={12}>
-                <h6 className="">Choose Picture</h6>
+                    <br />
+                    <div className='textdat'>
+                        <h6 className="">Choose Picture</h6>
+                    </div>
                 </Col>
             </Row>
             <br />
