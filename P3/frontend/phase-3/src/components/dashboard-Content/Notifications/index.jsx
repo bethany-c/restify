@@ -172,6 +172,9 @@ const Notifications = () => {
   )
 
   const renderAllNotifs = () => {
+    if (!allNotifs || allNotifs.length === 0) {
+      return <div></div>
+    }
     return allNotifs.slice(start, end).map(notif => {
       return (
         <div className="container-fluid text-center">
