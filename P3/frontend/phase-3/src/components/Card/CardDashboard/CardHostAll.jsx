@@ -38,7 +38,7 @@ export const CardComponentHAllListings = (props) => {
 
     const goToUpdatePage = () => {
 
-        navigate('/property_update?property_id=' + {id})
+        navigate('/property_update?property_id=' + id)
 
     }
 
@@ -57,8 +57,11 @@ return (
                 <Card.Text>{ description }</Card.Text>
                 <Button onClick={onViewListing} className="btn btn-primary" size='sm'>View Listing</Button>
                 <hr />
-                <DeleteProp> Delete </DeleteProp>
-                <Button onClick={goToUpdatePage} size='sm'> Update Property </Button>
+                <div className='row'>
+                
+                <Button className='col-4 btn btn-primary m-2' onClick={goToUpdatePage} size='sm'> Update Property </Button>
+                <div className='col-4 offset-1 m-2' ><DeleteProp> Delete </DeleteProp></div>
+                </div>
             </Card.Body>
             
 
