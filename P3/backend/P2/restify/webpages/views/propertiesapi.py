@@ -69,9 +69,6 @@ class CreateAvailableDateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PropertyTimeRangePriceHostOfferSerializer
 
-    
-    permission_classes = [IsAuthenticated]
-    serializer_class = PropertyTimeRangePriceHostOfferSerializer
 
     
     def perform_create(self, serializer):
