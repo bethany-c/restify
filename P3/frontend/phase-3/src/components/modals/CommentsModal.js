@@ -86,8 +86,8 @@ const CommentsModal = (props) => {
     .then((data) => {
       console.log(data, 'this is from getallterminated')
       let all = []
-      for(let i = 0; i < data.results.length; i++) {
-        all.push(data.results[i].id)
+      for(let i = 0; i < data.length; i++) {
+        all.push(data[i].id)
       }
       // console.log('tis is data for terminated', all)
 
@@ -107,8 +107,8 @@ const CommentsModal = (props) => {
     .then((data) => {
       // console.log('tis is data for completed', data.results)
       let all = []
-      for(let i = 0; i < data.results.length; i++) {
-        all.push(data.results[i].id)
+      for(let i = 0; i < data.length; i++) {
+        all.push(data[i].id)
       }
       // console.log('tis is data for allCompleted', all)
       setAllCompleted(all)
