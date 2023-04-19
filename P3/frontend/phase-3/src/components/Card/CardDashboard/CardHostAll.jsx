@@ -57,10 +57,10 @@ return (
                 <Card.Text>{ description }</Card.Text>
                 <Button onClick={onViewListing} className="btn btn-primary" size='sm'>View Listing</Button>
                 <hr />
-                <div className='row'>
-                
-                <Button className='col-4' onClick={goToUpdatePage} size='sm'> Update Property </Button>
-                <DeleteProp> Delete </DeleteProp>
+                <div className='rowchampion'>
+                    <Button variant='primary' onClick={goToUpdatePage} size='sm'> Update Property </Button>
+                    {/* <div className='col-4 offset-1 m-2' ><DeleteProp property_id={id}> Delete </DeleteProp></div> */}
+                    <DeleteProp property_id={id}> Delete </DeleteProp>
                 </div>
             </Card.Body>
             
