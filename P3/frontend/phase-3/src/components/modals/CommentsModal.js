@@ -57,6 +57,7 @@ const CommentsModal = (props) => {
 
   useEffect(() => {
     if(allReviews) {
+      console.log('calling stuff now bc allReviews is normal ', allReviews)
       findHostReplies()
       findUserReplies()
     }
@@ -74,7 +75,7 @@ const CommentsModal = (props) => {
   }, [allTerminated, allCompleted, allReviews])
 
   const getTerminated = () => {
-    fetch('http://localhost:8000/webpages/reservations/terminated/?page_size=100', {
+    fetch('http://localhost:8000/webpages/reservations/terminated/?page_size=100&page=1', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -83,17 +84,18 @@ const CommentsModal = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      // console.log('tis is data for terminated', data)
       let all = []
       for(let i = 0; i < data.results.length; i++) {
         all.push(data.results[i].id)
       }
+      // console.log('tis is data for terminated', all)
+
       setAllTerminated(all)
     })
   }
 
   const getCompleted = () => {
-    fetch('http://localhost:8000/webpages/reservations/completed/?page_size=100', {
+    fetch('http://localhost:8000/webpages/reservations/completed/?page_size=100&page=1', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -107,6 +109,7 @@ const CommentsModal = (props) => {
       for(let i = 0; i < data.results.length; i++) {
         all.push(data.results[i].id)
       }
+      // console.log('tis is data for allCompleted', all)
       setAllCompleted(all)
     })
   }
@@ -191,17 +194,15 @@ const CommentsModal = (props) => {
       return item[0].reservation
     })
     console.log('resos is ', resos)
-    // console.log('alltermianted is ', allTerminated, allCompleted)
+    console.log('alltermianted is ', allTerminated, allCompleted)
     
     allTerminated.forEach(item => {
-      console.log('item ', item)
       if(!resos.includes(item)){
         noComments.push(item)
       } 
     })
 
     allCompleted.forEach(item => {
-      console.log('item ', item)
       if(!resos.includes(item)){
         noComments.push(item)
       } 
