@@ -33,6 +33,7 @@ function LogIn() {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data, 'this is from loggedin')
         setIsloggedin(true);
         setToken('token', data.token)
         navigate("/")

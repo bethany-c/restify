@@ -102,7 +102,7 @@ const NavbarSO = () => {
                     <Nav className="right-nav">
                         {isloggedin ? (
                             <Nav.Item>
-                                <Nav.Link className="navbar-background notif-link" data-bs-toggle="modal" data-bs-target="#modal-notif" as={Link} to='/dashboard'> {/* send this to notifications */}
+                                <Nav.Link className="navbar-background notif-link" data-bs-toggle="modal" data-bs-target="#modal-notif" as={Link} to='/dashboard/notifications'> {/* send this to notifications */}
                                     <BiBell className="navbar-background" />
                                     <span className="badge-notification badge navbar-background" id="badge-notification">{4}</span>
                                 </Nav.Link>

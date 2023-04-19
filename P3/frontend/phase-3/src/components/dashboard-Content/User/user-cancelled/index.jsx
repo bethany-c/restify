@@ -4,6 +4,7 @@ import CardComponentDNoButton from '../../../Card/CardDashboard/CardCancellation
 import AuthContext from '../../../../context';
 import '../user-approved/approvedstyle.css'
 import { Button } from 'react-bootstrap';
+import $ from 'jquery'
 
 
 
@@ -35,15 +36,29 @@ const Cancellations = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in jesus array', data);
-            setFormDataCancellations(data);
+            if (data.length > 0) {
+              setFormDataCancellations(data);
+
+            }
+            else {
+              $('#notification').text('You currently have no cancelled reservations!')
+            }
 
           }
           else {
             console.log('brother in jesus dict', data);
-            setFormDataCancellations(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataCancellations(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+
+            }
+            else {
+
+              $('#notification').text('You currently have no cancelled reservations!')
+            }
+
           }
 
   
@@ -143,6 +158,9 @@ const Cancellations = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {FormDataCancellations.map((propertyInfo) => (<>

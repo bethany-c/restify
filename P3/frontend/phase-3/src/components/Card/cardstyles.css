@@ -96,7 +96,7 @@
 }
 
 .fixit-wrapper img {
-  width: 100%;
+  width: 100% !important;
   /* height: 100%; */
   min-height: 250px;
   object-fit: cover;

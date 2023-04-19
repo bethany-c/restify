@@ -6,6 +6,7 @@ import CardComponentC from '../../../Card/CardDashboard/CardCompleted';
 import AuthContext from '../../../../context';
 import { Button } from 'react-bootstrap';
 import '../../../dashboard-Content/contentstyle.css'
+import $ from 'jquery'
 
 const Terminated = () => {
 
@@ -34,15 +35,31 @@ const Terminated = () => {
         .then((data) => {
           if (Array.isArray(data)) {
             console.log('brother in gabriel array', data);
-            setFormDataTerminated(data);
+            if (data.length > 0) {
+              setFormDataTerminated(data);
+            }
+            else {
+              $('#notification').text('You currently have no Terminated reservations!')
+              
+            }
+            
 
           }
           else {
             console.log('brother in gabriel dict', data);
-            setFormDataTerminated(data.results);
-            setNextUrl(data.next)
-            setPrevURL(data.previous)
-            setPagination(true)
+            if (data.results.length > 0) {
+              setFormDataTerminated(data.results);
+              setNextUrl(data.next)
+              setPrevURL(data.previous)
+              setPagination(true)
+            }
+            else {
+
+              $('#notification').text('You currently have no Terminated reservations!')
+              
+            }
+            
+
           }
 
   
@@ -101,6 +118,9 @@ const Terminated = () => {
       <div className='nextbutton'>
         {nextURL && <Button onClick={handleNext}>Next</Button>}
       </div>
+    </div>
+    <div className='heybro'>
+      <h3 id='notification' className='d-flex justify-content-end'></h3>
     </div>
     <div id='card' className='card2'>
         {FormDataTerminated.map((propertyInfo) => (

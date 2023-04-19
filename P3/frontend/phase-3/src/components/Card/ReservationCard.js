@@ -134,7 +134,6 @@ const ReservationCard = (props) => {
           
           // console.log(resoData, 'this is the reso data')
           setNotifSenderCheck(3);
-          navigate('/dashboard/requested')
 
 
       })
