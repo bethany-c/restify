@@ -60,7 +60,7 @@ return (
                 <div className='row'>
                 
                 <Button className='col-4 btn btn-primary m-2' onClick={goToUpdatePage} size='sm'> Update Property </Button>
-                <div className='col-4 offset-1 m-2' ><DeleteProp> Delete </DeleteProp></div>
+                <div className='col-4 offset-1 m-2' ><DeleteProp property_id={id}> Delete </DeleteProp></div>
                 </div>
             </Card.Body>
             

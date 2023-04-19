@@ -26,6 +26,7 @@ const PropertyUpdater = (props) => {
    
       <NavbarSO />
       <PropertyUpdateFormfrom property_id={id} />
+      console.log(id)
       <div className='text-center'>
       {/* <DeleteProp property_id={id} /> */}
       </div>

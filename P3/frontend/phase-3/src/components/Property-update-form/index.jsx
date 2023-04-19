@@ -651,16 +651,16 @@ function PropertyUpdateForm(props){
         
         <div className="form-group row m-3">
           <div className="col-md-4">
-            <button className="btn btn-outline-primary mt-3" onClick={handleShowModal2}>Add Picture</button>
+            <button className="btn btn-outline-primary mt-3" type='button' onClick={handleShowModal2}>Add Picture</button>
           </div>
-          <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" onClick={handleShowModal}>View Uploaded Picture(s)</button>
+          <button className="btn btn-outline-secondary col-md-4 offset-md-3 mt-3" type='button' onClick={handleShowModal}>View Uploaded Picture(s)</button>
         </div>
 
         <hr className="divider" />
 
         <Display_Ava property_id={props.property_id}/>
         <Container className="d-flex justify-content-center">
-          <button className="btn btn-outline-primary mt-3 mb-3" onClick={handleShowModal3}>Add Available Dates & Price</button>
+          <button className="btn btn-outline-primary mt-3 mb-3" type='button' onClick={handleShowModal3}>Add Available Dates & Price</button>
         </Container>
 
    
