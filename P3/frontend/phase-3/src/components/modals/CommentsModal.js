@@ -39,8 +39,7 @@ const CommentsModal = (props) => {
   const [userRating, setUserRating] = useState()
 
 
-  const totalPages = Math.ceil(allReviews.length / pagination);
-
+  const totalPages = allReviews.length > 0 ? Math.ceil(allReviews.length / pagination) : 0
   const start = (page - 1) * pagination;
   const end = start + pagination;
 
@@ -368,6 +367,9 @@ const CommentsModal = (props) => {
   }
 
   const renderAllComments = () => {
+    if(!allReviews || !Array.isArray(allReviews) || allReviews.length === 0) {
+      return
+    }
     return allReviews.slice(start, end).map((reserveArr) => (
       <>
         <div className='col-12'>
@@ -480,6 +482,45 @@ const CommentsModal = (props) => {
     ));
   };
     
+  const renderPagination = () => (
+    <div className='row'>
+      <div className='col-auto'>
+        <Button 
+          variant='outline-secondary'
+          size='sm'
+          className='rounded-circle mx-3'
+          onClick={ () => handlePrevPage() }
+          disabled={ page === 1 ? true : false }
+        >
+          <BsArrowLeft/>
+        </Button> 
+      </div>
+
+      <div className='col-auto'>
+        <span>{ page } / { totalPages }</span>
+      </div>
+      <div className='col-auto'>
+        <Form.Select onChange={ (e) => setPagination(e.target.value) } className='pagination-bar'>
+          <option value='3'>3</option>
+          <option value='5'>5</option>
+          <option value='10'>10</option>
+          <option value='15'>20</option>
+        </Form.Select>
+      </div>
+
+      <div className='col-auto'>
+        <Button 
+          variant='outline-secondary'
+          size='sm'
+          className='rounded-circle'
+          onClick={ () => handleNextPage() }
+          disabled={ page === totalPages ? true : false }
+        >
+          <BsArrowRight/>
+        </Button>
+      </div>  
+    </div>
+  )
 
   
 
@@ -496,45 +537,10 @@ const CommentsModal = (props) => {
         <Modal.Body>
           { renderAddComment() }
           { renderAllComments() }
-          <div className='row'>
-            <div className='col-auto'>
-              <Button 
-                variant='outline-secondary'
-                size='sm'
-                className='rounded-circle mx-3'
-                onClick={ () => handlePrevPage() }
-                disabled={ page === 1 ? true : false }
-              >
-                <BsArrowLeft/>
-              </Button> 
-            </div>
-
-            <div className='col-auto'>
-              <span>{ page } / { totalPages }</span>
-            </div>
-            <div className='col-auto'>
-              <Form.Select onChange={ (e) => setPagination(e.target.value) } className='pagination-bar'>
-                <option value='3'>3</option>
-                <option value='5'>5</option>
-                <option value='10'>10</option>
-                <option value='15'>20</option>
-              </Form.Select>
-            </div>
-
-            <div className='col-auto'>
-              <Button 
-                variant='outline-secondary'
-                size='sm'
-                className='rounded-circle'
-                onClick={ () => handleNextPage() }
-                disabled={ page === totalPages ? true : false }
-              >
-                <BsArrowRight/>
-              </Button>
-            </div>
-            
-          </div>
         </Modal.Body>
+        <Modal.Footer className='middle'>
+          { totalPages === 0 ? null : renderPagination() }
+        </Modal.Footer>
       </Modal>
 
 

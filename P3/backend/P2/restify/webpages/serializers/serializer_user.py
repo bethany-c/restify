@@ -50,6 +50,7 @@ class UserSerializer(ModelSerializer):
     
 class UserHistorySerializer(ModelSerializer):
     content_type = PrimaryKeyRelatedField(queryset=ContentType.objects.all(), required=False)
+    host = serializers.CharField(source='host.username', read_only=True)
     class Meta:
         model = UserHistory
         # fields = ['rating', 'reservation', 'host', 'user', 'content_type', 'posted_on', 'text_content']

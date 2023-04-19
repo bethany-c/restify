@@ -148,6 +148,20 @@
   margin-top: 15px;
 }
 
+.middle {
+  margin: auto;
+  display: block;
+}
+
 .error {
   color: red;
+}
+
+.comment-section {
+  padding-bottom: 7px;
+}
+
+.rating-right-align {
+  float: right;
+  margin-left: 60px;
 }
