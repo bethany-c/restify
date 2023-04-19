@@ -11,12 +11,38 @@ const Notifications = () => {
   const [allNotifs, setAllNotifs] = useState([])
   const [page, setPage] = useState(1)
   const [pagination, setPagination] = useState(3)
-  const totalPages = Math.ceil(allNotifs.length / pagination)
+  // const totalPages = Math.ceil(allNotifs.length / pagination)
+  const [totalPages, setTotalPages] = useState(0)
   const start = (page - 1) * pagination
   const end = start + pagination
 
-  const handleNextPage = () => { setPage(page + 1) }
-  const handlePrevPage = () => { setPage(page - 1) }
+  // const handleNextPage = () => { setPage(page + 1) }
+  // const handlePrevPage = () => { setPage(page - 1) }
+
+  const handleNextPage = () => {
+    setPage(prevPage => (prevPage === totalPages ? prevPage : prevPage + 1));
+  };
+  
+  const handlePrevPage = () => {
+    setPage(prevPage => (prevPage === 1 ? prevPage : prevPage - 1));
+  };
+
+  // useEffect(() => {
+  //   if (Array.isArray(allNotifs) && allNotifs.length > 0) {
+  //     setTotalPages(Math.ceil(allNotifs.length / pagination));
+  //   } else {
+  //     setTotalPages(0);
+  //   }
+  // }, [allNotifs, pagination])
+
+  useEffect(() => {
+    if (Array.isArray(allNotifs) && allNotifs.length > 0) {
+      setTotalPages(Math.ceil(allNotifs.length / pagination));
+        setPage(1);
+    } else {
+      setTotalPages(0);
+    }
+  }, [allNotifs, pagination])
 
 
   useEffect(() => {
