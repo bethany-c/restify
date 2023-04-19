@@ -28,19 +28,15 @@ const Requested = () => {
           "Authorization" : "Bearer " + token['token'],
         },
       })
-        .then((response) => {
-          if (response.status === 401) {
-            console.log(response.status, 'this is it ')
-          }
-          response.json()})
+        .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
-            console.log('brother in jesus array', data);
+            console.log('brother in hooyah array', data);
             setFormDataRequested(data);
 
           }
           else {
-            console.log('brother in jesus dict', data);
+            console.log('brother in hooyah dict', data);
             setFormDataRequested(data.results);
             setNextUrl(data.next)
             setPrevURL(data.previous)

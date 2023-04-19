@@ -64,7 +64,6 @@ urlpatterns = [
     path('<int:reservation_id>/terminate_request/', RequestToTerminateReservationAPIView.as_view(), name='request_to_terminate_reservation'), # works11 - changing status to CR
 
     path('reservations/requested/', ListAllRequestedReservationsAPIView.as_view(), name='requested_reservations'), # works11 --> gives all reservations with associated property attached
-
     path('<int:reservation_id>/terminate/', CancelReservationAPIView.as_view(), name='terminate_reservation'), # works11 --> terminates right away and frees available date - can only directly terminate if the reservation has not been approved yet
 
     path('reservations/cancellations/', ListAllCancelledReservationsAPIView.as_view() ,name='cancellations'), # works11 --> after host approves cancellation request

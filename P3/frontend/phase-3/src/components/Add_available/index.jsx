@@ -10,7 +10,7 @@ function Add_Ava(props) {
   const [start_date, setSd] = useState(new Date().toLocaleDateString());
   const [end_date, setEd] = useState(new Date().toLocaleDateString());
   const [price_per_night, setPpn] = useState(0);
-  const {refresh, setRefresh} = props.refresh
+  const {setRefresh} = props.refresh
 
   
 

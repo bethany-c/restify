@@ -20,6 +20,7 @@ const ReservationCard = (props) => {
   const [numNights, setNumNights] = useState(0);
   const [availableDates, setAvailableDates] = useState([]);
   const [chosenAvailD, setChosenAvailD] = useState();
+  const [notifSenderCheck, setNotifSenderCheck] = useState(0);
 
   // available_date/<int:pk>/list/
   useEffect(() => {
@@ -124,7 +125,8 @@ const ReservationCard = (props) => {
       })
       .then((response) => response.json())
       .then((data) => {
-          console.log(data);
+          console.log(data, 'this is the reso info');
+          setNotifSenderCheck(3);
           navigate('/dashboard/requested')
 
 
@@ -132,6 +134,32 @@ const ReservationCard = (props) => {
       .catch((error) => console.error(error));
 
   }
+
+  useEffect(() => {
+
+      // fetch("notifications/<int:reservation_id>/<int:user_id>/create/", {
+      // method: "POST",
+      // headers: {
+      //     "Content-Type": "application/json",
+      //     "Authorization" : "Bearer " + token['token']
+      // },
+      // body: JSON.stringify({
+      //   start_date: start,
+      //   end_date: end,
+      //   num_of_guests: numGuests
+      // })
+      // })
+      // .then((response) => response.json())
+      // .then((data) => {
+      //     console.log(data);
+      //     setNotifSenderCheck(3);
+      //     navigate('/dashboard/requested')
+
+
+      // })
+      // .catch((error) => console.error(error));
+
+  }, [notifSenderCheck]);
 
 
 
