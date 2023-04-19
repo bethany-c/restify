@@ -13,18 +13,42 @@ const GuestCommentsModal = (props) => {
 
   const { token } = useContext(AuthContext)
 
-  const [page, setPage] = useState(1)
-  const [pagination, setPagination] = useState(3)
+  // const [page, setPage] = useState(1)
+  // const [pagination, setPagination] = useState(3)
   
   const [history, setHistory] = useState([])
-  const totalPages = history.length > 0 ? Math.ceil(history.length / pagination) : 0
+  // const totalPages = history.length > 0 ? Math.ceil(history.length / pagination) : 0
 
-  const start = (page - 1) * pagination;
-  const end = start + pagination;
+  // const start = (page - 1) * pagination;
+  // const end = start + pagination;
 
 
-  const handleNextPage = () => { setPage(page + 1) }
-  const handlePrevPage = () => { setPage(page - 1) }
+  // const handleNextPage = () => { setPage(page + 1) }
+  // const handlePrevPage = () => { setPage(page - 1) }
+
+  const [page, setPage] = useState(1)
+  const [pagination, setPagination] = useState(3)
+  const [totalPages, setTotalPages] = useState(0)
+  const start = (page - 1) * pagination
+  const end = start + pagination
+
+  const handleNextPage = () => {
+    setPage(prevPage => (prevPage === totalPages ? prevPage : prevPage + 1));
+  };
+  
+  const handlePrevPage = () => {
+    setPage(prevPage => (prevPage === 1 ? prevPage : prevPage - 1));
+  };
+
+  useEffect(() => {
+    if (Array.isArray(history) && history.length > 0) {
+      setTotalPages(Math.ceil(history.length / pagination));
+        setPage(1);
+    } else {
+      setTotalPages(0);
+    }
+  }, [history, pagination])
+
 
   useEffect(() => {
     // console.log('user info is ', user)

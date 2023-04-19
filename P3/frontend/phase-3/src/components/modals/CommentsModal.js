@@ -39,14 +39,37 @@ const CommentsModal = (props) => {
   const [userRating, setUserRating] = useState()
 
 
-  const totalPages = allReviews.length > 0 ? Math.ceil(allReviews.length / pagination) : 0
-  const start = (page - 1) * pagination;
-  const end = start + pagination;
+  // const totalPages = allReviews.length > 0 ? Math.ceil(allReviews.length / pagination) : 0
+  // const start = (page - 1) * pagination;
+  // const end = start + pagination;
 
   const handleShow = () => setShowModal(true)
   const handleHide = () => setShowModal(false)
-  const handleNextPage = () => { setPage(page + 1) }
-  const handlePrevPage = () => { setPage(page - 1) }
+  // const handleNextPage = () => { setPage(page + 1) }
+  // const handlePrevPage = () => { setPage(page - 1) }
+
+
+  const [totalPages, setTotalPages] = useState(0)
+  const start = (page - 1) * pagination
+  const end = start + pagination
+
+  const handleNextPage = () => {
+    setPage(prevPage => (prevPage === totalPages ? prevPage : prevPage + 1));
+  };
+  
+  const handlePrevPage = () => {
+    setPage(prevPage => (prevPage === 1 ? prevPage : prevPage - 1));
+  };
+
+  useEffect(() => {
+    if (Array.isArray(allReviews) && allReviews.length > 0) {
+      setTotalPages(Math.ceil(allReviews.length / pagination));
+        setPage(1);
+    } else {
+      setTotalPages(0);
+    }
+  }, [allReviews, pagination])
+
 
 
   useEffect(() => {
@@ -75,7 +98,7 @@ const CommentsModal = (props) => {
   }, [allTerminated, allCompleted, allReviews])
 
   const getTerminated = () => {
-    fetch('http://localhost:8000/webpages/reservations/terminated2/?page_size=100&page=1', {
+    fetch('http://localhost:8000/webpages/reservations/terminated2/', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -89,14 +112,14 @@ const CommentsModal = (props) => {
       for(let i = 0; i < data.length; i++) {
         all.push(data[i].id)
       }
-      // console.log('tis is data for terminated', all)
+      console.log('tis is data for terminated', all)
 
       setAllTerminated(all)
     })
   }
 
   const getCompleted = () => {
-    fetch('http://localhost:8000/webpages/reservations/completed2/?page_size=100&page=1', {
+    fetch('http://localhost:8000/webpages/reservations/completed2/', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -110,13 +133,14 @@ const CommentsModal = (props) => {
       for(let i = 0; i < data.length; i++) {
         all.push(data[i].id)
       }
-      // console.log('tis is data for allCompleted', all)
+      console.log('tis is data for allCompleted', all)
       setAllCompleted(all)
     })
   }
 
   const createHostNotif = () => {
-    fetch('notifications/' + userCommentReso + '/new-comment/create/', {
+    // console.log('sending this to post new comment ', userCommentReso)
+    fetch('http://localhost:8000/webpages/notifications/' + userCommentReso + '/new-comment/create/', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -229,19 +253,36 @@ const CommentsModal = (props) => {
   }
 
   const onReply = (reservationID, host) => {
-    var comment = ''
-    if(host) {
-      comment = hostComment
-    } else {
-      comment = userReply
-    }
+
+    // console.log('comment is ', comment)
     fetch('http://localhost:8000/webpages/reservations/' + reservationID + '/property-comments/add/', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
         "Authorization" : "Bearer " + token['token']
       },
-      body: JSON.stringify({ "text_content": comment })
+      body: JSON.stringify({ "text_content": userReply })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('this is response data ', data)
+      getComments()
+      setHostComment('')
+      setUserReply('')
+      handleHide()
+    })
+    .catch((error) => console.log('this is the error ', error))
+  }
+
+  const onReplyHost = (reservationID) => {
+
+    fetch('http://localhost:8000/webpages/reservations/' + reservationID + '/property-comments/add/', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Bearer " + token['token']
+      },
+      body: JSON.stringify({ "text_content": hostComment })
     })
     .then((response) => response.json())
     .then((data) => {
@@ -420,7 +461,7 @@ const CommentsModal = (props) => {
                             className="addCommentBtn"
                             variant="outline-primary"
                             size='sm'
-                            onClick={ () => onReply(reservation) }
+                            onClick={ () => onReplyHost(reservation) }
                           >
                             Add reply
                           </Button>
