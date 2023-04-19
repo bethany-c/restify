@@ -15,6 +15,9 @@ const Requested = () => {
     const [nextURL, setNextUrl] =useState('')
     const [prevURL, setPrevURL] = useState('')
     const [pagination, setPagination] = useState(false)
+    const [resoData, setResoData] = useState({
+    
+    });
 
     useEffect(() => {
       fetchRequested()
@@ -28,19 +31,15 @@ const Requested = () => {
           "Authorization" : "Bearer " + token['token'],
         },
       })
-        .then((response) => {
-          if (response.status === 401) {
-            console.log(response.status, 'this is it ')
-          }
-          response.json()})
+        .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
-            console.log('brother in jesus array', data);
+            console.log('brother in hooyah array', data);
             setFormDataRequested(data);
 
           }
           else {
-            console.log('brother in jesus dict', data);
+            console.log('brother in hooyah dict', data);
             setFormDataRequested(data.results);
             setNextUrl(data.next)
             setPrevURL(data.previous)
@@ -94,8 +93,9 @@ const Requested = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+            console.log(data, 'this is the data we need to get to');
             // this is to refresh the page and show the change immidietely 
+            setResoData(data)
             setRefresh(5)
 
           })
@@ -104,6 +104,27 @@ const Requested = () => {
 
       }
       const text = "Cancel Your Reservation"
+      useEffect(() => {
+
+        fetch("http://localhost:8000/webpages/notifications/" + resoData.id + "/" + resoData.user + "/create/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization" : "Bearer " + token['token']
+        },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data, 'this is the data bro');
+  
+  
+        })
+        .catch((error) => console.error(error));
+        console.log('getting here')
+        console.log(resoData, 'this is the reso data')
+  
+  
+    }, [refresh]);
     // Fetch cancellations data for next page
   const handleNext = () => {
     fetchRequested(nextURL);

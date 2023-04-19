@@ -74,7 +74,6 @@ const NavbarSO = () => {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarNavDropdown" />
                 <Navbar.Collapse id="navbarNavDropdown">
-                    <div> {isloggedin.toString()} </div>
                     <Nav className="me-auto">
                         
                     {isHost ? (

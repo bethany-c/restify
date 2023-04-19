@@ -125,6 +125,10 @@ class RangePriceHostOffer(models.Model):
 
     def __str__(self) -> str:
         return "Price/night: $" + str(self.price_per_night) + " with Property ID: " + str(self.property.pk) + " || ID: " + str(self.pk)
+    
+    # def update_booked_for(self, value):
+    #     self.booked_for = value
+    #     self.save(update_fields=['booked_for'])
     class Meta:
         verbose_name_plural = 'Available Ranges + Prices'
 

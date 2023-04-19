@@ -20,6 +20,11 @@ const ReservationCard = (props) => {
   const [numNights, setNumNights] = useState(0);
   const [availableDates, setAvailableDates] = useState([]);
   const [chosenAvailD, setChosenAvailD] = useState();
+  const [notifSenderCheck, setNotifSenderCheck] = useState(0);
+  const [resoData, setResoData] = useState({
+    
+  });
+  // console.log(propertyInfo, 'this is the property info')
 
   // available_date/<int:pk>/list/
   useEffect(() => {
@@ -124,14 +129,40 @@ const ReservationCard = (props) => {
       })
       .then((response) => response.json())
       .then((data) => {
-          console.log(data);
-          navigate('/dashboard/requested')
+          console.log(data, 'this is the reso info');
+          setResoData(data)
+          
+          // console.log(resoData, 'this is the reso data')
+          setNotifSenderCheck(3);
+          // navigate('/dashboard/requested')
 
 
       })
       .catch((error) => console.error(error));
 
   }
+
+  useEffect(() => {
+
+      fetch("http://localhost:8000/webpages/notifications/" + resoData.id + "/" + resoData.user + "/create/", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + token['token']
+      },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data, 'this is the data bro');
+
+
+      })
+      .catch((error) => console.error(error));
+      console.log('getting here')
+      console.log(resoData, 'this is the reso data')
+
+
+  }, [notifSenderCheck]);
 
 
 
@@ -167,9 +198,9 @@ const ReservationCard = (props) => {
           )
         })}
         </div>
+        <br />
         <Form>
           <div className='row card-center'>
-            <a className="mb-2 line-right-align purple-color" href="#rating-link">{ } rating </a>
             <div className="form-group col-lg-6 col-md-12">
               <Form.Control 
                 type='date'

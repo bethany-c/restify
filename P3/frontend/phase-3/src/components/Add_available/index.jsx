@@ -7,10 +7,10 @@ import AuthContext from '../../context';
 
 function Add_Ava(props) {
   const { token } = useContext(AuthContext);
-  const { checker, setChecker } = props.checker
   const [start_date, setSd] = useState(new Date().toLocaleDateString());
   const [end_date, setEd] = useState(new Date().toLocaleDateString());
   const [price_per_night, setPpn] = useState(0);
+  const {setRefresh} = props.refresh
 
   
 
@@ -51,12 +51,7 @@ function Add_Ava(props) {
         else if (response.status === 201) {
 
           $("#result").text("congrats! You added available dates successfully").css('color', 'red');
-          if (checker) {
-            setChecker(false)
-          }
-          else {
-            setChecker(true)
-          }
+          setRefresh(2)
         }
         else{
           $("#result").text("available date not added successfully").css('color', 'red');

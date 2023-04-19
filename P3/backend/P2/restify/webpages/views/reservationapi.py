@@ -29,14 +29,14 @@ from ..models.reservation import Reservation
 from ..models.property import Property, RangePriceHostOffer
 from ..models.user_history import UserHistory
 from webpages.serializers.serializer_user import UserSerializer, UserHistorySerializer
-from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd, ReservationRequestSerializer
+from webpages.serializers.serializers_reservation import ReservationSerializer, ReservationSerializerAdd, ReservationRequestSerializer, ReservationReqSerializer
 from webpages.serializers.serializers_property import PropertySerializer
 from ..models.user import RestifyUser
 
 # add a reservation - note: there has to be a property to tie it to 
 class CreateReservationAPIView(CreateAPIView):
     # takes only post request
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
 
@@ -101,6 +101,8 @@ class CreateReservationAPIView(CreateAPIView):
 
             # set the user field of serializer to the current user
             serializer.validated_data['user'] = self.request.user
+            serializer.validated_data['user'].save()
+
             serializer.save() 
 
 
@@ -155,7 +157,7 @@ class ListAllReservationsAPIView(ListAPIView):
 # user: requested, host: cancellations 
 class RequestToTerminateReservationAPIView(UpdateAPIView): # user:request to cancel ~ host: terminate tab done 
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -205,7 +207,7 @@ class ListAllRequestedReservationsAPIView(ListAPIView):
 # user: terminated tab, host: terminated tab 
 class TerminateReservationAPIView(UpdateAPIView): # terminated tab done 
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -216,12 +218,13 @@ class TerminateReservationAPIView(UpdateAPIView): # terminated tab done
         reservation = serializer.save()
         reservation.status = "TE"
         reservation.available_date.booked_for = False
+        reservation.available_date.save()
         reservation.available_date = None
         serializer.save()
 
 class CancelReservationAPIView(UpdateAPIView): # terminated tab done 
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -232,6 +235,7 @@ class CancelReservationAPIView(UpdateAPIView): # terminated tab done
         reservation = serializer.save()
         reservation.status = "CA"
         reservation.available_date.booked_for = False
+        reservation.available_date.save()
         reservation.available_date = None
         serializer.save()
 
@@ -403,7 +407,7 @@ class GetAllRequestedReservations(ListAPIView):
 
 class ApproveReservationAPIView(UpdateAPIView): # attach to green approve button
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -417,7 +421,7 @@ class ApproveReservationAPIView(UpdateAPIView): # attach to green approve button
 
 class DenyReservationAPIView(UpdateAPIView): # attach to red deny button
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -428,6 +432,7 @@ class DenyReservationAPIView(UpdateAPIView): # attach to red deny button
         reservation = serializer.save()
         reservation.status = "DE" # change to this from 'AR' to denied(DE)
         reservation.available_date.booked_for = False
+        reservation.available_date.save()
         reservation.available_date = None
         serializer.save()
 
@@ -503,7 +508,7 @@ class HostListAllCancelledReservationsAPIView(ListAPIView):
     
 class HostApproveCancellationRequestAPIView(UpdateAPIView): # attach to green approve button on cancellation host page
     
-    serializer_class = ReservationSerializerAdd
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -514,12 +519,14 @@ class HostApproveCancellationRequestAPIView(UpdateAPIView): # attach to green ap
         reservation = serializer.save()
         reservation.status = "CA" # change to this from 'CR'
         reservation.available_date.booked_for = False
+        reservation.available_date.save()
+        # RangePriceHostOffer.objects.filter()
         reservation.available_date = None
         serializer.save()
 
 class HostDenyCancellationRequestAPIView(UpdateAPIView): # attach to red deny button on cancellation host page
     
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationReqSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):

@@ -23,6 +23,7 @@ function PropertyUpdateForm(props){
     const [bedroomNum, setBedroomNum] = useState(0);
     const [bathroomNum, setBathroomNum] = useState(0);
     const [bedNum, setBedNum] = useState(0);
+    const [refresh, setRefresh] = useState(0)
 
 
     const [showModal, setShowModal] = useState(false);
@@ -658,7 +659,7 @@ function PropertyUpdateForm(props){
 
         <hr className="divider" />
 
-        <Display_Ava property_id={props.property_id}/>
+        <Display_Ava property_id={props.property_id} refresh ={{ refresh, setRefresh }}/>
         <Container className="d-flex justify-content-center">
           <button className="btn btn-outline-primary mt-3 mb-3" type='button' onClick={handleShowModal3}>Add Available Dates & Price</button>
         </Container>
@@ -697,7 +698,7 @@ function PropertyUpdateForm(props){
             <Modal.Title className="fw-bold mb-2 text-uppercase">Add Available Dates!</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Add_Ava  property_id={props.property_id}/>
+            <Add_Ava  property_id={props.property_id} refresh ={{ setRefresh }}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal3}>Close</Button>
